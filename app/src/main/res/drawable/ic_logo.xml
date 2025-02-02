@@ -1,0 +1,30 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="262dp"
+    android:height="304dp"
+    android:viewportWidth="262"
+    android:viewportHeight="304">
+    <group
+        android:pivotX="131"
+        android:pivotY="152"
+        android:scaleX="0.4"
+        android:scaleY="0.4">
+        <group
+            android:name="logo_back_card"
+            android:pivotX="131"
+            android:pivotY="152">
+            <path
+                android:fillColor="#DAF9FC"
+                android:pathData="M106.95,7.56L242.27,56.81A19.5,19.5 129.21,0 1,253.92 81.81L180.04,284.78A19.5,19.5 64.66,0 1,155.05 296.44L19.73,247.19A19.5,19.5 60.39,0 1,8.08 222.19L81.96,19.22A19.5,19.5 78.93,0 1,106.95 7.56z"
+                android:strokeWidth="1"
+                android:strokeColor="#0D7398" />
+        </group>
+        <path
+            android:fillColor="#DAF9FC"
+            android:pathData="M59,24.5L203,24.5A19.5,19.5 0,0 1,222.5 44L222.5,260A19.5,19.5 0,0 1,203 279.5L59,279.5A19.5,19.5 0,0 1,39.5 260L39.5,44A19.5,19.5 0,0 1,59 24.5z"
+            android:strokeWidth="1"
+            android:strokeColor="#0D7398" />
+        <path
+            android:fillColor="#0D7398"
+            android:pathData="M105.3,196L103.89,186.66L111.7,185.38V117.92L104.02,117.15V107.55H132.43L133.71,117.02L124.75,118.43V184.86H149.46L154.06,171.94H162.26L159.7,196H105.3Z" />
+    </group>
+</vector>

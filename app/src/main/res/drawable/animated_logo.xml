@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_logo">
+
+    <target
+        android:name="logo_back_card"
+        android:animation="@animator/logo_back_card_animator" />
+
+</animated-vector>

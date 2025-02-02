@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme colors -->
+    <color name="colorPrimary">@color/primary_dark</color>
+    <color name="colorPrimaryDark">@color/primary_dark</color>
+    <color name="colorAccent">@color/primary_dark</color>
+
+    <!-- Main -->
+    <color name="primary_dark">#0D7398</color>
+    <color name="primary_light">#DAF9FC</color>
+    <color name="support_dark">#291F1E</color>
+    <color name="accent">#EEC643</color>
+</resources>
