@@ -5,8 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.oriabova.lexico.home.view.compose.HomeScreen
+import com.oriabova.lexico.home.view.compose.HomeRoute
 import com.oriabova.lexico.root.view.model.NavigationItem
+import com.oriabova.lexico.setup.view.compose.SetupScreen
 
 @Composable
 fun AppNavHost(
@@ -20,7 +21,14 @@ fun AppNavHost(
         startDestination = startDestination
     ) {
         composable(NavigationItem.Home.route) {
-            HomeScreen(navController)
+            HomeRoute(
+                navigateToSetup = { navController.navigate(NavigationItem.Setup.route) },
+            )
+        }
+        composable(NavigationItem.Setup.route) {
+            SetupScreen(
+                popBackStack = { navController.popBackStack() }
+            )
         }
     }
 }
