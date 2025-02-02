@@ -3,6 +3,7 @@ plugins {
     id("com.android.room")
     id("com.android.compose")
     id("com.jvm.dagger")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -17,6 +18,8 @@ dependencies {
     implementation(AndroidX.activity.compose)
     implementation(AndroidX.navigation.compose)
     implementation(AndroidX.core.splashscreen)
+    implementation(AndroidX.dataStore.preferences)
+    implementation(KotlinX.serialization.json)
 }
 
 hilt {
