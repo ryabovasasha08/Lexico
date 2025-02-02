@@ -3,6 +3,7 @@
     <!-- Theme colors -->
     <color name="colorPrimary">@color/primary_dark</color>
     <color name="colorPrimaryDark">@color/primary_dark</color>
+    <color name="colorPrimaryLight">@color/primary_light</color>
     <color name="colorAccent">@color/primary_dark</color>
 
     <!-- Main -->
