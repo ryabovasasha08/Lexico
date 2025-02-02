@@ -17,6 +17,7 @@ android {
 dependencies {
     implementation(AndroidX.activity.compose)
     implementation(AndroidX.navigation.compose)
+    implementation(AndroidX.hilt.navigationCompose)
     implementation(AndroidX.core.splashscreen)
     implementation(AndroidX.dataStore.preferences)
     implementation(KotlinX.serialization.json)

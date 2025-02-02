@@ -11,8 +11,10 @@ import androidx.navigation.compose.rememberNavController
 import com.oriabova.lexico.root.view.compose.AppNavHost
 import com.oriabova.lexico.root.view.theme.LexicoTheme
 import com.oriabova.lexico.splash.SplashViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val splashViewModel: SplashViewModel by viewModels()
