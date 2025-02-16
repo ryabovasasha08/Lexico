@@ -51,7 +51,7 @@ fun LexicoTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = material3Typography(),
         content = content
     )
 }
