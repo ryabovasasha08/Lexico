@@ -55,11 +55,7 @@ object LexicoFont {
 
     private val deco300Size = 40.sp
     private val deco300LineHeight = 40.sp
-    private val deco300FontWeight = FontWeight.Normal
-
-    private val deco400Size = 80.sp
-    private val deco400LineHeight = 80.sp
-    private val deco400FontWeight = FontWeight.Bold
+    private val deco300FontWeight = FontWeight.SemiBold
 
     private val brandFontStyle = FontStyle.Normal
     private val brandFontWeight = FontWeight.Medium
@@ -234,19 +230,6 @@ object LexicoFont {
     )
 
     //region Font Decoration
-
-    fun d400(
-        color: Color = Colors.ColorSupportDark,
-        textAlignment: TextAlign = TextAlign.Start,
-    ) = createTextStyle(
-        color = color,
-        fontFamily = decorationFontFamily,
-        fontSize = deco400Size,
-        fontWeight = deco400FontWeight,
-        fontStyle = decoFontStyle,
-        lineHeight = deco400LineHeight,
-        textAlignment = textAlignment,
-    )
 
     fun d300(
         color: Color = Colors.ColorSupportDark,
