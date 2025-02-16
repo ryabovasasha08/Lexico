@@ -11,17 +11,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.oriabova.lexico.setup.view.SetupViewModel
 
 @Composable
-fun SetupScreen(setupViewModel: SetupViewModel = hiltViewModel<SetupViewModel>(), popBackStack: () -> Unit) {
-   Column(
-         horizontalAlignment = Alignment.CenterHorizontally,
-         modifier = Modifier.fillMaxSize()
+fun SetupScreen(
+    setupViewModel: SetupViewModel = hiltViewModel<SetupViewModel>(),
+    popBackStack: () -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize()
     ) {
-         Text(text = "Setup Screen")
-       Button(onClick = {
-           setupViewModel.saveSetup()
-           popBackStack()
-       }) {
-           Text(text = "Save Setup")
-       }
+        Text(text = "Setup Screen")
+        Button(onClick = {
+            setupViewModel.saveSetup()
+            popBackStack()
+        }) {
+            Text(text = "Save Setup")
+        }
     }
 }
