@@ -45,8 +45,8 @@ object LexicoFont {
 
     private val decoFontStyle = FontStyle.Normal
 
-    private val deco100Size = 30.sp
-    private val deco100LineHeight = 30.sp
+    private val deco100Size = 24.sp
+    private val deco100LineHeight = 24.sp
     private val deco100FontWeight = FontWeight.Normal
 
     private val deco200Size = 34.sp

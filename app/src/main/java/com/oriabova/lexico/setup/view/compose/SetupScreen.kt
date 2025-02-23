@@ -19,15 +19,19 @@ fun SetupScreen(
         SetupState.Welcome -> SetupWelcomeScreen {
             setupViewModel.handleUiEvent(SetupUiEvent.CompletedWelcome)
         }
+
         SetupState.Language_Choice -> SetupLanguageScreen { language ->
             setupViewModel.handleUiEvent(SetupUiEvent.LanguageSelected(language))
         }
+
         SetupState.Level_Choice -> SetupLevelScreen { level ->
             setupViewModel.handleUiEvent(SetupUiEvent.LevelSelected(level))
         }
+
         SetupState.Frequency_Choice -> SetupFrequencyScreen { frequency ->
             setupViewModel.handleUiEvent(SetupUiEvent.FrequencySelected(frequency))
         }
+
         SetupState.Complete -> popBackStack()
     }
 }

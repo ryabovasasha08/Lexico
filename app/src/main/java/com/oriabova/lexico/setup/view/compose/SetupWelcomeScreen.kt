@@ -6,7 +6,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,9 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,7 +35,6 @@ import com.oriabova.lexico.root.view.theme.LexicoTheme
 
 private const val AnimationDuration = 1000
 private val OffsetDp = 100.dp
-private val HorizontalScreenPadding = 16.dp
 private const val CardsAnimationHeightFraction = 0.6f
 private val ButtonVerticalPadding = 36.dp
 
@@ -49,32 +44,23 @@ internal fun SetupWelcomeScreen(onButtonClick: () -> Unit) {
 
     LaunchedEffect(Unit) { visible = true }
 
-    Scaffold(
-        containerColor = Colors.ColorPrimaryDark,
-        content = { paddingValues ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(horizontal = HorizontalScreenPadding)
-            ) {
-                WordCardsAnimation(
-                    visible = visible,
-                    Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(CardsAnimationHeightFraction)
-                        .align(Alignment.TopCenter)
-                )
+    SetupScreenWrapper {
+        WordCardsAnimation(
+            visible = visible,
+            Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(CardsAnimationHeightFraction)
+                .align(Alignment.TopCenter)
+        )
 
-                TitleAndButtonAnimation(
-                    visible = visible,
-                    modifier = Modifier
-                        .padding(bottom = ButtonVerticalPadding)
-                        .align(Alignment.BottomCenter),
-                    onButtonClick = onButtonClick
-                )
-            }
-        })
+        TitleAndButtonAnimation(
+            visible = visible,
+            modifier = Modifier
+                .padding(bottom = ButtonVerticalPadding)
+                .align(Alignment.BottomCenter),
+            onButtonClick = onButtonClick
+        )
+    }
 }
 
 @Composable
@@ -115,24 +101,6 @@ private fun TitleAndButton(onButtonClick: () -> Unit) {
             onClick = onButtonClick
         )
     }
-}
-
-@Composable
-private fun TextButton(text: String, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Colors.ColorPrimaryLight,
-            contentColor = Colors.ColorPrimaryDark,
-        ),
-        content = {
-            Text(
-                text = text,
-                style = LexicoFont.f200Highlight(color = Colors.ColorPrimaryDark),
-                modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
-            )
-        }
-    )
 }
 
 @Composable

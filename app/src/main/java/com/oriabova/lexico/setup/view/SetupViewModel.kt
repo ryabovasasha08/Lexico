@@ -26,8 +26,9 @@ class SetupViewModel @Inject constructor(
         }
     }
 
-    private fun completeLanguageSetup(language: String) {
-        setupDetails = setupDetails.copy(languageToLearn = language)
+    private fun completeLanguageSetup(language: String?) {
+        language?.let { setupDetails = setupDetails.copy(languageToLearn = it) }
+            ?: error("Language is null")
         openNextStep()
     }
 
@@ -69,7 +70,7 @@ enum class SetupState {
 
 sealed class SetupUiEvent {
     data object CompletedWelcome : SetupUiEvent()
-    data class LanguageSelected(val language: String) : SetupUiEvent()
+    data class LanguageSelected(val language: String?) : SetupUiEvent()
     data class LevelSelected(val level: String) : SetupUiEvent()
     data class FrequencySelected(val frequency: String) : SetupUiEvent()
 }
