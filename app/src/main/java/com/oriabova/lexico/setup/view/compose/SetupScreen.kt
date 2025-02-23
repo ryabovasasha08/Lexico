@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.oriabova.lexico.setup.view.SetupState
+import com.oriabova.lexico.setup.view.SetupUiEvent
 import com.oriabova.lexico.setup.view.SetupViewModel
 
 @Composable
@@ -16,10 +17,17 @@ fun SetupScreen(
 
     when (setupState) {
         SetupState.Welcome -> SetupWelcomeScreen {
-            setupViewModel.saveSetup()
-            popBackStack()
+            setupViewModel.handleUiEvent(SetupUiEvent.CompletedWelcome)
         }
-
-        else -> {}
-    }// NOT IMPLEMENTED
+        SetupState.Language_Choice -> SetupLanguageScreen { language ->
+            setupViewModel.handleUiEvent(SetupUiEvent.LanguageSelected(language))
+        }
+        SetupState.Level_Choice -> SetupLevelScreen { level ->
+            setupViewModel.handleUiEvent(SetupUiEvent.LevelSelected(level))
+        }
+        SetupState.Frequency_Choice -> SetupFrequencyScreen { frequency ->
+            setupViewModel.handleUiEvent(SetupUiEvent.FrequencySelected(frequency))
+        }
+        SetupState.Complete -> popBackStack()
+    }
 }
