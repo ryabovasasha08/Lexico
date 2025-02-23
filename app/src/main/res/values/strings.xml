@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Lexico</string>
+
+<!--    Setup screens -->
+    <string-array name="setup_welcome_cards">
+        <item>Le</item>
+        <item>Xi</item>
+        <item>Co</item>
+    </string-array>
+    <string name="setup_welcome_title">Unlock your thoughts - one word at a time!</string>
+    <string name="setup_welcome_cta_text">Get started</string>
 </resources>

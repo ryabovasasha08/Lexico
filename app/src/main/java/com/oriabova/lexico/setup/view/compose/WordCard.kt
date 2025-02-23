@@ -46,7 +46,7 @@ fun WordCard(text: String, modifier: Modifier = Modifier) {
             Text(
                 modifier = Modifier.padding(CardInnerPadding),
                 text = text,
-                style = LexicoFont.d300(color = Colors.ColorPrimaryDark),
+                style = LexicoFont.d200(color = Colors.ColorPrimaryDark),
                 textAlign = TextAlign.Center,
             )
         }

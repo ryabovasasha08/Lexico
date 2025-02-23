@@ -5,14 +5,19 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,24 +27,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.oriabova.app.R
 import com.oriabova.lexico.root.view.theme.Colors
+import com.oriabova.lexico.root.view.theme.LexicoFont
 import com.oriabova.lexico.root.view.theme.LexicoTheme
-import kotlinx.coroutines.delay
 
 private const val AnimationDuration = 1000
-private val offsetDp = 100.dp
-private val WordsList = listOf("Le", "Xi", "Co")
+private val OffsetDp = 100.dp
+private val HorizontalScreenPadding = 16.dp
+private const val CardsAnimationHeightFraction = 0.6f
+private val ButtonVerticalPadding = 36.dp
 
 @Composable
 internal fun SetupWelcomeScreen(onButtonClick: () -> Unit) {
     var visible by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        delay(AnimationDuration.toLong())
-        visible = true
-    }
+    LaunchedEffect(Unit) { visible = true }
+
     Scaffold(
         containerColor = Colors.ColorPrimaryDark,
         content = { paddingValues ->
@@ -47,26 +56,92 @@ internal fun SetupWelcomeScreen(onButtonClick: () -> Unit) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
+                    .padding(horizontal = HorizontalScreenPadding)
             ) {
                 WordCardsAnimation(
-                    words = WordsList,
                     visible = visible,
                     Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.6f)
+                        .fillMaxHeight(CardsAnimationHeightFraction)
                         .align(Alignment.TopCenter)
+                )
+
+                TitleAndButtonAnimation(
+                    visible = visible,
+                    modifier = Modifier
+                        .padding(bottom = ButtonVerticalPadding)
+                        .align(Alignment.BottomCenter),
+                    onButtonClick = onButtonClick
                 )
             }
         })
 }
 
 @Composable
+private fun TitleAndButtonAnimation(
+    visible: Boolean,
+    modifier: Modifier = Modifier,
+    onButtonClick: () -> Unit
+) {
+    AnimatedVisibility(
+        modifier = modifier,
+        visible = visible,
+        enter = fadeIn(
+            animationSpec = tween(
+                durationMillis = AnimationDuration,
+                easing = LinearOutSlowInEasing
+            )
+        )
+    ) {
+        TitleAndButton(onButtonClick)
+    }
+}
+
+@Composable
+private fun TitleAndButton(onButtonClick: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(ButtonVerticalPadding),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(id = R.string.setup_welcome_title),
+            style = LexicoFont.d200(color = Colors.ColorPrimaryLight),
+            textAlign = TextAlign.Center,
+        )
+
+        TextButton(
+            text = stringResource(id = R.string.setup_welcome_cta_text),
+            onClick = onButtonClick
+        )
+    }
+}
+
+@Composable
+private fun TextButton(text: String, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Colors.ColorPrimaryLight,
+            contentColor = Colors.ColorPrimaryDark,
+        ),
+        content = {
+            Text(
+                text = text,
+                style = LexicoFont.f200Highlight(color = Colors.ColorPrimaryDark),
+                modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+            )
+        }
+    )
+}
+
+@Composable
 private fun WordCardsAnimation(
-    words: List<String>,
     visible: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val offsetPx = offsetDp.value * LocalDensity.current.density
+    val offsetPx = OffsetDp.value * LocalDensity.current.density
+    val words = stringArrayResource(R.array.setup_welcome_cards)
 
     Row(modifier = modifier) {
         repeat(words.size) {
@@ -91,7 +166,7 @@ private fun WordCardsAnimation(
             ) {
                 WordCard(
                     text = words[it],
-                    modifier = Modifier.offset(y = (offsetMultiplier * (-0.5) * offsetDp.value).dp)
+                    modifier = Modifier.offset(y = (offsetMultiplier * (-0.5) * OffsetDp.value).dp)
                 )
             }
         }
