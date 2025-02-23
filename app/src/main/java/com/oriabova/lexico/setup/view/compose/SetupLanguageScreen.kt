@@ -118,10 +118,10 @@ private fun LanguagePicker(
     onLanguagePicked: (String) -> Unit
 ) {
     val locales = Locale.getAvailableLocales()
-        .map { it.displayLanguage }
+        .sortedBy { it.displayLanguage }
+        .map { it.getDisplayLanguage(it) }
         .filterNot { it.isBlank() }
         .distinct()
-        .sorted()
 
     val languagePickerState = rememberLazyListState()
 
