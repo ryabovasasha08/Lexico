@@ -8,7 +8,13 @@ import com.oriabova.lexico.home.view.HomeViewModel
 import com.oriabova.lexico.setup.domain.SetupState
 
 @Composable
-fun HomeRoute(homeViewModel: HomeViewModel = hiltViewModel<HomeViewModel>(), navigateToSetup: () -> Unit) {
+fun HomeRoute(
+    homeViewModel: HomeViewModel = hiltViewModel<HomeViewModel>(),
+    isSplashScreenVisible: Boolean,
+    navigateToSetup: () -> Unit
+) {
+    if (isSplashScreenVisible) return
+
     val setupState by homeViewModel.setupStateFlow.collectAsState(SetupState.UNDEFINED)
     when (setupState) {
         SetupState.COMPLETED -> HomeScreen()

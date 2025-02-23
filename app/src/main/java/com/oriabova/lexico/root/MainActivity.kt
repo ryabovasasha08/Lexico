@@ -5,7 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import com.oriabova.lexico.root.view.compose.AppNavHost
@@ -26,7 +28,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LexicoTheme {
-                AppNavHost(navController = rememberNavController())
+                val isSplashScreenVisible by splashViewModel.isSplashShow.collectAsStateWithLifecycle()
+                AppNavHost(
+                    isSplashScreenVisible = isSplashScreenVisible,
+                    navController = rememberNavController()
+                )
             }
         }
     }

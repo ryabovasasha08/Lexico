@@ -9,7 +9,8 @@ class ObserveSetupStateUseCaseImpl @Inject constructor(
 ) : ObserveSetupStateUseCase {
    override operator fun invoke(): Flow<SetupState> {
         return setupRepository.observeSetupDetails().map {
-            if (it != null) SetupState.COMPLETED else SetupState.NOT_COMPLETED
+        SetupState.NOT_COMPLETED
+        //if (it != null) SetupState.COMPLETED else SetupState.NOT_COMPLETED
         }
     }
 }

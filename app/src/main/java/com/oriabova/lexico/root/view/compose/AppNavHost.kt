@@ -11,17 +11,18 @@ import com.oriabova.lexico.setup.view.compose.SetupScreen
 
 @Composable
 fun AppNavHost(
-    modifier: Modifier = Modifier,
+    isSplashScreenVisible: Boolean,
     navController: NavHostController,
-    startDestination: String = NavigationItem.Home.route,
+    modifier: Modifier = Modifier,
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startDestination
+        startDestination = NavigationItem.Home.route
     ) {
         composable(NavigationItem.Home.route) {
             HomeRoute(
+                isSplashScreenVisible = isSplashScreenVisible,
                 navigateToSetup = { navController.navigate(NavigationItem.Setup.route) },
             )
         }

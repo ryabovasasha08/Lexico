@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Needed for smooth transition from splash to setup -->
+        <item name="android:background">@color/colorPrimary </item>
+    </style>
 
     <style name="Theme.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/colorPrimary</item>
