@@ -28,7 +28,7 @@ import com.oriabova.lexico.root.view.theme.Colors
 import com.oriabova.lexico.root.view.theme.LexicoTheme
 import kotlinx.coroutines.delay
 
-private const val AnimationDuration = 3000
+private const val AnimationDuration = 1000
 private val offsetDp = 100.dp
 private val WordsList = listOf("Le", "Xi", "Co")
 
@@ -54,6 +54,7 @@ internal fun SetupWelcomeScreen(onButtonClick: () -> Unit) {
                     Modifier
                         .fillMaxWidth()
                         .fillMaxHeight(0.6f)
+                        .align(Alignment.TopCenter)
                 )
             }
         })
