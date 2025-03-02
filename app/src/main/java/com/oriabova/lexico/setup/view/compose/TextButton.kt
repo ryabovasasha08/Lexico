@@ -10,13 +10,18 @@ import androidx.compose.ui.unit.dp
 import com.oriabova.lexico.root.view.theme.Colors
 import com.oriabova.lexico.root.view.theme.LexicoFont
 
+private const val DisabledAlpha = 0.3f
+
 @Composable
-internal fun TextButton(text: String, onClick: () -> Unit) {
+internal fun TextButton(text: String, isEnabled: Boolean = true, onClick: () -> Unit) {
     Button(
         onClick = onClick,
+        enabled = isEnabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = Colors.ColorPrimaryLight,
             contentColor = Colors.ColorPrimaryDark,
+            disabledContentColor = Colors.ColorPrimaryDark.copy(DisabledAlpha),
+            disabledContainerColor = Colors.ColorPrimaryLight.copy(DisabledAlpha),
         ),
         content = {
             Text(

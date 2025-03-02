@@ -1,9 +1,5 @@
 package com.oriabova.lexico.setup.view.compose
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,7 +39,6 @@ private val BorderStrokeWidth = 1.dp
 private val CardInnerPaddingHorizontal = 16.dp
 private val CardInnerPaddingVertical = 8.dp
 private val ButtonVerticalPadding = 36.dp
-private const val AnimationDuration = 300
 private val LanguageItemPadding = 8.dp
 private val SelectedLanguageIconPadding = 16.dp
 
@@ -65,8 +60,8 @@ fun SetupLanguageScreen(onSetupLanguageComplete: (String?) -> Unit) {
                 onLanguagePicked = { selectedLanguage = it }
             )
 
-            AnimatedCtaButton(
-                isVisible = selectedLanguage.isNullOrBlank().not(),
+            CtaButton(
+                isEnabled = selectedLanguage.isNullOrBlank().not(),
                 onClick = { onSetupLanguageComplete(selectedLanguage) }
             )
         }
@@ -94,21 +89,12 @@ private fun Subtitle() {
 }
 
 @Composable
-private fun AnimatedCtaButton(isVisible: Boolean, onClick: () -> Unit) {
-    AnimatedVisibility(
-        visible = isVisible,
-        enter = fadeIn(
-            animationSpec = tween(
-                durationMillis = AnimationDuration,
-                easing = LinearOutSlowInEasing
-            )
-        )
-    ) {
-        TextButton(
-            text = stringResource(id = R.string.setup_language_cta_text),
-            onClick = onClick
-        )
-    }
+private fun CtaButton(isEnabled: Boolean, onClick: () -> Unit) {
+    TextButton(
+        text = stringResource(id = R.string.setup_language_cta_text),
+        isEnabled = isEnabled,
+        onClick = onClick,
+    )
 }
 
 @Composable
@@ -118,10 +104,10 @@ private fun LanguagePicker(
     onLanguagePicked: (String) -> Unit
 ) {
     val locales = Locale.getAvailableLocales()
-        .sortedBy { it.displayLanguage }
-        .map { it.getDisplayLanguage(it) }
-        .filterNot { it.isBlank() }
+        .map { it.displayLanguage }
         .distinct()
+        .filterNot { it.isBlank() }
+        .sorted()
 
     val languagePickerState = rememberLazyListState()
 
