@@ -15,7 +15,7 @@ private val HorizontalScreenPadding = 16.dp
 @Composable
 internal fun SetupScreenWrapper(content: @Composable BoxScope.() -> Unit) {
     Scaffold(
-        containerColor = Colors.ColorPrimaryDark,
+        containerColor = Colors.primary500,
         content = { paddingValues ->
             Box(
                 modifier = Modifier

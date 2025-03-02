@@ -92,7 +92,7 @@ private fun TitleAndButton(onButtonClick: () -> Unit) {
     ) {
         Text(
             text = stringResource(id = R.string.setup_welcome_title),
-            style = LexicoFont.d200(color = Colors.ColorPrimaryLight),
+            style = LexicoFont.d200(color = Colors.primary030),
             textAlign = TextAlign.Center,
         )
 

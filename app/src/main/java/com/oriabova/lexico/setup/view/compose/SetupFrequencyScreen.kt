@@ -13,8 +13,8 @@ fun SetupFrequencyScreen(onSetupFrequencyComplete: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Colors.ColorPrimaryDark)
+            .background(Colors.primary500)
     ) {
-        Text("Setup Frequency Screen", color = Colors.ColorPrimaryLight)
+        Text("Setup Frequency Screen", color = Colors.primary030)
     }
 }

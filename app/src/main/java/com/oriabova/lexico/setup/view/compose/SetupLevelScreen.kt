@@ -84,7 +84,7 @@ private fun Title() {
     Text(
         text = stringResource(id = R.string.setup_level_title),
         modifier = Modifier.fillMaxWidth(),
-        style = LexicoFont.d100(color = Colors.ColorPrimaryLight),
+        style = LexicoFont.d100(color = Colors.primary030),
         textAlign = TextAlign.Left
     )
 }
@@ -94,7 +94,7 @@ private fun Subtitle() {
     Text(
         text = stringResource(id = R.string.setup_level_subtitle),
         modifier = Modifier.fillMaxWidth(),
-        style = LexicoFont.f100Default(color = Colors.ColorPrimaryLight),
+        style = LexicoFont.f100Default(color = Colors.primary030),
         textAlign = TextAlign.Left
     )
 }
@@ -142,13 +142,13 @@ private fun LevelItem(
     Card(
         onClick = onClick,
         colors = CardDefaults.cardColors(
-            containerColor = Colors.ColorPrimaryLight,
-            disabledContainerColor = Colors.ColorPrimaryLight,
-            contentColor = Colors.ColorSupportDark,
-            disabledContentColor = Colors.ColorSupportDark,
+            containerColor = Colors.primary030,
+            disabledContainerColor = Colors.primary030,
+            contentColor = Colors.support500,
+            disabledContentColor = Colors.support500,
         ),
         shape = RoundedCornerShape(CardCornerRadius),
-        border = BorderStroke(BorderStrokeWidth, Colors.ColorPrimaryDark),
+        border = BorderStroke(BorderStrokeWidth, Colors.primary500),
         modifier = modifier
     ) {
         Box(
@@ -166,13 +166,13 @@ private fun LevelItem(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(level.levelNameRes),
-                    style = LexicoFont.f100Highlight(color = Colors.ColorPrimaryDark),
+                    style = LexicoFont.f100Highlight(color = Colors.primary500),
                 )
                 Spacer(modifier = Modifier.height(LevelItemTitleToDescriptionSpacing))
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(level.descriptionRes),
-                    style = LexicoFont.f075Default(color = Colors.ColorPrimaryDark),
+                    style = LexicoFont.f075Default(color = Colors.primary500),
                 )
                 Spacer(modifier = Modifier.height(LevelItemDescriptionToExampleSpacing))
                 Row(
@@ -181,13 +181,13 @@ private fun LevelItem(
                 ) {
                     Text(
                         text = "Examples:",
-                        style = LexicoFont.b075Default(color = Colors.ColorPrimaryDark),
+                        style = LexicoFont.b075Default(color = Colors.primary500),
                     )
                     Text(
                         text = stringArrayResource(level.examplesRes).joinToString(
                             LevelItemExamplesSeparator
                         ),
-                        style = LexicoFont.f075Default(color = Colors.ColorPrimaryDark),
+                        style = LexicoFont.f075Default(color = Colors.primary500),
                     )
                 }
             }
@@ -196,7 +196,7 @@ private fun LevelItem(
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = null,
-                    tint = Colors.ColorPrimaryDark,
+                    tint = Colors.primary500,
                     modifier = Modifier
                         .padding(end = SelectedLevelIconPadding)
                         .align(Alignment.CenterEnd)

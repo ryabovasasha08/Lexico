@@ -18,15 +18,15 @@ internal fun TextButton(text: String, isEnabled: Boolean = true, onClick: () -> 
         onClick = onClick,
         enabled = isEnabled,
         colors = ButtonDefaults.buttonColors(
-            containerColor = Colors.ColorPrimaryLight,
-            contentColor = Colors.ColorPrimaryDark,
-            disabledContentColor = Colors.ColorPrimaryDark.copy(DisabledAlpha),
-            disabledContainerColor = Colors.ColorPrimaryLight.copy(DisabledAlpha),
+            containerColor = Colors.primary030,
+            contentColor = Colors.primary500,
+            disabledContentColor = Colors.primary500.copy(DisabledAlpha),
+            disabledContainerColor = Colors.primary030.copy(DisabledAlpha),
         ),
         content = {
             Text(
                 text = text,
-                style = LexicoFont.f200Highlight(color = Colors.ColorPrimaryDark),
+                style = LexicoFont.f200Highlight(color = Colors.primary500),
                 modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
             )
         }

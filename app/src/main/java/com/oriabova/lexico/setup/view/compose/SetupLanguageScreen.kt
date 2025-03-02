@@ -75,7 +75,7 @@ private fun Title() {
     Text(
         text = stringResource(id = R.string.setup_language_title),
         modifier = Modifier.fillMaxWidth(),
-        style = LexicoFont.d100(color = Colors.ColorPrimaryLight),
+        style = LexicoFont.d100(color = Colors.primary030),
         textAlign = TextAlign.Left
     )
 }
@@ -85,7 +85,7 @@ private fun Subtitle() {
     Text(
         text = stringResource(id = R.string.setup_language_subtitle),
         modifier = Modifier.fillMaxWidth(),
-        style = LexicoFont.f100Default(color = Colors.ColorPrimaryLight),
+        style = LexicoFont.f100Default(color = Colors.primary030),
         textAlign = TextAlign.Left
     )
 }
@@ -144,13 +144,13 @@ private fun LanguageItem(
     Card(
         onClick = onClick,
         colors = CardDefaults.cardColors(
-            containerColor = Colors.ColorPrimaryLight,
-            disabledContainerColor = Colors.ColorPrimaryLight,
-            contentColor = Colors.ColorSupportDark,
-            disabledContentColor = Colors.ColorSupportDark,
+            containerColor = Colors.primary030,
+            disabledContainerColor = Colors.primary030,
+            contentColor = Colors.support500,
+            disabledContentColor = Colors.support500,
         ),
         shape = RoundedCornerShape(CardCornerRadius),
-        border = BorderStroke(BorderStrokeWidth, Colors.ColorPrimaryDark),
+        border = BorderStroke(BorderStrokeWidth, Colors.primary500),
         modifier = modifier
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -162,7 +162,7 @@ private fun LanguageItem(
                         vertical = CardInnerPaddingVertical
                     ),
                 text = language,
-                style = LexicoFont.f100Default(color = Colors.ColorPrimaryDark),
+                style = LexicoFont.f100Default(color = Colors.primary500),
                 textAlign = TextAlign.Center,
             )
 
@@ -170,7 +170,7 @@ private fun LanguageItem(
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = null,
-                    tint = Colors.ColorPrimaryDark,
+                    tint = Colors.primary500,
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .padding(end = SelectedLanguageIconPadding)

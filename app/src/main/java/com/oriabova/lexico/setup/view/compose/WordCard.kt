@@ -31,13 +31,13 @@ private val CardInnerPadding = 32.dp
 fun WordCard(text: String, modifier: Modifier = Modifier) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = Colors.ColorPrimaryLight,
-            disabledContainerColor = Colors.ColorPrimaryLight,
-            contentColor = Colors.ColorSupportDark,
-            disabledContentColor = Colors.ColorSupportDark,
+            containerColor = Colors.primary030,
+            disabledContainerColor = Colors.primary030,
+            contentColor = Colors.support500,
+            disabledContentColor = Colors.support500,
         ),
         shape = RoundedCornerShape(CardCornerRadius),
-        border = BorderStroke(BorderStrokeWidth, Colors.ColorPrimaryDark),
+        border = BorderStroke(BorderStrokeWidth, Colors.primary500),
         modifier = modifier
             .aspectRatio(CardAspectRatio)
             .padding(CardOuterPadding)
@@ -46,7 +46,7 @@ fun WordCard(text: String, modifier: Modifier = Modifier) {
             Text(
                 modifier = Modifier.padding(CardInnerPadding),
                 text = text,
-                style = LexicoFont.d200(color = Colors.ColorPrimaryDark),
+                style = LexicoFont.d200(color = Colors.primary500),
                 textAlign = TextAlign.Center,
             )
         }
