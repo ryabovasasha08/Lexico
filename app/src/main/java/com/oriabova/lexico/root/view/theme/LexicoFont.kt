@@ -95,7 +95,7 @@ object LexicoFont {
 
     //region Font DEFAULT
     fun f400Default(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.support500,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -106,7 +106,7 @@ object LexicoFont {
     )
 
     fun f300Default(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.support500,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -117,7 +117,7 @@ object LexicoFont {
     )
 
     fun f200Default(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -128,7 +128,7 @@ object LexicoFont {
     )
 
     fun f100Default(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -139,7 +139,7 @@ object LexicoFont {
     )
 
     fun f075Default(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -150,7 +150,7 @@ object LexicoFont {
     )
 
     fun f050Default(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -164,7 +164,7 @@ object LexicoFont {
 
     //region Font BOLD
     fun b400Default(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -175,7 +175,7 @@ object LexicoFont {
     )
 
     fun b300Default(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -186,7 +186,7 @@ object LexicoFont {
     )
 
     fun b200Default(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -197,7 +197,7 @@ object LexicoFont {
     )
 
     fun b100Default(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -208,7 +208,7 @@ object LexicoFont {
     )
 
     fun b075Default(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -219,7 +219,7 @@ object LexicoFont {
     )
 
     fun b050Default(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -233,7 +233,7 @@ object LexicoFont {
 
     //region Font HIGHLIGHT
     fun f400Highlight(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -244,7 +244,7 @@ object LexicoFont {
     )
 
     fun f300Highlight(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -255,7 +255,7 @@ object LexicoFont {
     )
 
     fun f200Highlight(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -266,7 +266,7 @@ object LexicoFont {
     )
 
     fun f100Highlight(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -277,7 +277,7 @@ object LexicoFont {
     )
 
     fun f075Highlight(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle =
         createTextStyle(
@@ -289,7 +289,7 @@ object LexicoFont {
         )
 
     fun f050Highlight(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ): TextStyle = createTextStyle(
         color = color,
@@ -302,7 +302,7 @@ object LexicoFont {
     //region Font Decoration
 
     fun d300(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ) = createTextStyle(
         color = color,
@@ -315,7 +315,7 @@ object LexicoFont {
     )
 
     fun d200(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ) = createTextStyle(
         color = color,
@@ -328,7 +328,7 @@ object LexicoFont {
     )
 
     fun d100(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ) = createTextStyle(
         color = color,
@@ -345,7 +345,7 @@ object LexicoFont {
     //region Font brand
 
     fun brand400(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ) = createTextStyle(
         color = color,
@@ -358,7 +358,7 @@ object LexicoFont {
     )
 
     fun brand300(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ) = createTextStyle(
         color = color,
@@ -371,7 +371,7 @@ object LexicoFont {
     )
 
     fun brand200(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ) = createTextStyle(
         color = color,
@@ -384,7 +384,7 @@ object LexicoFont {
     )
 
     fun brand100(
-        color: Color = Colors.ColorSupportDark,
+        color: Color = Colors.supportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ) = createTextStyle(
         color = color,
