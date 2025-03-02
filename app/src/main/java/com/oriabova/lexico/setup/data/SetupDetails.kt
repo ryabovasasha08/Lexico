@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SetupDetails(
-    val languageToLearn: String,
-    val level: String,
-    val frequency: String,
+    val languageToLearn: String = "",
+    val level: SetupLevel = SetupLevel.BEGINNER,
+    val frequency: String = "",
 )

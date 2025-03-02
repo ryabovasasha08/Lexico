@@ -3,6 +3,7 @@ package com.oriabova.lexico.setup.view
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oriabova.lexico.setup.data.SetupDetails
+import com.oriabova.lexico.setup.data.SetupLevel
 import com.oriabova.lexico.setup.domain.StoreSetupDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,7 @@ class SetupViewModel @Inject constructor(
 ) : ViewModel() {
 
     val setupState = MutableStateFlow(SetupState.Welcome)
-    private var setupDetails = SetupDetails("", "", "")
+    private var setupDetails = SetupDetails()
 
     fun handleUiEvent(uiEvent: SetupUiEvent) {
         when (uiEvent) {
@@ -28,12 +29,13 @@ class SetupViewModel @Inject constructor(
 
     private fun completeLanguageSetup(language: String?) {
         language?.let { setupDetails = setupDetails.copy(languageToLearn = it) }
-            ?: error("Language is null")
+            ?: error("Selected language is null")
         openNextStep()
     }
 
-    private fun completeLevelSetup(level: String) {
-        setupDetails = setupDetails.copy(level = level)
+    private fun completeLevelSetup(level: SetupLevel?) {
+        level?.let { setupDetails = setupDetails.copy(level = level) }
+            ?: error("Selected level is null")
         openNextStep()
     }
 
@@ -53,7 +55,7 @@ class SetupViewModel @Inject constructor(
 
     private fun saveSetupDetails() {
         viewModelScope.launch {
-            storeSetupDetailsUseCase(SetupDetails("UA", "Advanced", "5/day"))
+            storeSetupDetailsUseCase(SetupDetails("UA", SetupLevel.ADVANCED, "5/day"))
         }
     }
 
@@ -71,6 +73,6 @@ enum class SetupState {
 sealed class SetupUiEvent {
     data object CompletedWelcome : SetupUiEvent()
     data class LanguageSelected(val language: String?) : SetupUiEvent()
-    data class LevelSelected(val level: String) : SetupUiEvent()
+    data class LevelSelected(val level: SetupLevel?) : SetupUiEvent()
     data class FrequencySelected(val frequency: String) : SetupUiEvent()
 }
