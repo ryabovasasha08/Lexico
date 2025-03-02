@@ -4,9 +4,9 @@ import androidx.compose.material3.Typography
 import androidx.compose.ui.graphics.Color
 
 internal fun material3Typography(): Typography = Typography(
-    displayLarge = LexicoFont.b400(color = Color.Unspecified),
-    displayMedium = LexicoFont.b300(color = Color.Unspecified),
-    displaySmall = LexicoFont.b200(color = Color.Unspecified),
+    displayLarge = LexicoFont.brand400(color = Color.Unspecified),
+    displayMedium = LexicoFont.brand300(color = Color.Unspecified),
+    displaySmall = LexicoFont.brand200(color = Color.Unspecified),
 
     headlineLarge = LexicoFont.f400Highlight(color = Color.Unspecified),
     headlineMedium = LexicoFont.f300Highlight(color = Color.Unspecified),

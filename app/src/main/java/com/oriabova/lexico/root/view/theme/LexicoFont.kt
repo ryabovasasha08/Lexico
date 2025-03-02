@@ -42,6 +42,7 @@ object LexicoFont {
     private val font400Weight = FontWeight.Light
 
     private val highlightFontWeight: FontWeight = FontWeight.SemiBold
+    private val boldFontWeight: FontWeight = FontWeight.Bold
 
     private val decoFontStyle = FontStyle.Normal
 
@@ -161,6 +162,75 @@ object LexicoFont {
 
     //endregion
 
+    //region Font BOLD
+    fun b400Default(
+        color: Color = Colors.ColorSupportDark,
+        textAlignment: TextAlign = TextAlign.Start,
+    ): TextStyle = createTextStyle(
+        color = color,
+        fontSize = font400Size,
+        fontWeight = boldFontWeight,
+        lineHeight = font400LineHeight,
+        textAlignment = textAlignment,
+    )
+
+    fun b300Default(
+        color: Color = Colors.ColorSupportDark,
+        textAlignment: TextAlign = TextAlign.Start,
+    ): TextStyle = createTextStyle(
+        color = color,
+        fontSize = font300Size,
+        fontWeight = boldFontWeight,
+        lineHeight = font300LineHeight,
+        textAlignment = textAlignment,
+    )
+
+    fun b200Default(
+        color: Color = Colors.ColorSupportDark,
+        textAlignment: TextAlign = TextAlign.Start,
+    ): TextStyle = createTextStyle(
+        color = color,
+        fontSize = font200Size,
+        fontWeight = boldFontWeight,
+        lineHeight = font200LineHeight,
+        textAlignment = textAlignment,
+    )
+
+    fun b100Default(
+        color: Color = Colors.ColorSupportDark,
+        textAlignment: TextAlign = TextAlign.Start,
+    ): TextStyle = createTextStyle(
+        color = color,
+        fontSize = font100Size,
+        fontWeight = boldFontWeight,
+        lineHeight = font100LineHeight,
+        textAlignment = textAlignment,
+    )
+
+    fun b075Default(
+        color: Color = Colors.ColorSupportDark,
+        textAlignment: TextAlign = TextAlign.Start,
+    ): TextStyle = createTextStyle(
+        color = color,
+        fontSize = font075Size,
+        fontWeight = boldFontWeight,
+        lineHeight = font075LineHeight,
+        textAlignment = textAlignment,
+    )
+
+    fun b050Default(
+        color: Color = Colors.ColorSupportDark,
+        textAlignment: TextAlign = TextAlign.Start,
+    ): TextStyle = createTextStyle(
+        color = color,
+        fontSize = font050Size,
+        fontWeight = boldFontWeight,
+        lineHeight = font050LineHeight,
+        textAlignment = textAlignment,
+    )
+
+    //endregion
+
     //region Font HIGHLIGHT
     fun f400Highlight(
         color: Color = Colors.ColorSupportDark,
@@ -274,7 +344,7 @@ object LexicoFont {
 
     //region Font brand
 
-    fun b400(
+    fun brand400(
         color: Color = Colors.ColorSupportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ) = createTextStyle(
@@ -287,7 +357,7 @@ object LexicoFont {
         textAlignment = textAlignment,
     )
 
-    fun b300(
+    fun brand300(
         color: Color = Colors.ColorSupportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ) = createTextStyle(
@@ -300,7 +370,7 @@ object LexicoFont {
         textAlignment = textAlignment,
     )
 
-    fun b200(
+    fun brand200(
         color: Color = Colors.ColorSupportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ) = createTextStyle(
@@ -313,7 +383,7 @@ object LexicoFont {
         textAlignment = textAlignment,
     )
 
-    fun b100(
+    fun brand100(
         color: Color = Colors.ColorSupportDark,
         textAlignment: TextAlign = TextAlign.Start,
     ) = createTextStyle(
@@ -325,8 +395,6 @@ object LexicoFont {
         fontStyle = brandFontStyle,
         textAlignment = textAlignment,
     )
-
-    //endregion
 
     //endregion
 }
