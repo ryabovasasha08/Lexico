@@ -34,6 +34,8 @@ import com.oriabova.lexico.root.view.theme.LexicoFont
 import com.oriabova.lexico.root.view.theme.LexicoTheme
 import java.util.Locale
 
+private val TopPadding = 30.dp
+private val ScreenVerticalSpacing = 16.dp
 private val CardCornerRadius = 15.dp
 private val BorderStrokeWidth = 1.dp
 private val CardInnerPaddingHorizontal = 16.dp
@@ -48,8 +50,8 @@ fun SetupLanguageScreen(onSetupLanguageComplete: (String?) -> Unit) {
 
     SetupScreenWrapper {
         Column(
-            modifier = Modifier.padding(top = 30.dp, bottom = ButtonVerticalPadding),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.padding(top = TopPadding, bottom = ButtonVerticalPadding),
+            verticalArrangement = Arrangement.spacedBy(ScreenVerticalSpacing),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Title()
