@@ -1,5 +1,7 @@
 package com.oriabova.lexico.setup.view.compose
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,13 +16,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +37,7 @@ import com.oriabova.lexico.root.view.theme.Colors
 import com.oriabova.lexico.root.view.theme.LexicoFont
 import com.oriabova.lexico.root.view.theme.LexicoTheme
 import com.oriabova.lexico.setup.data.SetupLevel
+import kotlinx.coroutines.delay
 
 private val TopPadding = 30.dp
 private val ScreenVerticalSpacing = 16.dp
@@ -52,11 +53,10 @@ private val LevelItemTitleToDescriptionSpacing = 4.dp
 private val LevelItemDescriptionToExampleSpacing = 8.dp
 private val LevelItemExampleHorizontalSpacing = 4.dp
 private const val LevelItemExamplesSeparator = ", "
+private const val SelectedItemAnimationDuration = 300L
 
 @Composable
 fun SetupLevelScreen(onSetupLevelComplete: (SetupLevel?) -> Unit) {
-    var selectedLevel by remember { mutableStateOf<SetupLevel?>(null) }
-
     SetupScreenWrapper {
         Column(
             modifier = Modifier.padding(top = TopPadding, bottom = ButtonVerticalPadding),
@@ -66,14 +66,8 @@ fun SetupLevelScreen(onSetupLevelComplete: (SetupLevel?) -> Unit) {
             Title()
             Subtitle()
             LevelPicker(
-                selectedLevel = selectedLevel,
                 modifier = Modifier.weight(1f),
-                onLevelPicked = { selectedLevel = it }
-            )
-
-            CtaButton(
-                isEnabled = selectedLevel != null,
-                onClick = { onSetupLevelComplete(selectedLevel) }
+                onLevelPicked = { onSetupLevelComplete(it) }
             )
         }
     }
@@ -111,7 +105,6 @@ private fun CtaButton(isEnabled: Boolean, onClick: () -> Unit) {
 
 @Composable
 private fun LevelPicker(
-    selectedLevel: SetupLevel?,
     modifier: Modifier = Modifier,
     onLevelPicked: (SetupLevel) -> Unit
 ) {
@@ -125,9 +118,8 @@ private fun LevelPicker(
             val itemModifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = LevelItemPadding)
-            val isSelected = selectedLevel == level
 
-            LevelItem(level, isSelected, itemModifier) { onLevelPicked(level) }
+            LevelItem(level, itemModifier) { onLevelPicked(level) }
         }
     }
 }
@@ -135,18 +127,29 @@ private fun LevelPicker(
 @Composable
 private fun LevelItem(
     level: SetupLevel,
-    isSelected: Boolean,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onSelected: () -> Unit
 ) {
+    var isSelected by remember { mutableStateOf(false) }
+
+    LaunchedEffect(isSelected) {
+        if (isSelected) {
+            delay(SelectedItemAnimationDuration)
+            onSelected()
+        }
+    }
+
+    val backgroundColor by animateColorAsState( // Use animateColorAsState
+        targetValue = if (isSelected) Colors.primary030 else Colors.primary200, // Slightly darker
+        animationSpec = tween(durationMillis = 200), // Short animation
+        label = "background color"
+    )
+
+    val textColor = if (isSelected) Colors.support700 else Colors.support500
+
     Card(
-        onClick = onClick,
-        colors = CardDefaults.cardColors(
-            containerColor = Colors.primary030,
-            disabledContainerColor = Colors.primary030,
-            contentColor = Colors.support500,
-            disabledContentColor = Colors.support500,
-        ),
+        onClick = { isSelected = true },
+        colors = CardDefaults.cardColors(containerColor = backgroundColor),
         shape = RoundedCornerShape(CardCornerRadius),
         border = BorderStroke(BorderStrokeWidth, Colors.primary500),
         modifier = modifier
@@ -166,13 +169,13 @@ private fun LevelItem(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(level.levelNameRes),
-                    style = LexicoFont.f100Highlight(color = Colors.primary500),
+                    style = LexicoFont.f100Highlight(color = textColor),
                 )
                 Spacer(modifier = Modifier.height(LevelItemTitleToDescriptionSpacing))
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(level.descriptionRes),
-                    style = LexicoFont.f075Default(color = Colors.primary500),
+                    style = LexicoFont.f075Default(color = textColor),
                 )
                 Spacer(modifier = Modifier.height(LevelItemDescriptionToExampleSpacing))
                 Row(
@@ -181,26 +184,15 @@ private fun LevelItem(
                 ) {
                     Text(
                         text = "Examples:",
-                        style = LexicoFont.b075Default(color = Colors.primary500),
+                        style = LexicoFont.b075Default(color = textColor),
                     )
                     Text(
                         text = stringArrayResource(level.examplesRes).joinToString(
                             LevelItemExamplesSeparator
                         ),
-                        style = LexicoFont.f075Default(color = Colors.primary500),
+                        style = LexicoFont.f075Default(color = textColor),
                     )
                 }
-            }
-
-            if (isSelected) {
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = null,
-                    tint = Colors.primary500,
-                    modifier = Modifier
-                        .padding(end = SelectedLevelIconPadding)
-                        .align(Alignment.CenterEnd)
-                )
             }
         }
     }
