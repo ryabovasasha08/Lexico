@@ -1,0 +1,56 @@
+<resources>
+    <!--    Setup screens -->
+    <string-array name="setup_welcome_cards">
+        <item>Le</item>
+        <item>Xi</item>
+        <item>Co</item>
+    </string-array>
+    <string name="setup_welcome_title">Unlock your thoughts - one word at a time!</string>
+    <string name="setup_welcome_cta_text">Get started</string>
+
+    <string name="setup_language_title">What do you want to learn?</string>
+    <string name="setup_language_subtitle">Pick a language that makes your soul happy!</string>
+    <string name="setup_language_search_hint">Search languages...</string>
+    <string name="setup_language_cta_text">Continue</string>
+    <string name="setup_language_input_hint">E.g. English</string>
+
+    <string name="setup_level_beginner_name">Beginner (A1)</string>
+    <string name="setup_level_beginner_description">The first step to the world of new language</string>
+    <string-array name="setup_level_beginner_examples">
+        <item>hello</item>
+        <item>table</item>
+        <item>house</item>
+    </string-array>
+    <string name="setup_level_preintermediate_name">Pre-Intermediate (A2)</string>
+    <string name="setup_level_preintermediate_description">Perfect for everyday situations</string>
+    <string-array name="setup_level_preintermediate_examples">
+        <item>school</item>
+        <item>often</item>
+        <item>doctor</item>
+    </string-array>
+    <string name="setup_level_intermediate_name">Intermediate (B1)</string>
+    <string name="setup_level_intermediate_description">To transform your speech from functional to confident</string>
+    <string-array name="setup_level_intermediate_examples">
+        <item>culture</item>
+        <item>problem</item>
+        <item>explain</item>
+    </string-array>
+    <string name="setup_level_upperintermediate_name">Upper-Intermediate (B2)</string>
+    <string name="setup_level_upperintermediate_description">To move from simple understanding to precise expression of your thoughts</string>
+    <string-array name="setup_level_upperintermediate_examples">
+        <item>challenge</item>
+        <item>potential</item>
+        <item>society</item>
+    </string-array>
+    <string name="setup_level_advanced_name">Advanced (C1-C2)</string>
+    <string name="setup_level_advanced_description">For those who want to shape complex ideas into perfectly formed expressions</string>
+    <string-array name="setup_level_advanced_examples">
+        <item>ambiguous</item>
+        <item>serendipity</item>
+    </string-array>
+
+    <string name="setup_level_title">Select level</string>
+    <string name="setup_level_subtitle">Let\'s pick up exactly where you left off!</string>
+    <string name="setup_level_cta_text">Continue</string>
+    <string name="setup_level_examples">Examples:</string>
+</resources>
