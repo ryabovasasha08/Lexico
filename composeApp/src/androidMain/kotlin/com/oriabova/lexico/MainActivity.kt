@@ -11,8 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.compose.rememberNavController
-import com.oriabova.lexico.navigation.AppNavHost
+import com.oriabova.lexico.App
 import com.oriabova.lexico.splash.SplashViewModel
 import com.oriabova.lexico.theme.LexicoTheme
 import kotlinx.coroutines.launch
@@ -31,11 +30,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             LexicoTheme {
-                val isSplashScreenVisible by splashViewModel.isSplashShow.collectAsStateWithLifecycle()
-                AppNavHost(
-                    isSplashScreenVisible = isSplashScreenVisible,
-                    navController = rememberNavController()
-                )
+                App()
             }
         }
     }

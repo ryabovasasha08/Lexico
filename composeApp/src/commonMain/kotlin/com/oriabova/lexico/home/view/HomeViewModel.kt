@@ -1,8 +1,10 @@
 package com.oriabova.lexico.home.view
 
-//@HiltViewModel
-//class HomeViewModel @Inject constructor(
-//    observeSetupStateUseCase: ObserveSetupStateUseCase
-//) : ViewModel() {
-//    val setupStateFlow = observeSetupStateUseCase()
-//}
+import androidx.lifecycle.ViewModel
+import com.oriabova.lexico.setup.domain.ObserveSetupStateUseCase
+
+class HomeViewModel(
+     observeSetupStateUseCase: ObserveSetupStateUseCase
+) : ViewModel() {
+    val setupStateFlow = observeSetupStateUseCase()
+}
