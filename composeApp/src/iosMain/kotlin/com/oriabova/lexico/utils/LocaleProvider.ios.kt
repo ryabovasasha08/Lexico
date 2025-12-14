@@ -12,6 +12,8 @@ actual fun getAvailableLanguages(): List<String> {
     val currentLocale = NSLocale.currentLocale()
 
     return identifiers
+        .map { it.substringBefore('_') }
+        .distinct()
         .mapNotNull { code -> currentLocale.displayNameForKey(NSLocaleIdentifier, code) }
         .distinct()
 }
