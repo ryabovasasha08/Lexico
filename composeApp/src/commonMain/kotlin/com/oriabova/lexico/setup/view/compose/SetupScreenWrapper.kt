@@ -9,7 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.oriabova.lexico.root.view.theme.Colors
+import com.oriabova.lexico.theme.Colors
 
 private val ScreenPadding = 16.dp
 

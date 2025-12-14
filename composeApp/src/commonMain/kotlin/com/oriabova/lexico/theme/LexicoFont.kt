@@ -9,7 +9,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.oriabova.lexico.root.view.theme.Colors
 import lexico.composeapp.generated.resources.Res
 import lexico.composeapp.generated.resources.kreon_bold
 import lexico.composeapp.generated.resources.kreon_light

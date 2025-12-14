@@ -19,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,7 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.oriabova.lexico.root.view.theme.Colors
+import com.oriabova.lexico.theme.Colors
 import com.oriabova.lexico.setup.data.SetupLevel
 import com.oriabova.lexico.theme.LexicoFont
 import com.oriabova.lexico.theme.LexicoTheme

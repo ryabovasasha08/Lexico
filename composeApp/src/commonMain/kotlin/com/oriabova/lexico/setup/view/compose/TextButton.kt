@@ -7,7 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.oriabova.lexico.root.view.theme.Colors
+import com.oriabova.lexico.theme.Colors
 import com.oriabova.lexico.theme.LexicoFont
 
 private const val DisabledAlpha = 0.3f

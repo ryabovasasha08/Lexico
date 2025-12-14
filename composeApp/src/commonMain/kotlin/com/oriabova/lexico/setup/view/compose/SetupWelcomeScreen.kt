@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.oriabova.lexico.root.view.theme.Colors
+import com.oriabova.lexico.theme.Colors
 import com.oriabova.lexico.theme.LexicoFont
 import com.oriabova.lexico.theme.LexicoTheme
 import lexico.composeapp.generated.resources.Res

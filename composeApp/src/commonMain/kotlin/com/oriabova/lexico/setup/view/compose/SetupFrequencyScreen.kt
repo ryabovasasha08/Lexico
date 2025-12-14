@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.oriabova.lexico.root.view.theme.Colors
+import com.oriabova.lexico.theme.Colors
 
 @Composable
 fun SetupFrequencyScreen(onSetupFrequencyComplete: (String) -> Unit) {
