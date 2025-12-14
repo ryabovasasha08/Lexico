@@ -3,6 +3,8 @@ package com.oriabova.lexico.localstorage.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
+import kotlinx.cinterop.ExperimentalForeignApi
+import okio.Path.Companion.toPath
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import platform.Foundation.NSDocumentDirectory
@@ -14,6 +16,7 @@ actual fun getDatastoreModule(): Module = module {
     single { createDatastore() }
 }
 
+@OptIn(ExperimentalForeignApi::class)
 fun createDatastore(): DataStore<Preferences> {
     return PreferenceDataStoreFactory.createWithPath(
         produceFile = {
@@ -24,7 +27,7 @@ fun createDatastore(): DataStore<Preferences> {
                 create = false,
                 error = null,
             )
-            requireNotNull(documentDirectory).path + "/$dataStoreFileName"
+            (requireNotNull(documentDirectory).path + "/$dataStoreFileName").toPath()
         }
     )
 }
