@@ -19,7 +19,7 @@ struct ContentView: View {
         ZStack {
             if isHomeRootScreen {
                 ComposeView()
-                    .ignoresSafeArea(.keyboard)
+                    .ignoresSafeArea()
             } else {
                 Color.primaryColor // Fill background with the only color in xcassets
                     .ignoresSafeArea()
