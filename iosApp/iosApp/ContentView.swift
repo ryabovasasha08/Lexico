@@ -19,10 +19,8 @@ struct ContentView: View {
         ZStack {
             if isHomeRootScreen {
                 ComposeView()
-                    .ignoresSafeArea()
             } else {
                 Color.primaryColor // Fill background with the only color in xcassets
-                    .ignoresSafeArea()
                 Image("SplashIcon")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -40,6 +38,6 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .ignoresSafeArea((isHomeRootScreen ? .keyboard : .all))
+        .ignoresSafeArea(.all)
     }
 }
