@@ -21,6 +21,8 @@ struct ContentView: View {
                 ComposeView()
                     .ignoresSafeArea(.keyboard)
             } else {
+                Color.primaryColor // Fill background with the only color in xcassets
+                    .ignoresSafeArea()
                 Image("SplashIcon")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -36,7 +38,6 @@ struct ContentView: View {
                         })
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.primaryColor)
             }
         }
         .ignoresSafeArea((isHomeRootScreen ? .keyboard : .all))
