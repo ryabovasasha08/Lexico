@@ -2,7 +2,6 @@ package com.oriabova.lexico.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -11,6 +10,7 @@ import com.oriabova.lexico.setup.view.compose.SetupScreen
 
 @Composable
 fun AppNavHost(
+    startDestination: NavigationItem,
     modifier: Modifier = Modifier,
 ) {
     val navController = rememberNavController()
@@ -18,12 +18,10 @@ fun AppNavHost(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = NavigationItem.Home.route
+        startDestination = startDestination.route
     ) {
         composable(NavigationItem.Home.route) {
-            HomeRoute(
-                navigateToSetup = { navController.navigate(NavigationItem.Setup.route) },
-            )
+            HomeRoute()
         }
         composable(NavigationItem.Setup.route) {
             SetupScreen(

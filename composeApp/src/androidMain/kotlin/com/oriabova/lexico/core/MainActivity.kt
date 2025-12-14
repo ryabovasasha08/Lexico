@@ -1,4 +1,4 @@
-package com.oriabova.lexico.root
+package com.oriabova.lexico.core
 
 import android.graphics.Color
 import android.os.Bundle
@@ -7,11 +7,8 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.oriabova.lexico.App
 import com.oriabova.lexico.splash.SplashViewModel
 import com.oriabova.lexico.theme.LexicoTheme
 import kotlinx.coroutines.launch
@@ -40,11 +37,7 @@ class MainActivity : ComponentActivity() {
         var keepSplashScreen = true
         splashscreen.setKeepOnScreenCondition { keepSplashScreen }
         lifecycleScope.launch {
-            splashViewModel.isSplashShow.collect { isSplashFlow ->
-                if (!isSplashFlow) {
-                    keepSplashScreen = false
-                }
-            }
+            splashViewModel.isSplashShow.collect { keepSplashScreen = !it }
         }
     }
 }

@@ -3,7 +3,6 @@ package com.oriabova.lexico.serialization
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.serializer
 import kotlin.reflect.KClass
 
 private const val NULL_CONTENT = "null"
