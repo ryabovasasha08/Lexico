@@ -13,6 +13,7 @@
     <string name="setup_language_search_hint">Search languages...</string>
     <string name="setup_language_cta_text">Continue</string>
     <string name="setup_language_input_hint">E.g. English</string>
+    <string name="setup_language_empty_state">No matches yet. Try a different keyword.</string>
 
     <string name="setup_level_beginner_name">Beginner (A1)</string>
     <string name="setup_level_beginner_description">The first step to the world of new language</string>
@@ -53,4 +54,20 @@
     <string name="setup_level_subtitle">Let\'s pick up exactly where you left off!</string>
     <string name="setup_level_cta_text">Continue</string>
     <string name="setup_level_examples">Examples:</string>
+
+    <string name="setup_frequency_title">How often do you want fresh words?</string>
+    <string name="setup_frequency_subtitle">Pick a pace that feels light. You can always adjust later.</string>
+    <string name="setup_frequency_cta_text">Continue</string>
+    <string name="setup_frequency_light_name">Light touch</string>
+    <string name="setup_frequency_light_description">Want to take it easy? Spend about 5 minutes a day to stay warm.</string>
+    <string name="setup_frequency_light_pace">1 word/day</string>
+    <string name="setup_frequency_daily_name">Daily habit</string>
+    <string name="setup_frequency_daily_description">Perfect for a steady rhythm without pressure.</string>
+    <string name="setup_frequency_daily_pace">5 words/day</string>
+    <string name="setup_frequency_weekdays_name">Weekday focus</string>
+    <string name="setup_frequency_weekdays_description">Get one word ever day and keep weekends free to recharge.</string>
+    <string name="setup_frequency_weekdays_pace">1 word/day, Mon-Fri</string>
+    <string name="setup_frequency_weekender_name">Weekend catch-up</string>
+    <string name="setup_frequency_weekender_description">12 words across the weekend when you have a bit more room.</string>
+    <string name="setup_frequency_weekender_pace">12 words/weekend</string>
 </resources>

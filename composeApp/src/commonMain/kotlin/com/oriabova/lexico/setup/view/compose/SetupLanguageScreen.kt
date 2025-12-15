@@ -3,13 +3,12 @@ package com.oriabova.lexico.setup.view.compose
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -38,44 +37,36 @@ import com.oriabova.lexico.theme.LexicoTheme
 import com.oriabova.lexico.utils.getAvailableLanguages
 import kotlinx.coroutines.delay
 import lexico.composeapp.generated.resources.Res
-import lexico.composeapp.generated.resources.setup_language_input_hint
+import lexico.composeapp.generated.resources.setup_language_empty_state
+import lexico.composeapp.generated.resources.setup_language_search_hint
 import lexico.composeapp.generated.resources.setup_language_subtitle
 import lexico.composeapp.generated.resources.setup_language_title
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-private val TopPadding = 30.dp
-private val CardCornerRadius = 15.dp
-private val BorderStrokeWidth = 1.dp
-private val CardInnerPaddingHorizontal = 16.dp
-private val CardInnerPaddingVertical = 8.dp
-private val ButtonVerticalPadding = 36.dp
-private val LanguageItemPadding = 8.dp
-private const val SelectedItemAnimationDuration = 300L
-
 @Composable
-fun SetupLanguageScreen(onSetupLanguageComplete: (String?) -> Unit) {
+fun SetupLanguageScreen(onSetupLanguageComplete: (String) -> Unit) {
     var mask: String by remember { mutableStateOf("") }
     val languages = remember { getAvailableLanguages().sorted() }
 
     SetupScreenWrapper {
         Column(
-            modifier = Modifier.padding(top = TopPadding, bottom = ButtonVerticalPadding),
+            modifier = Modifier.padding(
+                top = SetupUiDefaults.TopPadding,
+                bottom = SetupUiDefaults.BottomPadding
+            ),
+            verticalArrangement = Arrangement.spacedBy(SetupUiDefaults.VerticalSpacing),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Title()
-            Spacer(modifier = Modifier.height(4.dp))
             Subtitle()
-            Spacer(modifier = Modifier.height(16.dp))
             SearchField(mask) { mask = it }
-            Spacer(modifier = Modifier.height(16.dp))
             LanguagePicker(
                 mask = mask,
                 languages = languages,
                 modifier = Modifier.weight(1f),
                 onLanguagePicked = { onSetupLanguageComplete(it) }
             )
-            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -85,8 +76,8 @@ private fun Title() {
     Text(
         text = stringResource(resource = Res.string.setup_language_title),
         modifier = Modifier.fillMaxWidth(),
-        style = LexicoFont.b200Default(color = Colors.primary020),
-        textAlign = TextAlign.Center
+        style = LexicoFont.d100(color = Colors.primary030),
+        textAlign = TextAlign.Left
     )
 }
 
@@ -95,8 +86,8 @@ private fun Subtitle() {
     Text(
         text = stringResource(resource = Res.string.setup_language_subtitle),
         modifier = Modifier.fillMaxWidth(),
-        style = LexicoFont.f100Default(color = Colors.primary020.copy(alpha = 0.7f)),
-        textAlign = TextAlign.Center
+        style = LexicoFont.f100Default(color = Colors.primary030.copy(alpha = 0.9f)),
+        textAlign = TextAlign.Left
     )
 }
 
@@ -107,13 +98,18 @@ private fun SearchField(text: String, onTextChange: (String) -> Unit) {
             value = text,
             onValueChange = onTextChange,
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text(stringResource(resource = Res.string.setup_language_input_hint)) },
+            placeholder = { Text(stringResource(resource = Res.string.setup_language_search_hint)) },
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Colors.supportLight,
                 unfocusedContainerColor = Colors.supportLight,
+                focusedIndicatorColor = Colors.primary400,
+                unfocusedIndicatorColor = Colors.support200,
+                cursorColor = Colors.primary400
             ),
-            shape = RoundedCornerShape(CardCornerRadius),
-            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
+            shape = RoundedCornerShape(SetupUiDefaults.CardCornerRadius),
+            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+            singleLine = true,
+            textStyle = LexicoFont.f100Default(Colors.support700)
         )
     }
 }
@@ -127,7 +123,7 @@ private fun DecorationBox(
         Box(
             modifier = Modifier
                 .weight(1f)
-                .padding(vertical = 12.dp)
+                .padding(vertical = 10.dp)
                 .align(textAlignment),
             contentAlignment = Alignment.CenterStart
         ) {
@@ -161,12 +157,25 @@ private fun LanguagePicker(
         ) { language ->
             val itemModifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = LanguageItemPadding)
+                .padding(vertical = SetupUiDefaults.ItemSpacing)
 
             LanguageItem(
-                language,
-                itemModifier
+                language = language,
+                modifier = itemModifier
             ) { onLanguagePicked(language) }
+        }
+
+        if (locales.isEmpty()) {
+            item {
+                Text(
+                    text = stringResource(resource = Res.string.setup_language_empty_state),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    style = LexicoFont.f075Default(color = Colors.primary030.copy(alpha = 0.9f)),
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }
@@ -181,18 +190,18 @@ private fun LanguageItem(
 
     LaunchedEffect(isSelected) {
         if (isSelected) {
-            delay(SelectedItemAnimationDuration)
+            delay(SetupUiDefaults.SelectedItemAnimationDuration)
             onSelected()
         }
     }
 
-    val backgroundColor by animateColorAsState( // Use animateColorAsState
-        targetValue = if (isSelected) Colors.primary030 else Colors.primary200, // Slightly darker
-        animationSpec = tween(durationMillis = 200), // Short animation
+    val backgroundColor by animateColorAsState(
+        targetValue = if (isSelected) Colors.primary030 else Colors.supportLight,
+        animationSpec = tween(durationMillis = 200),
         label = "background color"
     )
 
-    val textColor = if (isSelected) Colors.support700 else Colors.support500
+    val textColor = if (isSelected) Colors.primary700 else Colors.support700
 
     Card(
         onClick = { isSelected = true },
@@ -200,8 +209,8 @@ private fun LanguageItem(
             containerColor = backgroundColor,
             contentColor = Colors.support500,
         ),
-        shape = RoundedCornerShape(CardCornerRadius),
-        border = BorderStroke(BorderStrokeWidth, Colors.primary500),
+        shape = RoundedCornerShape(SetupUiDefaults.CardCornerRadius),
+        border = BorderStroke(SetupUiDefaults.CardBorderWidth, Colors.primary400),
         modifier = modifier
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -209,8 +218,8 @@ private fun LanguageItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        horizontal = CardInnerPaddingHorizontal,
-                        vertical = CardInnerPaddingVertical
+                        horizontal = SetupUiDefaults.CardInnerPaddingHorizontal,
+                        vertical = SetupUiDefaults.CardInnerPaddingVertical
                     ),
                 text = language,
                 style = LexicoFont.f100Default(textColor),

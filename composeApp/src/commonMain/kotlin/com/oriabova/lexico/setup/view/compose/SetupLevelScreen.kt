@@ -29,41 +29,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.oriabova.lexico.setup.domain.model.SetupLevel
 import com.oriabova.lexico.theme.Colors
-import com.oriabova.lexico.setup.data.SetupLevel
 import com.oriabova.lexico.theme.LexicoFont
 import com.oriabova.lexico.theme.LexicoTheme
 import kotlinx.coroutines.delay
 import lexico.composeapp.generated.resources.Res
+import lexico.composeapp.generated.resources.setup_level_examples
+import lexico.composeapp.generated.resources.setup_level_subtitle
+import lexico.composeapp.generated.resources.setup_level_title
 import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
-import lexico.composeapp.generated.resources.setup_level_title
-import lexico.composeapp.generated.resources.setup_level_subtitle
-import lexico.composeapp.generated.resources.setup_level_cta_text
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-private val TopPadding = 30.dp
-private val ScreenVerticalSpacing = 16.dp
-private val ButtonVerticalPadding = 36.dp
-private val CardCornerRadius = 15.dp
-private val BorderStrokeWidth = 1.dp
-private val CardInnerPaddingHorizontal = 16.dp
-private val CardInnerPaddingVertical = 16.dp
-private val LevelItemPadding = 8.dp
-private val SelectedLevelIconPadding = 16.dp
-private val SelectedLevelIconWidth = 24.dp
-private val LevelItemTitleToDescriptionSpacing = 4.dp
-private val LevelItemDescriptionToExampleSpacing = 8.dp
-private val LevelItemExampleHorizontalSpacing = 4.dp
-private const val LevelItemExamplesSeparator = ", "
-private const val SelectedItemAnimationDuration = 300L
+private val TitleToDescriptionSpacing = 6.dp
+private val DescriptionToExampleSpacing = 10.dp
+private val ExampleSpacing = 6.dp
 
 @Composable
-fun SetupLevelScreen(onSetupLevelComplete: (SetupLevel?) -> Unit) {
+fun SetupLevelScreen(onSetupLevelComplete: (SetupLevel) -> Unit) {
     SetupScreenWrapper {
         Column(
-            modifier = Modifier.padding(top = TopPadding, bottom = ButtonVerticalPadding),
-            verticalArrangement = Arrangement.spacedBy(ScreenVerticalSpacing),
+            modifier = Modifier.padding(
+                top = SetupUiDefaults.TopPadding,
+                bottom = SetupUiDefaults.BottomPadding
+            ),
+            verticalArrangement = Arrangement.spacedBy(SetupUiDefaults.VerticalSpacing),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Title()
@@ -91,18 +82,8 @@ private fun Subtitle() {
     Text(
         text = stringResource(resource = Res.string.setup_level_subtitle),
         modifier = Modifier.fillMaxWidth(),
-        style = LexicoFont.f100Default(color = Colors.primary030),
+        style = LexicoFont.f100Default(color = Colors.primary030.copy(alpha = 0.9f)),
         textAlign = TextAlign.Left
-    )
-}
-
-
-@Composable
-private fun CtaButton(isEnabled: Boolean, onClick: () -> Unit) {
-    TextButton(
-        text = stringResource(resource = Res.string.setup_level_cta_text),
-        isEnabled = isEnabled,
-        onClick = onClick,
     )
 }
 
@@ -120,7 +101,7 @@ private fun LevelPicker(
         items(items = SetupLevel.entries) { level ->
             val itemModifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = LevelItemPadding)
+                .padding(vertical = SetupUiDefaults.ItemSpacing)
 
             LevelItem(level, itemModifier) { onLevelPicked(level) }
         }
@@ -137,24 +118,24 @@ private fun LevelItem(
 
     LaunchedEffect(isSelected) {
         if (isSelected) {
-            delay(SelectedItemAnimationDuration)
+            delay(SetupUiDefaults.SelectedItemAnimationDuration)
             onSelected()
         }
     }
 
-    val backgroundColor by animateColorAsState( // Use animateColorAsState
-        targetValue = if (isSelected) Colors.primary030 else Colors.primary200, // Slightly darker
-        animationSpec = tween(durationMillis = 200), // Short animation
+    val backgroundColor by animateColorAsState(
+        targetValue = if (isSelected) Colors.primary030 else Colors.supportLight,
+        animationSpec = tween(durationMillis = 200),
         label = "background color"
     )
 
-    val textColor = if (isSelected) Colors.support700 else Colors.support500
+    val textColor = if (isSelected) Colors.primary700 else Colors.support700
 
     Card(
         onClick = { isSelected = true },
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
-        shape = RoundedCornerShape(CardCornerRadius),
-        border = BorderStroke(BorderStrokeWidth, Colors.primary500),
+        shape = RoundedCornerShape(SetupUiDefaults.CardCornerRadius),
+        border = BorderStroke(SetupUiDefaults.CardBorderWidth, Colors.primary400),
         modifier = modifier
     ) {
         Box(
@@ -164,40 +145,46 @@ private fun LevelItem(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
-                        horizontal = CardInnerPaddingHorizontal,
-                        vertical = CardInnerPaddingVertical
-                    )
-                    .padding(end = SelectedLevelIconPadding + SelectedLevelIconWidth), // additional padding for the check mark icon
+                        horizontal = SetupUiDefaults.CardInnerPaddingHorizontal,
+                        vertical = SetupUiDefaults.CardInnerPaddingVertical
+                    ),
+                verticalArrangement = Arrangement.spacedBy(0.dp)
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(level.levelNameRes),
                     style = LexicoFont.f100Highlight(color = textColor),
                 )
-                Spacer(modifier = Modifier.height(LevelItemTitleToDescriptionSpacing))
+                Spacer(modifier = Modifier.height(TitleToDescriptionSpacing))
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(level.descriptionRes),
                     style = LexicoFont.f075Default(color = textColor),
                 )
-                Spacer(modifier = Modifier.height(LevelItemDescriptionToExampleSpacing))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(LevelItemExampleHorizontalSpacing)
-                ) {
-                    Text(
-                        text = "Examples:",
-                        style = LexicoFont.b075Default(color = textColor),
-                    )
-                    Text(
-                        text = stringArrayResource(level.examplesRes).joinToString(
-                            LevelItemExamplesSeparator
-                        ),
-                        style = LexicoFont.f075Default(color = textColor),
-                    )
-                }
+                Spacer(modifier = Modifier.height(DescriptionToExampleSpacing))
+                ExamplesRow(
+                    examples = stringArrayResource(level.examplesRes).joinToString(", "),
+                    textColor = textColor
+                )
             }
         }
+    }
+}
+
+@Composable
+private fun ExamplesRow(examples: String, textColor: androidx.compose.ui.graphics.Color) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ExampleSpacing)
+    ) {
+        Text(
+            text = stringResource(resource = Res.string.setup_level_examples),
+            style = LexicoFont.b075Default(color = textColor),
+        )
+        Text(
+            text = examples,
+            style = LexicoFont.f075Default(color = textColor),
+        )
     }
 }
 

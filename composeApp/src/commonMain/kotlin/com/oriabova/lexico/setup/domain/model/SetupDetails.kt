@@ -1,4 +1,4 @@
-package com.oriabova.lexico.setup.data
+package com.oriabova.lexico.setup.domain.model
 
 import kotlinx.serialization.Serializable
 
@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class SetupDetails(
     val languageToLearn: String = "",
     val level: SetupLevel = SetupLevel.BEGINNER,
-    val frequency: String = "",
+    val frequency: SetupFrequency = SetupFrequency.LIGHT,
 )

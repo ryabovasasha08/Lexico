@@ -2,9 +2,12 @@ package com.oriabova.lexico.setup.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oriabova.lexico.setup.data.SetupDetails
-import com.oriabova.lexico.setup.data.SetupLevel
 import com.oriabova.lexico.setup.domain.StoreSetupDetailsUseCase
+import com.oriabova.lexico.setup.domain.model.SetupDetails
+import com.oriabova.lexico.setup.domain.model.SetupFrequency
+import com.oriabova.lexico.setup.domain.model.SetupLevel
+import com.oriabova.lexico.setup.view.model.SetupState
+import com.oriabova.lexico.setup.view.model.SetupUiEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -12,7 +15,7 @@ class SetupViewModel(
     private val storeSetupDetailsUseCase: StoreSetupDetailsUseCase,
 ) : ViewModel() {
 
-    val setupState = MutableStateFlow(SetupState.Welcome)
+    val setupState = MutableStateFlow(SetupState.WELCOME)
     private var setupDetails = SetupDetails()
 
     fun handleUiEvent(uiEvent: SetupUiEvent) {
@@ -24,19 +27,17 @@ class SetupViewModel(
         }
     }
 
-    private fun completeLanguageSetup(language: String?) {
-        language?.let { setupDetails = setupDetails.copy(languageToLearn = it) }
-            ?: error("Selected language is null")
+    private fun completeLanguageSetup(language: String) {
+        setupDetails = setupDetails.copy(languageToLearn = language)
         openNextStep()
     }
 
-    private fun completeLevelSetup(level: SetupLevel?) {
-        level?.let { setupDetails = setupDetails.copy(level = level) }
-            ?: error("Selected level is null")
+    private fun completeLevelSetup(level: SetupLevel) {
+        setupDetails = setupDetails.copy(level = level)
         openNextStep()
     }
 
-    private fun completeFrequencySetup(frequency: String) {
+    private fun completeFrequencySetup(frequency: SetupFrequency) {
         setupDetails = setupDetails.copy(frequency = frequency)
         openNextStep()
     }
@@ -44,7 +45,7 @@ class SetupViewModel(
     private fun openNextStep() {
         val currentSetupState = setupState.value
         val newSetupState = SetupState.entries[currentSetupState.ordinal + 1]
-        if (newSetupState == SetupState.Complete) {
+        if (newSetupState == SetupState.COMPLETE) {
             saveSetupDetails()
         }
         setupState.value = newSetupState
@@ -52,24 +53,8 @@ class SetupViewModel(
 
     private fun saveSetupDetails() {
         viewModelScope.launch {
-            storeSetupDetailsUseCase(SetupDetails("UA", SetupLevel.ADVANCED, "5/day"))
+            storeSetupDetailsUseCase(setupDetails)
         }
     }
 
-}
-
-// Order is important
-enum class SetupState {
-    Welcome,
-    Language_Choice,
-    Level_Choice,
-    Frequency_Choice,
-    Complete
-}
-
-sealed class SetupUiEvent {
-    data object CompletedWelcome : SetupUiEvent()
-    data class LanguageSelected(val language: String?) : SetupUiEvent()
-    data class LevelSelected(val level: SetupLevel?) : SetupUiEvent()
-    data class FrequencySelected(val frequency: String) : SetupUiEvent()
 }

@@ -1,6 +1,7 @@
 package com.oriabova.lexico.setup.data
 
 import com.oriabova.lexico.setup.domain.SetupRepository
+import com.oriabova.lexico.setup.domain.model.SetupDetails
 import kotlinx.coroutines.flow.Flow
 
 class SetupRepositoryImpl(

@@ -7,9 +7,9 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.oriabova.lexico.setup.view.SetupState
-import com.oriabova.lexico.setup.view.SetupUiEvent
 import com.oriabova.lexico.setup.view.SetupViewModel
+import com.oriabova.lexico.setup.view.model.SetupState
+import com.oriabova.lexico.setup.view.model.SetupUiEvent
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -25,23 +25,23 @@ fun SetupScreen(
         transitionSpec = { fadeIn().togetherWith(fadeOut()) }
     ) { state ->
         when (state) {
-            SetupState.Welcome -> SetupWelcomeScreen {
+            SetupState.WELCOME -> SetupWelcomeScreen {
                 setupViewModel.handleUiEvent(SetupUiEvent.CompletedWelcome)
             }
 
-            SetupState.Language_Choice -> SetupLanguageScreen { language ->
+            SetupState.LANGUAGE_CHOICE -> SetupLanguageScreen { language ->
                 setupViewModel.handleUiEvent(SetupUiEvent.LanguageSelected(language))
             }
 
-            SetupState.Level_Choice -> SetupLevelScreen { level ->
+            SetupState.LEVEL_CHOICE -> SetupLevelScreen { level ->
                 setupViewModel.handleUiEvent(SetupUiEvent.LevelSelected(level))
             }
 
-            SetupState.Frequency_Choice -> SetupFrequencyScreen { frequency ->
+            SetupState.FREQUENCY_CHOICE -> SetupFrequencyScreen { frequency ->
                 setupViewModel.handleUiEvent(SetupUiEvent.FrequencySelected(frequency))
             }
 
-            SetupState.Complete -> popBackStack()
+            SetupState.COMPLETE -> popBackStack()
         }
     }
 }
