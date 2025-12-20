@@ -3,8 +3,7 @@ package com.oriabova.lexico.core
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oriabova.lexico.navigation.NavigationItem
-import com.oriabova.lexico.setup.domain.ObserveSetupStateUseCase
-import com.oriabova.lexico.setup.domain.SetupState
+import com.oriabova.lexico.setup.domain.ObserveSetupDetailsUseCase
 import com.oriabova.lexico.splash.SplashConstants.ANIMATION_DURATION_SECONDS
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,9 +14,7 @@ import kotlinx.coroutines.flow.stateIn
 
 private const val MILLIS_IN_SECONDS = 1000L
 
-class AppViewModel(
-    observeSetupStateUseCase: ObserveSetupStateUseCase,
-) : ViewModel() {
+class AppViewModel(observeSetupDetailsUseCase: ObserveSetupDetailsUseCase) : ViewModel() {
 
     private val shouldDisplaySplash = flow {
         emit(true)
@@ -27,11 +24,12 @@ class AppViewModel(
 
     val uiState: StateFlow<AppUiState> = combine(
         shouldDisplaySplash,
-        observeSetupStateUseCase()
-    ) { showSplash, setupState ->
-        val startDestination = when (setupState) {
-            SetupState.COMPLETED -> NavigationItem.Home
-            SetupState.NOT_COMPLETED -> NavigationItem.Setup
+        observeSetupDetailsUseCase()
+    ) { showSplash, setupDetails ->
+        val startDestination = if (setupDetails.isComplete()) {
+            NavigationItem.Home
+        } else {
+            NavigationItem.Setup
         }
 
         AppUiState(

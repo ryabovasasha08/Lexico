@@ -2,6 +2,7 @@ package com.oriabova.lexico.setup.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.oriabova.lexico.setup.domain.ObserveSetupDetailsUseCase
 import com.oriabova.lexico.setup.domain.StoreSetupDetailsUseCase
 import com.oriabova.lexico.setup.domain.model.SetupDetails
 import com.oriabova.lexico.setup.domain.model.SetupFrequency
@@ -9,51 +10,69 @@ import com.oriabova.lexico.setup.domain.model.SetupLevel
 import com.oriabova.lexico.setup.view.model.SetupState
 import com.oriabova.lexico.setup.view.model.SetupUiEvent
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class SetupViewModel(
+    observeSetupDetailsUseCase: ObserveSetupDetailsUseCase,
     private val storeSetupDetailsUseCase: StoreSetupDetailsUseCase,
 ) : ViewModel() {
 
-    val setupState = MutableStateFlow(SetupState.WELCOME)
-    private var setupDetails = SetupDetails()
+    private val isWelcomeCompleted = MutableStateFlow(false)
+    private val setupDetails = observeSetupDetailsUseCase().stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5_000),
+        SetupDetails.initial()
+    )
+
+    val setupState = combine(
+        setupDetails,
+        isWelcomeCompleted
+    ) { setupDetails, isWelcomeCompleted -> getSetupState(setupDetails, isWelcomeCompleted) }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5_000),
+            SetupState.WELCOME
+        )
 
     fun handleUiEvent(uiEvent: SetupUiEvent) {
         when (uiEvent) {
-            is SetupUiEvent.CompletedWelcome -> openNextStep()
+            is SetupUiEvent.CompletedWelcome -> completeWelcomeScreen()
             is SetupUiEvent.LanguageSelected -> completeLanguageSetup(uiEvent.language)
             is SetupUiEvent.LevelSelected -> completeLevelSetup(uiEvent.level)
             is SetupUiEvent.FrequencySelected -> completeFrequencySetup(uiEvent.frequency)
         }
     }
 
+    private fun completeWelcomeScreen() {
+        isWelcomeCompleted.value = true
+    }
+
     private fun completeLanguageSetup(language: String) {
-        setupDetails = setupDetails.copy(languageToLearn = language)
-        openNextStep()
+        storeSetupDetails(setupDetails.value.copy(languageToLearn = language))
     }
 
     private fun completeLevelSetup(level: SetupLevel) {
-        setupDetails = setupDetails.copy(level = level)
-        openNextStep()
+        storeSetupDetails(setupDetails.value.copy(level = level))
     }
 
     private fun completeFrequencySetup(frequency: SetupFrequency) {
-        setupDetails = setupDetails.copy(frequency = frequency)
-        openNextStep()
+        storeSetupDetails(setupDetails.value.copy(frequency = frequency))
     }
 
-    private fun openNextStep() {
-        val currentSetupState = setupState.value
-        val newSetupState = SetupState.entries[currentSetupState.ordinal + 1]
-        if (newSetupState == SetupState.COMPLETE) {
-            saveSetupDetails()
-        }
-        setupState.value = newSetupState
+    private fun getSetupState(setupDetails: SetupDetails, isWelcomeCompleted: Boolean) = when {
+        !isWelcomeCompleted -> SetupState.WELCOME
+        setupDetails.languageToLearn == null -> SetupState.LANGUAGE_CHOICE
+        setupDetails.level == null -> SetupState.LEVEL_CHOICE
+        setupDetails.frequency == null -> SetupState.FREQUENCY_CHOICE
+        else -> SetupState.COMPLETE
     }
 
-    private fun saveSetupDetails() {
+    private fun storeSetupDetails(newSetupDetails: SetupDetails) {
         viewModelScope.launch {
-            storeSetupDetailsUseCase(setupDetails)
+            storeSetupDetailsUseCase(newSetupDetails)
         }
     }
 

@@ -8,9 +8,13 @@ private const val SETUP_DETAILS = "setup_details"
 
 class SetupLocalDataSource(
     private val localStorage: LocalStorage
-){
+) {
     fun observeSetupDetails(): Flow<SetupDetails> {
-        return localStorage.observeData(SETUP_DETAILS, SetupDetails::class, SetupDetails())
+        return localStorage.observeData(
+            SETUP_DETAILS,
+            SetupDetails::class,
+            SetupDetails.initial()
+        )
     }
 
     suspend fun storeSetupDetails(setupDetails: SetupDetails) {

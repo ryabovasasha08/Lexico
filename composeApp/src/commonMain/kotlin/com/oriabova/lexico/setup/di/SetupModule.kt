@@ -2,8 +2,8 @@ package com.oriabova.lexico.setup.di
 
 import com.oriabova.lexico.setup.data.SetupLocalDataSource
 import com.oriabova.lexico.setup.data.SetupRepositoryImpl
-import com.oriabova.lexico.setup.domain.ObserveSetupStateUseCase
-import com.oriabova.lexico.setup.domain.ObserveSetupStateUseCaseImpl
+import com.oriabova.lexico.setup.domain.ObserveSetupDetailsUseCase
+import com.oriabova.lexico.setup.domain.ObserveSetupDetailsUseCaseImpl
 import com.oriabova.lexico.setup.domain.SetupRepository
 import com.oriabova.lexico.setup.domain.StoreSetupDetailsUseCase
 import com.oriabova.lexico.setup.domain.StoreSetupDetailsUseCaseImpl
@@ -17,7 +17,7 @@ private val dataModule = module {
 }
 
 private val domainModule = module {
-    factory { ObserveSetupStateUseCaseImpl(get()) as ObserveSetupStateUseCase }
+    factory { ObserveSetupDetailsUseCaseImpl(get()) as ObserveSetupDetailsUseCase }
     factory { StoreSetupDetailsUseCaseImpl(get()) as StoreSetupDetailsUseCase }
 }
 
