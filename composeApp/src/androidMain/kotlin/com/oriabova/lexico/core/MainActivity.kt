@@ -6,16 +6,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import com.oriabova.lexico.splash.SplashViewModel
 import com.oriabova.lexico.theme.LexicoTheme
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
-    private val splashViewModel: SplashViewModel by viewModels()
+    private val appViewModel: AppViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +26,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             LexicoTheme {
-                App()
+                App(appViewModel)
             }
         }
     }
@@ -37,7 +36,7 @@ class MainActivity : ComponentActivity() {
         var keepSplashScreen = true
         splashscreen.setKeepOnScreenCondition { keepSplashScreen }
         lifecycleScope.launch {
-            splashViewModel.isSplashShow.collect { keepSplashScreen = !it }
+            appViewModel.uiState.collect { keepSplashScreen = it.showSplash }
         }
     }
 }
