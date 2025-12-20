@@ -1,19 +1,31 @@
-pluginManagement {
-	repositories {
-		mavenCentral()
-		google()
-		gradlePluginPortal()
-	}
-}
-
-plugins {
-	id("de.fayard.refreshVersions") version "0.60.5"
-}
-
-buildscript {
-	repositories { gradlePluginPortal() }
-}
-
+rootProject.name = "Lexico"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-include(":app")
+pluginManagement {
+    repositories {
+        google {
+            mavenContent {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google {
+            mavenContent {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
+        mavenCentral()
+    }
+}
+
+include(":composeApp")

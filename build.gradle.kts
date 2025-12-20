@@ -1,29 +1,10 @@
-buildscript {
-	repositories {
-		mavenCentral()
-		google()
-		maven("https://plugins.gradle.org/m2/")
-		maven("https://maven.fabric.io/public")
-	}
-	dependencies {
-		classpath(Android.tools.build.gradlePlugin)
-		classpath(Google.playServicesGradlePlugin)
-		classpath(AndroidX.navigation.safeArgsGradlePlugin)
-		classpath(Firebase.crashlyticsGradlePlugin)
-		classpath(Google.android.versionMatcherPlugin)
-		classpath(Kotlin.gradlePlugin)
-		classpath(Google.dagger.hilt.android.gradlePlugin)
-	}
-}
-
-allprojects {
-	repositories {
-		mavenCentral()
-		google()
-		maven("https://jitpack.io")
-	}
-}
-
-tasks.register<Delete>("clean") {
-	delete(layout.buildDirectory)
+plugins {
+    // this is necessary to avoid the plugins to be loaded multiple times
+    // in each subproject's classloader
+    alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.androidLibrary) apply false
+    alias(libs.plugins.composeMultiplatform) apply false
+    alias(libs.plugins.composeCompiler) apply false
+    alias(libs.plugins.kotlinMultiplatform) apply false
+    alias(libs.plugins.kotlinSerialization) apply false
 }
