@@ -1,5 +1,6 @@
 package com.oriabova.lexico.home.view.compose
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -51,6 +53,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 private val ScreenPadding = 16.dp
+private val ExtraTopPadding = 12.dp
 private val SectionSpacing = 18.dp
 private val ItemSpacing = 12.dp
 private val BannerOffset = 8.dp
@@ -58,24 +61,25 @@ private val HeaderSpacing = 4.dp
 private val HeaderProgressSpacing = 10.dp
 private val ProgressHeight = 8.dp
 private val CardCornerRadius = 18.dp
-private val CardElevation = 2.dp
-private val CardPadding = 18.dp
-private val CardContentSpacing = 12.dp
-private val WordRowSpacing = 8.dp
-private val NewBadgePaddingHorizontal = 10.dp
-private val NewBadgePaddingVertical = 4.dp
-private val ActionRowSpacing = 10.dp
-private val ListenSpacer = 8.dp
-private val ExampleCornerRadius = 12.dp
-private val ExamplePadding = 12.dp
-private val ExampleSpacing = 10.dp
+private val CardElevation = 6.dp
+private val CardPadding = 20.dp
+private val CardContentSpacing = 14.dp
+private val WordRowSpacing = 10.dp
+private val WordCardMinHeight = 340.dp
+private val NewBadgePaddingHorizontal = 12.dp
+private val NewBadgePaddingVertical = 6.dp
+private val ActionRowSpacing = 12.dp
+private val ListenSpacer = 10.dp
+private val ExampleCornerRadius = 14.dp
+private val ExamplePadding = 14.dp
+private val ExampleSpacing = 12.dp
 private val IconSize = 20.dp
 private val IconSizeLarge = 22.dp
 private val QuickActionPaddingVertical = 14.dp
 private val QuickActionPaddingHorizontal = 12.dp
 private val QuickActionSpacing = 8.dp
-private val ProgressCardPadding = 14.dp
-private val TipRowSpacing = 10.dp
+private val ProgressCardPadding = 16.dp
+private val TipRowSpacing = 12.dp
 
 private val CardShape = RoundedCornerShape(CardCornerRadius)
 
@@ -95,13 +99,16 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(padding)
                 .padding(ScreenPadding)
+                .padding(top = ExtraTopPadding)
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(SectionSpacing)
             ) {
                 Header(uiState)
+                Spacer(modifier = Modifier.weight(1f))
                 WordOfTheDayCard(uiState.currentWord, handleUiEvent)
+                Spacer(modifier = Modifier.weight(1f))
                 QuickActionsRow(handleUiEvent)
                 TipCard(uiState.tip)
             }
@@ -162,9 +169,14 @@ private fun Header(uiState: HomeUiState) {
 private fun WordOfTheDayCard(currentWord: WordCardUiState, handleUiEvent: (HomeUiEvent) -> Unit) {
     Card(
         shape = CardShape,
-        colors = CardDefaults.cardColors(containerColor = Colors.supportLight),
+        colors = CardDefaults.cardColors(
+            containerColor = Colors.primary500,
+            contentColor = Colors.supportLight
+        ),
         elevation = CardDefaults.cardElevation(defaultElevation = CardElevation),
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = WordCardMinHeight)
     ) {
         Column(
             modifier = Modifier.padding(CardPadding),
@@ -176,57 +188,63 @@ private fun WordOfTheDayCard(currentWord: WordCardUiState, handleUiEvent: (HomeU
             ) {
                 Text(
                     text = currentWord.word,
-                    style = LexicoFont.f300Highlight(color = Colors.support900)
+                    style = LexicoFont.f300Highlight(color = Colors.supportLight)
                 )
                 if (currentWord.isNew) {
-                    Text(
-                        text = stringResource(Res.string.home_new_badge),
-                        style = LexicoFont.f075Highlight(color = Colors.supportLight),
-                        modifier = Modifier
-                            .background(Colors.primary500, shape = CircleShape)
-                            .padding(
-                                horizontal = NewBadgePaddingHorizontal,
-                                vertical = NewBadgePaddingVertical
-                            )
-                    )
+                        Text(
+                            text = stringResource(Res.string.home_new_badge),
+                            style = LexicoFont.f075Highlight(color = Colors.primary700),
+                            modifier = Modifier
+                                .background(
+                                    color = Colors.supportLight.copy(alpha = 0.8f),
+                                    shape = CircleShape
+                                )
+                                .padding(
+                                    horizontal = NewBadgePaddingHorizontal,
+                                    vertical = NewBadgePaddingVertical
+                                )
+                        )
+                    }
                 }
-            }
             Text(
-                text = currentWord.pronunciation,
-                style = LexicoFont.f075Default(color = Colors.support700)
+                text = "["+currentWord.pronunciation+"]",
+                style = LexicoFont.f075Default(color = Colors.supportLight.copy(alpha = 0.85f))
             )
             Text(
                 text = currentWord.partOfSpeech,
-                style = LexicoFont.b075Default(color = Colors.primary500)
+                style = LexicoFont.b075Default(color = Colors.supportLight)
             )
             Text(
                 text = currentWord.definition,
-                style = LexicoFont.f100Default(color = Colors.support900)
+                style = LexicoFont.f100Default(color = Colors.supportLight)
             )
             ExampleBubble(currentWord.example)
             Row(horizontalArrangement = Arrangement.spacedBy(ActionRowSpacing)) {
                 Button(
                     onClick = { handleUiEvent(HomeUiEvent.UseWordClick(currentWord)) },
-                    colors = ButtonDefaults.buttonColors(containerColor = Colors.primary500)
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Colors.accent500,
+                        contentColor = Colors.supportDark
+                    )
                 ) {
                     Text(
                         text = stringResource(Res.string.home_use_now),
-                        style = LexicoFont.f100Highlight(color = Colors.supportLight)
+                        style = LexicoFont.f100Highlight(color = Colors.supportDark)
                     )
                 }
                 OutlinedButton(
                     onClick = { /* Play audio */ },
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = Colors.primary500)
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = Colors.supportLight)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Hearing,
                         contentDescription = null,
-                        tint = Colors.primary500
+                        tint = Colors.supportLight
                     )
                     Spacer(modifier = Modifier.size(ListenSpacer))
                     Text(
                         text = stringResource(Res.string.home_listen),
-                        style = LexicoFont.f100Highlight(color = Colors.primary500)
+                        style = LexicoFont.f100Highlight(color = Colors.supportLight)
                     )
                 }
             }
@@ -240,7 +258,7 @@ private fun ExampleBubble(text: String) {
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                Colors.primary030,
+                Colors.supportLight.copy(alpha = 0.3f),
                 shape = RoundedCornerShape(ExampleCornerRadius)
             )
             .padding(ExamplePadding),
@@ -250,12 +268,12 @@ private fun ExampleBubble(text: String) {
         Icon(
             imageVector = Icons.Default.Campaign,
             contentDescription = null,
-            tint = Colors.primary500,
+            tint = Colors.support800,
             modifier = Modifier.size(IconSize)
         )
         Text(
             text = text,
-            style = LexicoFont.d100(color = Colors.support900),
+            style = LexicoFont.d100(color = Colors.support800),
             maxLines = 2
         )
     }
@@ -264,7 +282,7 @@ private fun ExampleBubble(text: String) {
 @Composable
 private fun QuickActionsRow(handleUiEvent: (HomeUiEvent) -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(bottom = ItemSpacing),
         horizontalArrangement = Arrangement.spacedBy(ItemSpacing)
     ) {
         QuickActionCard(
@@ -294,7 +312,9 @@ private fun RowScope.QuickActionCard(
     Card(
         onClick = onClick,
         shape = CardShape,
-        colors = CardDefaults.cardColors(containerColor = Colors.primary050),
+        colors = CardDefaults.cardColors(containerColor = Colors.supportLight),
+        border = BorderStroke(1.dp, Colors.primary200),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         modifier = Modifier.weight(1f),
     ) {
         Column(
