@@ -51,7 +51,7 @@
     </string-array>
 
     <string name="setup_level_title">Select level</string>
-    <string name="setup_level_subtitle">Let\'s pick up exactly where you left off!</string>
+    <string name="setup_level_subtitle">Let&#39;s pick up exactly where you left off!</string>
     <string name="setup_level_cta_text">Continue</string>
     <string name="setup_level_examples">Examples:</string>
 
@@ -70,4 +70,15 @@
     <string name="setup_frequency_weekender_name">Weekend catch-up</string>
     <string name="setup_frequency_weekender_description">12 words across the weekend when you have a bit more room.</string>
     <string name="setup_frequency_weekender_pace">12 words/weekend</string>
+
+
+    <!--    Home screen -->
+    <string name="home_today_drops">Today&#39;s drops</string>
+    <string name="home_new_badge">New</string>
+    <string name="home_use_now">Use it now</string>
+    <string name="home_listen">Listen</string>
+    <string name="home_practice_now">Practice now</string>
+    <string name="home_review_recent">Review recent</string>
+    <string name="home_adjust_drops">Adjust drops</string>
+    <string name="home_streak_badge">%1$d day streak</string>
 </resources>
