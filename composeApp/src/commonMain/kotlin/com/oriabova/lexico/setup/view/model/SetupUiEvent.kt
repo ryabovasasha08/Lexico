@@ -8,4 +8,5 @@ sealed class SetupUiEvent {
     data class LanguageSelected(val language: String) : SetupUiEvent()
     data class LevelSelected(val level: SetupLevel) : SetupUiEvent()
     data class FrequencySelected(val frequency: SetupFrequency) : SetupUiEvent()
+    data object NotificationPermissionGranted : SetupUiEvent()
 }
