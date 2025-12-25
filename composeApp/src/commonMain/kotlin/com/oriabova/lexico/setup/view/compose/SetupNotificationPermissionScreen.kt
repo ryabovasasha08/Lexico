@@ -43,7 +43,7 @@ fun SetupNotificationPermissionScreen(onPermissionGranted: () -> Unit) {
 
     CheckPermissionOnResume(
         onPermissionGranted = onPermissionGranted,
-        onPermissionDenied = { permissionDenied = false }
+        onPermissionDenied = { permissionDenied = true }
     )
 
     SetupScreenWrapper {
@@ -73,7 +73,7 @@ fun SetupNotificationPermissionScreen(onPermissionGranted: () -> Unit) {
             } else {
                 InitialFooter(
                     onPermissionGranted = onPermissionGranted,
-                    onPermissionDenied = { permissionDenied = false }
+                    onPermissionDenied = { permissionDenied = true }
                 )
             }
         }
