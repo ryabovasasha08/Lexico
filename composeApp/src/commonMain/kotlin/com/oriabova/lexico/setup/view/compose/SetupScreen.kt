@@ -41,8 +41,10 @@ fun SetupScreen(
                 setupViewModel.handleUiEvent(SetupUiEvent.FrequencySelected(frequency))
             }
 
-            SetupState.NOTIFICATION_PERMISSION -> SetupNotificationPermissionScreen {
-                setupViewModel.handleUiEvent(SetupUiEvent.NotificationPermissionGranted)
+            SetupState.NOTIFICATION_PERMISSION -> SetupNotificationPermissionScreen { granted ->
+                if (granted) {
+                    setupViewModel.handleUiEvent(SetupUiEvent.NotificationPermissionGranted)
+                }
             }
 
             SetupState.COMPLETE -> popBackStack()

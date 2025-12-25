@@ -74,7 +74,9 @@
     <string name="setup_notifications_title">Turn on notifications</string>
     <string name="setup_notifications_body">Your daily words and reminders are delivered as notifications. Without them, the core experience can't run.</string>
     <string name="setup_notifications_note">We'll only send the schedule you choose, starting around 10am. You can change this later.</string>
+    <string name="setup_notifications_denied">Notifications are required to continue. Please enable them to unlock your daily words.</string>
     <string name="setup_notifications_cta_text">Enable notifications</string>
+    <string name="setup_notifications_settings_cta_text">Open settings</string>
 
 
     <!--    Home screen -->
