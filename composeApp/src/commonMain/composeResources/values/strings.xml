@@ -71,6 +71,13 @@
     <string name="setup_frequency_weekender_description">12 words across the weekend when you have a bit more room.</string>
     <string name="setup_frequency_weekender_pace">12 words/weekend</string>
 
+    <string name="setup_notifications_title">Turn on notifications</string>
+    <string name="setup_notifications_body">Your daily words and reminders are delivered as notifications. Without them, the core experience can't run.</string>
+    <string name="setup_notifications_note">We'll only send the schedule you choose, starting around 10am. You can change this later.</string>
+    <string name="setup_notifications_denied">Notifications are required to continue. Please enable them to unlock your daily words.</string>
+    <string name="setup_notifications_cta_text">Enable notifications</string>
+    <string name="setup_notifications_settings_cta_text">Open settings</string>
+
 
     <!--    Home screen -->
     <string name="home_today_drops">Today&#39;s drops</string>

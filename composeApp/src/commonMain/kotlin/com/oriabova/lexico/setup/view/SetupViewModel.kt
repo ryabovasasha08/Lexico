@@ -43,6 +43,7 @@ class SetupViewModel(
             is SetupUiEvent.LanguageSelected -> completeLanguageSetup(uiEvent.language)
             is SetupUiEvent.LevelSelected -> completeLevelSetup(uiEvent.level)
             is SetupUiEvent.FrequencySelected -> completeFrequencySetup(uiEvent.frequency)
+            is SetupUiEvent.NotificationPermissionGranted -> completeNotificationPermission()
         }
     }
 
@@ -62,11 +63,16 @@ class SetupViewModel(
         storeSetupDetails(setupDetails.value.copy(frequency = frequency))
     }
 
+    private fun completeNotificationPermission() {
+        storeSetupDetails(setupDetails.value.copy(notificationPermissionGranted = true))
+    }
+
     private fun getSetupState(setupDetails: SetupDetails, isWelcomeCompleted: Boolean) = when {
         !isWelcomeCompleted -> SetupState.WELCOME
         setupDetails.languageToLearn == null -> SetupState.LANGUAGE_CHOICE
         setupDetails.level == null -> SetupState.LEVEL_CHOICE
         setupDetails.frequency == null -> SetupState.FREQUENCY_CHOICE
+        !setupDetails.notificationPermissionGranted -> SetupState.NOTIFICATION_PERMISSION
         else -> SetupState.COMPLETE
     }
 
