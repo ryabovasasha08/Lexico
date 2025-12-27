@@ -15,7 +15,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun SetupScreen(
     setupViewModel: SetupViewModel = koinViewModel(),
-    popBackStack: () -> Unit
+    navigateToHome: () -> Unit
 ) {
     val setupState by setupViewModel.setupState.collectAsStateWithLifecycle()
 
@@ -45,7 +45,10 @@ fun SetupScreen(
                     setupViewModel.handleUiEvent(SetupUiEvent.NotificationPermissionGranted)
             }
 
-            SetupState.COMPLETE -> popBackStack()
+            SetupState.COMPLETE -> {
+                setupViewModel.handleUiEvent(SetupUiEvent.SetupComplete)
+                navigateToHome()
+            }
         }
     }
 }

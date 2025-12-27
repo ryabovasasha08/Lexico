@@ -44,6 +44,7 @@ class SetupViewModel(
             is SetupUiEvent.LevelSelected -> completeLevelSetup(uiEvent.level)
             is SetupUiEvent.FrequencySelected -> completeFrequencySetup(uiEvent.frequency)
             is SetupUiEvent.NotificationPermissionGranted -> completeNotificationPermission()
+            is SetupUiEvent.SetupComplete -> onSetupComplete()
         }
     }
 
@@ -74,6 +75,10 @@ class SetupViewModel(
         setupDetails.frequency == null -> SetupState.FREQUENCY_CHOICE
         !setupDetails.notificationPermissionGranted -> SetupState.NOTIFICATION_PERMISSION
         else -> SetupState.COMPLETE
+    }
+
+    private fun onSetupComplete() {
+        //TODO
     }
 
     private fun storeSetupDetails(newSetupDetails: SetupDetails) {
