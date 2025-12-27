@@ -1,8 +1,8 @@
-package com.oriabova.lexico.notifications
+package com.oriabova.lexico.permissions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import com.oriabova.lexico.notifications.domain.StoreNotificationPermissionRequestedUseCase
+import com.oriabova.lexico.permissions.domain.StoreNotificationPermissionRequestedUseCase
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import platform.Foundation.NSURL

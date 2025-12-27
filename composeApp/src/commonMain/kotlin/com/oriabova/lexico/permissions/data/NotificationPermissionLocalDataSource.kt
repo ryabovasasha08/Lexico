@@ -1,4 +1,4 @@
-package com.oriabova.lexico.notifications.data
+package com.oriabova.lexico.permissions.data
 
 import com.oriabova.lexico.localstorage.LocalStorage
 

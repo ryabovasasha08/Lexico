@@ -1,10 +1,10 @@
-package com.oriabova.lexico.notifications.di
+package com.oriabova.lexico.permissions.di
 
-import com.oriabova.lexico.notifications.data.NotificationPermissionLocalDataSource
-import com.oriabova.lexico.notifications.data.NotificationPermissionRepositoryImpl
-import com.oriabova.lexico.notifications.domain.NotificationPermissionRepository
-import com.oriabova.lexico.notifications.domain.StoreNotificationPermissionRequestedUseCase
-import com.oriabova.lexico.notifications.domain.WasNotificationPermissionRequestedUseCase
+import com.oriabova.lexico.permissions.data.NotificationPermissionLocalDataSource
+import com.oriabova.lexico.permissions.data.NotificationPermissionRepositoryImpl
+import com.oriabova.lexico.permissions.domain.NotificationPermissionRepository
+import com.oriabova.lexico.permissions.domain.StoreNotificationPermissionRequestedUseCase
+import com.oriabova.lexico.permissions.domain.WasNotificationPermissionRequestedUseCase
 import org.koin.dsl.module
 
 private val dataModule = module {

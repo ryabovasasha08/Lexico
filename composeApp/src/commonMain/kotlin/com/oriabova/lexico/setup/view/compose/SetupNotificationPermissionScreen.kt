@@ -18,10 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.oriabova.lexico.notifications.NotificationPermissionState
-import com.oriabova.lexico.notifications.rememberNotificationPermissionChecker
-import com.oriabova.lexico.notifications.rememberNotificationPermissionRequester
-import com.oriabova.lexico.notifications.rememberNotificationSettingsOpener
+import com.oriabova.lexico.permissions.NotificationPermissionState
+import com.oriabova.lexico.permissions.rememberNotificationPermissionChecker
+import com.oriabova.lexico.permissions.rememberNotificationPermissionRequester
+import com.oriabova.lexico.permissions.rememberNotificationSettingsOpener
 import com.oriabova.lexico.theme.Colors
 import com.oriabova.lexico.theme.LexicoFont
 import com.oriabova.lexico.theme.LexicoTheme
