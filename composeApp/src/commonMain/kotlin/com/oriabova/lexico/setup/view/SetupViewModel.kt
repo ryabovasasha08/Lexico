@@ -2,6 +2,7 @@ package com.oriabova.lexico.setup.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.oriabova.lexico.newwordscheduler.domain.ScheduleNewWordNotificationsUseCase
 import com.oriabova.lexico.setup.domain.ObserveSetupDetailsUseCase
 import com.oriabova.lexico.setup.domain.StoreSetupDetailsUseCase
 import com.oriabova.lexico.setup.domain.model.SetupDetails
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 class SetupViewModel(
     observeSetupDetailsUseCase: ObserveSetupDetailsUseCase,
     private val storeSetupDetailsUseCase: StoreSetupDetailsUseCase,
+    private val scheduleNewWordNotificationsUseCase: ScheduleNewWordNotificationsUseCase,
 ) : ViewModel() {
 
     private val isWelcomeCompleted = MutableStateFlow(false)
@@ -78,7 +80,7 @@ class SetupViewModel(
     }
 
     private fun onSetupComplete() {
-        //TODO
+        viewModelScope.launch { scheduleNewWordNotificationsUseCase() }
     }
 
     private fun storeSetupDetails(newSetupDetails: SetupDetails) {
