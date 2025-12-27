@@ -5,5 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface SetupRepository {
     fun observeSetupDetails(): Flow<SetupDetails>
+    suspend fun getSetupDetails(): SetupDetails
     suspend fun storeSetupDetails(setupDetails: SetupDetails)
 }
