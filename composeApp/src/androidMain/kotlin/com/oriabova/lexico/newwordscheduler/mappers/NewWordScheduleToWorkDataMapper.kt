@@ -8,7 +8,7 @@ import com.oriabova.lexico.newwordscheduler.platform.utils.WorkDataKeys.SCHEDULE
 import com.oriabova.lexico.newwordscheduler.platform.utils.WorkDataKeys.SCHEDULE_TIMES_PER_DAY_KEY
 
 internal class NewWordScheduleToWorkDataMapper {
-    fun toData(schedule: NewWordSchedule): Data = with (schedule) {
+    fun toData(schedule: NewWordSchedule): Data = with(schedule) {
         Data.Builder()
             .putStringArray(SCHEDULE_DAYS_KEY, days.map { it.toString() }.toTypedArray())
             .putInt(SCHEDULE_TIMES_PER_DAY_KEY, timesPerDay)
