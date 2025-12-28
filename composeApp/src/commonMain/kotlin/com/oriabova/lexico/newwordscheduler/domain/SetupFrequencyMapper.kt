@@ -4,7 +4,7 @@ import com.oriabova.lexico.newwordscheduler.domain.model.DayOfWeek
 import com.oriabova.lexico.newwordscheduler.domain.model.NewWordSchedule
 import com.oriabova.lexico.setup.domain.model.SetupFrequency
 
-internal class SetupFrequencyToWordScheduleMapper() {
+internal class SetupFrequencyToWordScheduleMapper {
     fun map(frequency: SetupFrequency): NewWordSchedule = when (frequency) {
         SetupFrequency.LIGHT_DAILY -> NewWordSchedule(
             days = DayOfWeek.entries.toSet(),
