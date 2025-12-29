@@ -1,4 +1,4 @@
-package com.oriabova.lexico.notiifcations
+package com.oriabova.lexico.notifications
 
 import org.koin.core.module.Module
 import org.koin.dsl.module

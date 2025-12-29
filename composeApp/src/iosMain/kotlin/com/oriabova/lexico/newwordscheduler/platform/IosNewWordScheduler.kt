@@ -5,7 +5,7 @@ import com.oriabova.lexico.newwordscheduler.domain.NewWordScheduler
 import com.oriabova.lexico.newwordscheduler.domain.TimesPerDayCalculator
 import com.oriabova.lexico.newwordscheduler.domain.model.NewWordSchedule
 import com.oriabova.lexico.newwordscheduler.domain.model.TimeOfDay
-import com.oriabova.lexico.notiifcations.NotificationPoster
+import com.oriabova.lexico.notifications.NotificationPoster
 import platform.Foundation.NSCalendar
 import platform.Foundation.NSDateComponents
 import platform.UserNotifications.UNCalendarNotificationTrigger

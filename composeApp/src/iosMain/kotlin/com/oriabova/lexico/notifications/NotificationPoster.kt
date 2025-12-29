@@ -1,4 +1,4 @@
-package com.oriabova.lexico.notiifcations
+package com.oriabova.lexico.notifications
 
 import kotlinx.coroutines.suspendCancellableCoroutine
 import platform.UserNotifications.UNMutableNotificationContent
