@@ -30,6 +30,8 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.core.splashscreen)
+            implementation(libs.androidx.core.ktx)
+            implementation(libs.androidx.work.runtime)
 
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)

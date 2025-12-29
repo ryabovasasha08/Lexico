@@ -9,4 +9,5 @@ sealed class SetupUiEvent {
     data class LevelSelected(val level: SetupLevel) : SetupUiEvent()
     data class FrequencySelected(val frequency: SetupFrequency) : SetupUiEvent()
     data object NotificationPermissionGranted : SetupUiEvent()
+    data object SetupComplete : SetupUiEvent()
 }

@@ -1,4 +1,4 @@
-package com.oriabova.lexico.notifications.domain
+package com.oriabova.lexico.permissions.domain
 
 class StoreNotificationPermissionRequestedUseCase(
     private val repository: NotificationPermissionRepository

@@ -2,12 +2,12 @@ package com.oriabova.lexico.setup.domain.model
 
 import kotlinx.serialization.Serializable
 import lexico.composeapp.generated.resources.Res
-import lexico.composeapp.generated.resources.setup_frequency_daily_description
-import lexico.composeapp.generated.resources.setup_frequency_daily_name
-import lexico.composeapp.generated.resources.setup_frequency_daily_pace
-import lexico.composeapp.generated.resources.setup_frequency_light_description
-import lexico.composeapp.generated.resources.setup_frequency_light_name
-import lexico.composeapp.generated.resources.setup_frequency_light_pace
+import lexico.composeapp.generated.resources.setup_frequency_heavy_daily_description
+import lexico.composeapp.generated.resources.setup_frequency_heavy_daily_name
+import lexico.composeapp.generated.resources.setup_frequency_heavy_daily_pace
+import lexico.composeapp.generated.resources.setup_frequency_light_daily_description
+import lexico.composeapp.generated.resources.setup_frequency_light_daily_name
+import lexico.composeapp.generated.resources.setup_frequency_light_daily_pace
 import lexico.composeapp.generated.resources.setup_frequency_weekdays_description
 import lexico.composeapp.generated.resources.setup_frequency_weekdays_name
 import lexico.composeapp.generated.resources.setup_frequency_weekdays_pace
@@ -22,15 +22,15 @@ enum class SetupFrequency(
     val descriptionRes: StringResource,
     val paceRes: StringResource,
 ) {
-    LIGHT(
-        Res.string.setup_frequency_light_name,
-        Res.string.setup_frequency_light_description,
-        Res.string.setup_frequency_light_pace
+    LIGHT_DAILY(
+        Res.string.setup_frequency_light_daily_name,
+        Res.string.setup_frequency_light_daily_description,
+        Res.string.setup_frequency_light_daily_pace
     ),
-    DAILY(
-        Res.string.setup_frequency_daily_name,
-        Res.string.setup_frequency_daily_description,
-        Res.string.setup_frequency_daily_pace
+    HEAVY_DAILY(
+        Res.string.setup_frequency_heavy_daily_name,
+        Res.string.setup_frequency_heavy_daily_description,
+        Res.string.setup_frequency_heavy_daily_pace
     ),
     WEEKDAYS(
         Res.string.setup_frequency_weekdays_name,

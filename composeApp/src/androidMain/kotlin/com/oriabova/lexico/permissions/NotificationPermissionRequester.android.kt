@@ -1,4 +1,4 @@
-package com.oriabova.lexico.notifications
+package com.oriabova.lexico.permissions
 
 import android.Manifest
 import android.content.Intent
@@ -13,8 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
-import com.oriabova.lexico.notifications.domain.StoreNotificationPermissionRequestedUseCase
-import com.oriabova.lexico.notifications.domain.WasNotificationPermissionRequestedUseCase
+import com.oriabova.lexico.permissions.domain.StoreNotificationPermissionRequestedUseCase
+import com.oriabova.lexico.permissions.domain.WasNotificationPermissionRequestedUseCase
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 

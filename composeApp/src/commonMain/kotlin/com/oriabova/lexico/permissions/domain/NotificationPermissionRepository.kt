@@ -1,4 +1,4 @@
-package com.oriabova.lexico.notifications.domain
+package com.oriabova.lexico.permissions.domain
 
 interface NotificationPermissionRepository {
     suspend fun wasPermissionRequested(): Boolean

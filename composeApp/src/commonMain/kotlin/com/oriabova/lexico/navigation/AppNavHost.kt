@@ -25,7 +25,12 @@ fun AppNavHost(
         }
         composable(NavigationItem.Setup.route) {
             SetupScreen(
-                popBackStack = { navController.popBackStack() }
+                navigateToHome = {
+                    navController.navigate(NavigationItem.Home.route) {
+                        popUpTo(NavigationItem.Setup.route) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                }
             )
         }
     }

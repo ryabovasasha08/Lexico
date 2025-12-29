@@ -17,6 +17,14 @@ class SetupLocalDataSource(
         )
     }
 
+    suspend fun getSetupDetails(): SetupDetails {
+        return localStorage.getData(
+            SETUP_DETAILS,
+            SetupDetails::class,
+            SetupDetails.initial()
+        )
+    }
+
     suspend fun storeSetupDetails(setupDetails: SetupDetails) {
         localStorage.putData(SETUP_DETAILS, setupDetails, SetupDetails::class)
     }

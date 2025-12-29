@@ -1,4 +1,4 @@
-package com.oriabova.lexico.notifications
+package com.oriabova.lexico.permissions
 
 import androidx.compose.runtime.Composable
 

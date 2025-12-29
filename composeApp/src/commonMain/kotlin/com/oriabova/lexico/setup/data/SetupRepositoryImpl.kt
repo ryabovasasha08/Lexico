@@ -11,6 +11,10 @@ class SetupRepositoryImpl(
         return setupLocalDataSource.observeSetupDetails()
     }
 
+    override suspend fun getSetupDetails(): SetupDetails {
+        return setupLocalDataSource.getSetupDetails()
+    }
+
     override suspend fun storeSetupDetails(setupDetails: SetupDetails) {
         setupLocalDataSource.storeSetupDetails(setupDetails)
     }
