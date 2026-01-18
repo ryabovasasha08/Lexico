@@ -2,8 +2,13 @@ package com.oriabova.lexico.utils
 
 import java.util.Locale
 
-actual fun getAvailableLanguages(): List<String> {
+actual fun getAvailableLanguages(): List<Language> {
     return Locale.getAvailableLocales()
-        .map { it.getDisplayLanguage(Locale.getDefault()) }
-        .distinct()
+        .map {
+            Language(
+                it.toLanguageTag(),
+                it.getDisplayLanguage(Locale.getDefault())
+            )
+        }
+        .distinctBy { it.name }
 }

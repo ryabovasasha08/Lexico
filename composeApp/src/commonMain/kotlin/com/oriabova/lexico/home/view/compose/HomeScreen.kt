@@ -2,6 +2,7 @@ package com.oriabova.lexico.home.view.compose
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,6 +42,7 @@ import com.oriabova.lexico.home.view.model.WordCardUiState
 import com.oriabova.lexico.theme.Colors
 import com.oriabova.lexico.theme.LexicoFont
 import com.oriabova.lexico.theme.LexicoTheme
+import com.oriabova.lexico.tts.rememberTtsSpeaker
 import lexico.composeapp.generated.resources.Res
 import lexico.composeapp.generated.resources.home_adjust_drops
 import lexico.composeapp.generated.resources.home_listen
@@ -167,6 +169,7 @@ private fun Header(uiState: HomeUiState) {
 
 @Composable
 private fun WordOfTheDayCard(currentWord: WordCardUiState, handleUiEvent: (HomeUiEvent) -> Unit) {
+    val ttsSpeaker = rememberTtsSpeaker()
     Card(
         shape = CardShape,
         colors = CardDefaults.cardColors(
@@ -191,25 +194,39 @@ private fun WordOfTheDayCard(currentWord: WordCardUiState, handleUiEvent: (HomeU
                     style = LexicoFont.f300Highlight(color = Colors.supportLight)
                 )
                 if (currentWord.isNew) {
-                        Text(
-                            text = stringResource(Res.string.home_new_badge),
-                            style = LexicoFont.f075Highlight(color = Colors.primary700),
-                            modifier = Modifier
-                                .background(
-                                    color = Colors.supportLight.copy(alpha = 0.8f),
-                                    shape = CircleShape
-                                )
-                                .padding(
-                                    horizontal = NewBadgePaddingHorizontal,
-                                    vertical = NewBadgePaddingVertical
-                                )
-                        )
-                    }
+                    Text(
+                        text = stringResource(Res.string.home_new_badge),
+                        style = LexicoFont.f075Highlight(color = Colors.primary700),
+                        modifier = Modifier
+                            .background(
+                                color = Colors.supportLight.copy(alpha = 0.8f),
+                                shape = CircleShape
+                            )
+                            .padding(
+                                horizontal = NewBadgePaddingHorizontal,
+                                vertical = NewBadgePaddingVertical
+                            )
+                    )
                 }
-            Text(
-                text = "["+currentWord.pronunciation+"]",
-                style = LexicoFont.f075Default(color = Colors.supportLight.copy(alpha = 0.85f))
-            )
+            }
+            Row(
+                modifier = Modifier.clickable {
+                    ttsSpeaker.speak(currentWord.word, currentWord.languageCode)
+                },
+                horizontalArrangement = Arrangement.spacedBy(ExampleSpacing),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Campaign,
+                    contentDescription = null,
+                    tint = Colors.supportLight.copy(alpha = 0.85f),
+                    modifier = Modifier.size(IconSize)
+                )
+                Text(
+                    text = "[${currentWord.pronunciation}]",
+                    style = LexicoFont.f075Default(color = Colors.supportLight.copy(alpha = 0.85f))
+                )
+            }
             Text(
                 text = currentWord.partOfSpeech,
                 style = LexicoFont.b075Default(color = Colors.supportLight)
@@ -218,7 +235,9 @@ private fun WordOfTheDayCard(currentWord: WordCardUiState, handleUiEvent: (HomeU
                 text = currentWord.definition,
                 style = LexicoFont.f100Default(color = Colors.supportLight)
             )
-            ExampleBubble(currentWord.example)
+            ExampleBubble(currentWord.example) {
+                ttsSpeaker.speak(currentWord.example, currentWord.languageCode)
+            }
             Row(horizontalArrangement = Arrangement.spacedBy(ActionRowSpacing)) {
                 Button(
                     onClick = { handleUiEvent(HomeUiEvent.UseWordClick(currentWord)) },
@@ -253,7 +272,7 @@ private fun WordOfTheDayCard(currentWord: WordCardUiState, handleUiEvent: (HomeU
 }
 
 @Composable
-private fun ExampleBubble(text: String) {
+private fun ExampleBubble(text: String, onReadExample: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -261,6 +280,7 @@ private fun ExampleBubble(text: String) {
                 Colors.supportLight.copy(alpha = 0.3f),
                 shape = RoundedCornerShape(ExampleCornerRadius)
             )
+            .clickable { onReadExample() }
             .padding(ExamplePadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(ExampleSpacing)
@@ -378,7 +398,8 @@ private fun HomeScreenPreview() {
                     partOfSpeech = "noun",
                     definition = "A pleasant surprise found by chance.",
                     example = "Meeting an old friend in the city was pure serendipity.",
-                    isNew = true
+                    isNew = true,
+                    languageCode = "en-GB"
                 ),
                 streakDays = 4,
                 deliveredToday = 2,

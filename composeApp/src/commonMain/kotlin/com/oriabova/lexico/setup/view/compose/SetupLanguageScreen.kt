@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.oriabova.lexico.theme.Colors
 import com.oriabova.lexico.theme.LexicoFont
 import com.oriabova.lexico.theme.LexicoTheme
+import com.oriabova.lexico.utils.Language
 import com.oriabova.lexico.utils.getAvailableLanguages
 import kotlinx.coroutines.delay
 import lexico.composeapp.generated.resources.Res
@@ -45,9 +46,9 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SetupLanguageScreen(onSetupLanguageComplete: (String) -> Unit) {
+fun SetupLanguageScreen(onSetupLanguageComplete: (Language) -> Unit) {
     var mask: String by remember { mutableStateOf("") }
-    val languages = remember { getAvailableLanguages().sorted() }
+    val languages = remember { getAvailableLanguages().sortedBy { it.name } }
 
     SetupScreenWrapper {
         Column(
@@ -135,15 +136,15 @@ private fun DecorationBox(
 @Composable
 private fun LanguagePicker(
     mask: String,
-    languages: List<String>,
+    languages: List<Language>,
     modifier: Modifier = Modifier,
-    onLanguagePicked: (String) -> Unit
+    onLanguagePicked: (Language) -> Unit
 ) {
     val locales = remember(languages, mask) {
         languages
-            .filterNot { it.isBlank() }
-            .filter { it.contains(mask, ignoreCase = true) }
-            .sorted()
+            .filterNot { it.name.isBlank() }
+            .filter { it.name.contains(mask, ignoreCase = true) }
+            .sortedBy { it.name }
     }
 
     val languagePickerState = rememberLazyListState()
@@ -182,7 +183,7 @@ private fun LanguagePicker(
 
 @Composable
 private fun LanguageItem(
-    language: String,
+    language: Language,
     modifier: Modifier = Modifier,
     onSelected: () -> Unit
 ) {
@@ -221,7 +222,7 @@ private fun LanguageItem(
                         horizontal = SetupUiDefaults.CardInnerPaddingHorizontal,
                         vertical = SetupUiDefaults.CardInnerPaddingVertical
                     ),
-                text = language,
+                text = language.name,
                 style = LexicoFont.f100Default(textColor),
                 textAlign = TextAlign.Center,
             )

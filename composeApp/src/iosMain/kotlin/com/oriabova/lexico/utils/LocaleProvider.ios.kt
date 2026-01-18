@@ -5,7 +5,7 @@ import platform.Foundation.NSLocaleIdentifier
 import platform.Foundation.availableLocaleIdentifiers
 import platform.Foundation.currentLocale
 
-actual fun getAvailableLanguages(): List<String> {
+actual fun getAvailableLanguages(): List<Language> {
     @Suppress("UNCHECKED_CAST")
 
     val identifiers = NSLocale.availableLocaleIdentifiers() as List<String>
@@ -13,7 +13,9 @@ actual fun getAvailableLanguages(): List<String> {
 
     return identifiers
         .map { it.substringBefore('_') }
-        .distinct()
-        .mapNotNull { code -> currentLocale.displayNameForKey(NSLocaleIdentifier, code) }
-        .distinct()
+        .mapNotNull { code ->
+            val name = currentLocale.displayNameForKey(NSLocaleIdentifier, code)
+            name?.let { Language(code, it) }
+        }
+        .distinctBy { it.name }
 }

@@ -10,6 +10,7 @@ import com.oriabova.lexico.setup.domain.model.SetupFrequency
 import com.oriabova.lexico.setup.domain.model.SetupLevel
 import com.oriabova.lexico.setup.view.model.SetupState
 import com.oriabova.lexico.setup.view.model.SetupUiEvent
+import com.oriabova.lexico.utils.Language
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -54,7 +55,7 @@ class SetupViewModel(
         isWelcomeCompleted.value = true
     }
 
-    private fun completeLanguageSetup(language: String) {
+    private fun completeLanguageSetup(language: Language) {
         storeSetupDetails(setupDetails.value.copy(languageToLearn = language))
     }
 

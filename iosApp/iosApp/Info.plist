@@ -4,6 +4,8 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>GeminiApiKey</key>
+	<string>AIzaSyC6wWu7Mp-SjfaxdzX-YyqCZ18JftetSzI</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIImageName</key>

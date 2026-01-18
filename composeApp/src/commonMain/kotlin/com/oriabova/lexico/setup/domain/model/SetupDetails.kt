@@ -1,10 +1,11 @@
 package com.oriabova.lexico.setup.domain.model
 
+import com.oriabova.lexico.utils.Language
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class SetupDetails(
-    val languageToLearn: String?,
+    val languageToLearn: Language?,
     val level: SetupLevel?,
     val frequency: SetupFrequency?,
     val notificationPermissionGranted: Boolean = false,

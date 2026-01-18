@@ -21,4 +21,5 @@ data class WordCardUiState(
     val definition: String,
     val example: String,
     val isNew: Boolean,
+    val languageCode: String,
 )
