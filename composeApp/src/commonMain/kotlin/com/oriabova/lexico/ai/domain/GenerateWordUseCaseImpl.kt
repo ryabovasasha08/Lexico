@@ -12,7 +12,7 @@ class GenerateWordUseCaseImpl(
 ) : GenerateWordUseCase {
     override suspend fun invoke(): GeneratedWord {
         val setup = getSetupDetailsUseCase()
-        val language = setup.languageToLearn ?: Language("en-GB", "English")
+        val language = setup.languageToLearn ?: Language("en-GB","English")
         val level = mapToCefr(setup.level ?: SetupLevel.BEGINNER)
         val request = WordGenerationRequest(
             language = language,
