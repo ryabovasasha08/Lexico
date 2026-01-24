@@ -1,20 +1,9 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    id("com.oriabova.lexico.kmpModule")
     alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-    }
-    iosArm64()
-    iosSimulatorArm64()
-
     sourceSets {
         commonMain.dependencies {
             implementation(projects.libraries.languageUtils)
@@ -39,15 +28,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.oriabova.lexico.ai"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-
     buildFeatures {
         buildConfig = true
     }
 
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
         val geminiApiKey = (project.findProperty("GEMINI_API_KEY") as String?) ?: ""
         buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
     }
