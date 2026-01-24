@@ -9,7 +9,7 @@ import androidx.core.app.NotificationCompat
 private const val NotificationChannelId = "lexico_daily_words"
 private const val NotificationId = 1001
 
-internal class NotificationsPoster(private val context: Context) {
+class NotificationsPoster(private val context: Context) {
 
     // Shows dummy notification for now. Will be improved by passing a payload to the function
     fun showNotification() {
