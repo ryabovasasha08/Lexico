@@ -25,8 +25,5 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.composeVM)
         }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-        }
     }
 }

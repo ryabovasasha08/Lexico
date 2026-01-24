@@ -14,11 +14,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.components.resources)
             implementation(libs.koin.core)
-            implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
         }
     }
 }

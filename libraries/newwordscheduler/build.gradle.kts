@@ -16,8 +16,5 @@ kotlin {
         iosMain.dependencies {
             implementation(projects.libraries.notifications)
         }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-        }
     }
 }

@@ -24,6 +24,17 @@ class KmpModulePlugin : Plugin<Project> {
                 }
                 iosArm64()
                 iosSimulatorArm64()
+
+                sourceSets.named("commonMain").configure {
+                    dependencies {
+                        implementation(libs.findLibrary("kotlinx.coroutines.core").get())
+                    }
+                }
+                sourceSets.named("commonTest").configure {
+                    dependencies {
+                        implementation(libs.findLibrary("kotlin.test").get())
+                    }
+                }
             }
 
             extensions.configure<LibraryExtension> {
