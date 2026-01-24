@@ -17,7 +17,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.core)
+            implementation(projects.libraries.languageUtils)
             implementation(projects.libraries.serialization)
             implementation(projects.libraries.setup)
             implementation(libs.koin.core)

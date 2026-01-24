@@ -19,7 +19,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.core)
+            implementation(projects.libraries.languageUtils)
             implementation(projects.libraries.designsystem)
             implementation(projects.libraries.localstorage)
             implementation(compose.runtime)

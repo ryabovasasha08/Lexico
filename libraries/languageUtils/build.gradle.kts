@@ -26,7 +26,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.oriabova.lexico.core"
+    namespace = "com.oriabova.lexico.languageutils"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

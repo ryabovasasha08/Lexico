@@ -31,7 +31,7 @@ dependencyResolutionManagement {
 include(":composeApp")
 
 // Libraries
-include(":core")
+include(":libraries:languageUtils")
 include(":libraries:ai")
 include(":libraries:designsystem")
 include(":libraries:localstorage")
