@@ -29,3 +29,19 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+
+// Libraries
+include(":core")
+include(":libraries:ai")
+include(":libraries:designsystem")
+include(":libraries:localstorage")
+include(":libraries:newwordscheduler")
+include(":libraries:notifications")
+include(":libraries:permissions")
+include(":libraries:serialization")
+include(":libraries:setup")
+include(":libraries:tts")
+
+// Features
+include(":feature:home")
+include(":feature:setup")

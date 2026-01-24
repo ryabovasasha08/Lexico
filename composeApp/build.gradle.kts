@@ -32,19 +32,27 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.core.splashscreen)
             implementation(libs.androidx.core.ktx)
-            implementation(libs.androidx.work.runtime)
-            implementation(libs.ktor.client.okhttp)
 
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
+            implementation(projects.core)
+            implementation(projects.libraries.ai)
+            implementation(projects.libraries.designsystem)
+            implementation(projects.libraries.localstorage)
+            implementation(projects.libraries.newwordscheduler)
+            implementation(projects.libraries.permissions)
+            implementation(projects.libraries.serialization)
+            implementation(projects.libraries.setup)
+            implementation(projects.feature.home)
+            implementation(projects.feature.setup)
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.materialIconsExtended)
-            implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
@@ -54,18 +62,8 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.composeVM)
-
-            implementation(libs.androidx.datastore)
-            implementation(libs.androidx.datastore.preferences)
-
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.contentNegotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
         }
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
-        }
+        iosMain.dependencies {}
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
