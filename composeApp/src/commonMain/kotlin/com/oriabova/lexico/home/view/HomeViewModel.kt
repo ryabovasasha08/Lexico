@@ -71,7 +71,7 @@ class HomeViewModel(
             definition = "A pleasant surprise found by chance.",
             example = "Meeting an old friend in the city was pure serendipity.",
             isNew = true,
-            languageCode = "English",
+            languageCode = "en-US",
         )
         return HomeUiState(
             isLoading = false,
