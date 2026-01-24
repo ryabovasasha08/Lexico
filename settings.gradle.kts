@@ -1,6 +1,8 @@
 rootProject.name = "Lexico"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
+includeBuild("build-logic")
+
 pluginManagement {
     repositories {
         google {
@@ -29,3 +31,18 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+
+// Libraries
+include(":libraries:languageUtils")
+include(":libraries:ai")
+include(":libraries:designsystem")
+include(":libraries:localstorage")
+include(":libraries:newwordscheduler")
+include(":libraries:notifications")
+include(":libraries:permissions")
+include(":libraries:serialization")
+include(":libraries:setup")
+
+// Features
+include(":feature:home")
+include(":feature:setup")

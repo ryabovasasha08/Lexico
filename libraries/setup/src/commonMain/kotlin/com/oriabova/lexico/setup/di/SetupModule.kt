@@ -1,0 +1,27 @@
+package com.oriabova.lexico.setup.di
+
+import com.oriabova.lexico.setup.data.SetupLocalDataSource
+import com.oriabova.lexico.setup.data.SetupRepositoryImpl
+import com.oriabova.lexico.setup.domain.GetSetupDetailsUseCase
+import com.oriabova.lexico.setup.domain.GetSetupDetailsUseCaseImpl
+import com.oriabova.lexico.setup.domain.ObserveSetupDetailsUseCase
+import com.oriabova.lexico.setup.domain.ObserveSetupDetailsUseCaseImpl
+import com.oriabova.lexico.setup.domain.SetupRepository
+import com.oriabova.lexico.setup.domain.StoreSetupDetailsUseCase
+import com.oriabova.lexico.setup.domain.StoreSetupDetailsUseCaseImpl
+import org.koin.dsl.module
+
+private val dataModule = module {
+    single { SetupLocalDataSource(get()) }
+    single<SetupRepository> { SetupRepositoryImpl(get()) }
+}
+
+private val domainModule = module {
+    factory { GetSetupDetailsUseCaseImpl(get()) as GetSetupDetailsUseCase }
+    factory { ObserveSetupDetailsUseCaseImpl(get()) as ObserveSetupDetailsUseCase }
+    factory { StoreSetupDetailsUseCaseImpl(get()) as StoreSetupDetailsUseCase }
+}
+
+val setupDataModule = module {
+    includes(dataModule, domainModule)
+}

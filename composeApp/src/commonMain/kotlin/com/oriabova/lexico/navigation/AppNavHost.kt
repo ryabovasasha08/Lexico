@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.oriabova.lexico.home.view.compose.HomeRoute
-import com.oriabova.lexico.setup.view.compose.SetupScreen
+import com.oriabova.lexico.setup.view.compose.SetupRoute
 
 @Composable
 fun AppNavHost(
@@ -24,7 +24,7 @@ fun AppNavHost(
             HomeRoute()
         }
         composable(NavigationItem.Setup.route) {
-            SetupScreen(
+            SetupRoute(
                 navigateToHome = {
                     navController.navigate(NavigationItem.Home.route) {
                         popUpTo(NavigationItem.Setup.route) { inclusive = true }
