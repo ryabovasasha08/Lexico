@@ -10,7 +10,6 @@ kotlin {
             implementation(projects.libraries.languageUtils)
             implementation(projects.libraries.ai)
             implementation(projects.libraries.designsystem)
-            implementation(projects.libraries.tts)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)

@@ -42,7 +42,6 @@ include(":libraries:notifications")
 include(":libraries:permissions")
 include(":libraries:serialization")
 include(":libraries:setup")
-include(":libraries:tts")
 
 // Features
 include(":feature:home")
