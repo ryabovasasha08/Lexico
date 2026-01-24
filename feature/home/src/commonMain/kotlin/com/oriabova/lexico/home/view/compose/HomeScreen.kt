@@ -32,13 +32,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.oriabova.lexico.home.view.HomeViewModel
 import com.oriabova.lexico.home.view.model.HomeUiEvent
 import com.oriabova.lexico.home.view.model.HomeUiState
 import com.oriabova.lexico.home.view.model.WordCardUiState
@@ -46,17 +43,16 @@ import com.oriabova.lexico.theme.Colors
 import com.oriabova.lexico.theme.LexicoFont
 import com.oriabova.lexico.theme.LexicoTheme
 import com.oriabova.lexico.tts.rememberTtsSpeaker
-import lexico.libraries.designsystem.generated.resources.Res
-import lexico.libraries.designsystem.generated.resources.home_adjust_drops
-import lexico.libraries.designsystem.generated.resources.home_listen
-import lexico.libraries.designsystem.generated.resources.home_new_badge
-import lexico.libraries.designsystem.generated.resources.home_practice_now
-import lexico.libraries.designsystem.generated.resources.home_review_recent
-import lexico.libraries.designsystem.generated.resources.home_today_drops
-import lexico.libraries.designsystem.generated.resources.home_use_now
+import lexico.composeapp.generated.resources.Res
+import lexico.composeapp.generated.resources.home_adjust_drops
+import lexico.composeapp.generated.resources.home_listen
+import lexico.composeapp.generated.resources.home_new_badge
+import lexico.composeapp.generated.resources.home_practice_now
+import lexico.composeapp.generated.resources.home_review_recent
+import lexico.composeapp.generated.resources.home_today_drops
+import lexico.composeapp.generated.resources.home_use_now
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.viewmodel.koinViewModel
 
 private val ScreenPadding = 16.dp
 private val ExtraTopPadding = 12.dp
@@ -90,16 +86,7 @@ private val TipRowSpacing = 12.dp
 private val CardShape = RoundedCornerShape(CardCornerRadius)
 
 @Composable
-internal fun HomeScreen(
-    homeViewModel: HomeViewModel = koinViewModel()
-) {
-    val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
-    HomeScreenInternal(uiState, homeViewModel::handleUiEvent)
-}
-
-
-@Composable
-private fun HomeScreenInternal(
+fun HomeScreen(
     uiState: HomeUiState,
     handleUiEvent: (HomeUiEvent) -> Unit
 ) {
@@ -402,7 +389,7 @@ private fun TipCard(tip: String) {
 @Preview(showBackground = true)
 private fun HomeScreenPreview() {
     LexicoTheme {
-        HomeScreenInternal(
+        HomeScreen(
             uiState = HomeUiState(
                 isLoading = false,
                 currentWord = WordCardUiState(

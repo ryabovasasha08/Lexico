@@ -37,16 +37,16 @@ import com.oriabova.lexico.theme.LexicoTheme
 import com.oriabova.lexico.utils.Language
 import com.oriabova.lexico.utils.getAvailableLanguages
 import kotlinx.coroutines.delay
-import lexico.libraries.designsystem.generated.resources.Res
-import lexico.libraries.designsystem.generated.resources.setup_language_empty_state
-import lexico.libraries.designsystem.generated.resources.setup_language_search_hint
-import lexico.libraries.designsystem.generated.resources.setup_language_subtitle
-import lexico.libraries.designsystem.generated.resources.setup_language_title
+import lexico.composeapp.generated.resources.Res
+import lexico.composeapp.generated.resources.setup_language_empty_state
+import lexico.composeapp.generated.resources.setup_language_search_hint
+import lexico.composeapp.generated.resources.setup_language_subtitle
+import lexico.composeapp.generated.resources.setup_language_title
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun SetupLanguageScreen(onSetupLanguageComplete: (Language) -> Unit) {
+fun SetupLanguageScreen(onSetupLanguageComplete: (Language) -> Unit) {
     var mask: String by remember { mutableStateOf("") }
     val languages = remember { getAvailableLanguages().sortedBy { it.name } }
 
