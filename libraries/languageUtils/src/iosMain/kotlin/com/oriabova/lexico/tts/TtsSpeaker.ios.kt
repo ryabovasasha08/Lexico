@@ -3,10 +3,11 @@ package com.oriabova.lexico.tts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
-import platform.AVFoundation.AVSpeechSynthesisVoice
-import platform.AVFoundation.AVSpeechSynthesizer
-import platform.AVFoundation.AVSpeechUtterance
-import platform.AVFoundation.AVSpeechUtteranceDefaultSpeechRate
+import platform.AVFAudio.AVSpeechBoundary
+import platform.AVFAudio.AVSpeechSynthesisVoice
+import platform.AVFAudio.AVSpeechSynthesizer
+import platform.AVFAudio.AVSpeechUtterance
+import platform.AVFAudio.AVSpeechUtteranceDefaultSpeechRate
 
 private class IosTtsSpeaker : TtsSpeaker {
     private val synthesizer = AVSpeechSynthesizer()
@@ -19,7 +20,7 @@ private class IosTtsSpeaker : TtsSpeaker {
     }
 
     override fun shutdown() {
-        synthesizer.stopSpeakingAtBoundary(0)
+        synthesizer.stopSpeakingAtBoundary(AVSpeechBoundary.AVSpeechBoundaryImmediate)
     }
 }
 

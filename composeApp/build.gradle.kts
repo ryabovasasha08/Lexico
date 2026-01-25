@@ -70,6 +70,8 @@ kotlin {
             implementation(projects.libraries.permissions)
             implementation(projects.libraries.notifications)
             implementation(projects.libraries.serialization)
+            implementation(projects.libraries.newwordscheduler)
+            implementation(projects.libraries.setup)
             
             implementation(projects.feature.home)
             implementation(projects.feature.setup)
