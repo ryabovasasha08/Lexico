@@ -37,11 +37,11 @@ import com.oriabova.lexico.theme.LexicoTheme
 import com.oriabova.lexico.utils.Language
 import com.oriabova.lexico.utils.getAvailableLanguages
 import kotlinx.coroutines.delay
-import lexico.composeapp.generated.resources.Res
-import lexico.composeapp.generated.resources.setup_language_empty_state
-import lexico.composeapp.generated.resources.setup_language_search_hint
-import lexico.composeapp.generated.resources.setup_language_subtitle
-import lexico.composeapp.generated.resources.setup_language_title
+import lexico.libraries.setup.generated.resources.Res
+import lexico.libraries.setup.generated.resources.setup_language_empty_state
+import lexico.libraries.setup.generated.resources.setup_language_search_hint
+import lexico.libraries.setup.generated.resources.setup_language_subtitle
+import lexico.libraries.setup.generated.resources.setup_language_title
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

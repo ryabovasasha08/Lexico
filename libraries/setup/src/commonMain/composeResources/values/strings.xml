@@ -77,15 +77,4 @@
     <string name="setup_notifications_denied">Notifications are required to continue. Please enable them to unlock your daily words.</string>
     <string name="setup_notifications_cta_text">Enable notifications</string>
     <string name="setup_notifications_settings_cta_text">Open settings</string>
-
-
-    <!--    Home screen -->
-    <string name="home_today_drops">Today&#39;s drops</string>
-    <string name="home_new_badge">New</string>
-    <string name="home_use_now">Use it now</string>
-    <string name="home_listen">Listen</string>
-    <string name="home_practice_now">Practice now</string>
-    <string name="home_review_recent">Review recent</string>
-    <string name="home_adjust_drops">Adjust drops</string>
-    <string name="home_streak_badge">%1$d day streak</string>
 </resources>

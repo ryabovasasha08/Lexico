@@ -34,10 +34,10 @@ import com.oriabova.lexico.theme.Colors
 import com.oriabova.lexico.theme.LexicoFont
 import com.oriabova.lexico.theme.LexicoTheme
 import kotlinx.coroutines.delay
-import lexico.libraries.designsystem.generated.resources.Res
-import lexico.libraries.designsystem.generated.resources.setup_level_examples
-import lexico.libraries.designsystem.generated.resources.setup_level_subtitle
-import lexico.libraries.designsystem.generated.resources.setup_level_title
+import lexico.libraries.setup.generated.resources.Res
+import lexico.libraries.setup.generated.resources.setup_level_examples
+import lexico.libraries.setup.generated.resources.setup_level_subtitle
+import lexico.libraries.setup.generated.resources.setup_level_title
 import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

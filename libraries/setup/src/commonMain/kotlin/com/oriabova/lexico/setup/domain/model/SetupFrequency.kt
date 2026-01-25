@@ -1,19 +1,19 @@
 package com.oriabova.lexico.setup.domain.model
 
 import kotlinx.serialization.Serializable
-import lexico.libraries.designsystem.generated.resources.Res
-import lexico.libraries.designsystem.generated.resources.setup_frequency_heavy_daily_description
-import lexico.libraries.designsystem.generated.resources.setup_frequency_heavy_daily_name
-import lexico.libraries.designsystem.generated.resources.setup_frequency_heavy_daily_pace
-import lexico.libraries.designsystem.generated.resources.setup_frequency_light_daily_description
-import lexico.libraries.designsystem.generated.resources.setup_frequency_light_daily_name
-import lexico.libraries.designsystem.generated.resources.setup_frequency_light_daily_pace
-import lexico.libraries.designsystem.generated.resources.setup_frequency_weekdays_description
-import lexico.libraries.designsystem.generated.resources.setup_frequency_weekdays_name
-import lexico.libraries.designsystem.generated.resources.setup_frequency_weekdays_pace
-import lexico.libraries.designsystem.generated.resources.setup_frequency_weekender_description
-import lexico.libraries.designsystem.generated.resources.setup_frequency_weekender_name
-import lexico.libraries.designsystem.generated.resources.setup_frequency_weekender_pace
+import lexico.libraries.setup.generated.resources.Res
+import lexico.libraries.setup.generated.resources.setup_frequency_heavy_daily_description
+import lexico.libraries.setup.generated.resources.setup_frequency_heavy_daily_name
+import lexico.libraries.setup.generated.resources.setup_frequency_heavy_daily_pace
+import lexico.libraries.setup.generated.resources.setup_frequency_light_daily_description
+import lexico.libraries.setup.generated.resources.setup_frequency_light_daily_name
+import lexico.libraries.setup.generated.resources.setup_frequency_light_daily_pace
+import lexico.libraries.setup.generated.resources.setup_frequency_weekdays_description
+import lexico.libraries.setup.generated.resources.setup_frequency_weekdays_name
+import lexico.libraries.setup.generated.resources.setup_frequency_weekdays_pace
+import lexico.libraries.setup.generated.resources.setup_frequency_weekender_description
+import lexico.libraries.setup.generated.resources.setup_frequency_weekender_name
+import lexico.libraries.setup.generated.resources.setup_frequency_weekender_pace
 import org.jetbrains.compose.resources.StringResource
 
 @Serializable

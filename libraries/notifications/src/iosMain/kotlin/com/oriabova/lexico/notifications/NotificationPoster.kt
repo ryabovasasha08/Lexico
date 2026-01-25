@@ -8,8 +8,8 @@ import platform.UserNotifications.UNNotificationTrigger
 import platform.UserNotifications.UNUserNotificationCenter
 import kotlin.coroutines.resume
 
-internal class NotificationPoster(
-    private val center: UNUserNotificationCenter = UNUserNotificationCenter.Companion.currentNotificationCenter()
+class NotificationPoster(
+    private val center: UNUserNotificationCenter = UNUserNotificationCenter.currentNotificationCenter()
 ) {
     fun post(
         identifier: String,
@@ -25,7 +25,7 @@ internal class NotificationPoster(
                 setSound(sound)
             }
         }
-        val request = UNNotificationRequest.Companion.requestWithIdentifier(
+        val request = UNNotificationRequest.requestWithIdentifier(
             identifier,
             content,
             trigger

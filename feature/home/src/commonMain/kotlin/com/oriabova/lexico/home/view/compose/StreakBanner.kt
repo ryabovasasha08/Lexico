@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.oriabova.lexico.theme.Colors
 import com.oriabova.lexico.theme.LexicoFont
-import lexico.libraries.designsystem.generated.resources.Res
-import lexico.libraries.designsystem.generated.resources.home_streak_badge
+import lexico.feature.home.generated.resources.Res
+import lexico.feature.home.generated.resources.home_streak_badge
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

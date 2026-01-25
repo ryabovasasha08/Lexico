@@ -25,13 +25,13 @@ import com.oriabova.lexico.permissions.rememberNotificationSettingsOpener
 import com.oriabova.lexico.theme.Colors
 import com.oriabova.lexico.theme.LexicoFont
 import com.oriabova.lexico.theme.LexicoTheme
-import lexico.libraries.designsystem.generated.resources.Res
-import lexico.libraries.designsystem.generated.resources.setup_notifications_body
-import lexico.libraries.designsystem.generated.resources.setup_notifications_cta_text
-import lexico.libraries.designsystem.generated.resources.setup_notifications_denied
-import lexico.libraries.designsystem.generated.resources.setup_notifications_note
-import lexico.libraries.designsystem.generated.resources.setup_notifications_settings_cta_text
-import lexico.libraries.designsystem.generated.resources.setup_notifications_title
+import lexico.libraries.setup.generated.resources.Res
+import lexico.libraries.setup.generated.resources.setup_notifications_body
+import lexico.libraries.setup.generated.resources.setup_notifications_cta_text
+import lexico.libraries.setup.generated.resources.setup_notifications_denied
+import lexico.libraries.setup.generated.resources.setup_notifications_note
+import lexico.libraries.setup.generated.resources.setup_notifications_settings_cta_text
+import lexico.libraries.setup.generated.resources.setup_notifications_title
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

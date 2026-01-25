@@ -62,6 +62,19 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.contentNegotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+
+            implementation(projects.libraries.designsystem)
+            implementation(projects.libraries.languageUtils)
+            implementation(projects.libraries.ai)
+            implementation(projects.libraries.localstorage)
+            implementation(projects.libraries.permissions)
+            implementation(projects.libraries.notifications)
+            implementation(projects.libraries.serialization)
+            implementation(projects.libraries.newwordscheduler)
+            implementation(projects.libraries.setup)
+            
+            implementation(projects.feature.home)
+            implementation(projects.feature.setup)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
