@@ -46,6 +46,8 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(libs.coil3.compose)
+            implementation(libs.coil3.network.ktor)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
@@ -70,7 +72,6 @@ kotlin {
             implementation(projects.libraries.permissions)
             implementation(projects.libraries.notifications)
             implementation(projects.libraries.serialization)
-            implementation(projects.libraries.newwordscheduler)
             implementation(projects.libraries.setup)
             
             implementation(projects.feature.home)

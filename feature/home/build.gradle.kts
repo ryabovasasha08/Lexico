@@ -20,8 +20,19 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            implementation(libs.ktor.client.core)
+
+//            implementation(libs.coil3.compose.core)
+//            implementation(libs.coil3.mp)
+            implementation(libs.coil3.compose)
+            implementation(libs.coil3.network.ktor)
             implementation(libs.koin.compose)
             implementation(libs.koin.composeVM)
         }
     }
+}
+
+dependencies {
+    debugImplementation(compose.uiTooling)
 }
