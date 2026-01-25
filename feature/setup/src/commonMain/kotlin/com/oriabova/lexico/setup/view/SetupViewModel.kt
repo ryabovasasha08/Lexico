@@ -2,7 +2,6 @@ package com.oriabova.lexico.setup.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oriabova.lexico.newwordscheduler.domain.ScheduleNewWordNotificationsUseCase
 import com.oriabova.lexico.setup.domain.ObserveSetupDetailsUseCase
 import com.oriabova.lexico.setup.domain.StoreSetupDetailsUseCase
 import com.oriabova.lexico.setup.domain.model.SetupDetails
@@ -20,7 +19,6 @@ import kotlinx.coroutines.launch
 internal class SetupViewModel(
     observeSetupDetailsUseCase: ObserveSetupDetailsUseCase,
     private val storeSetupDetailsUseCase: StoreSetupDetailsUseCase,
-    private val scheduleNewWordNotificationsUseCase: ScheduleNewWordNotificationsUseCase,
 ) : ViewModel() {
 
     private val isWelcomeCompleted = MutableStateFlow(false)
@@ -47,7 +45,7 @@ internal class SetupViewModel(
             is SetupUiEvent.LevelSelected -> completeLevelSetup(uiEvent.level)
             is SetupUiEvent.FrequencySelected -> completeFrequencySetup(uiEvent.frequency)
             is SetupUiEvent.NotificationPermissionGranted -> completeNotificationPermission()
-            is SetupUiEvent.SetupComplete -> onSetupComplete()
+            is SetupUiEvent.SetupComplete -> { /* No-op */ }
         }
     }
 
@@ -78,10 +76,6 @@ internal class SetupViewModel(
         setupDetails.frequency == null -> SetupState.FREQUENCY_CHOICE
         !setupDetails.notificationPermissionGranted -> SetupState.NOTIFICATION_PERMISSION
         else -> SetupState.COMPLETE
-    }
-
-    private fun onSetupComplete() {
-        viewModelScope.launch { scheduleNewWordNotificationsUseCase() }
     }
 
     private fun storeSetupDetails(newSetupDetails: SetupDetails) {

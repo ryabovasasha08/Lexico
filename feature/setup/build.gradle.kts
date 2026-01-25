@@ -9,7 +9,6 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.libraries.languageUtils)
             implementation(projects.libraries.designsystem)
-            implementation(projects.libraries.newwordscheduler)
             implementation(projects.libraries.permissions)
             implementation(projects.libraries.setup)
             implementation(compose.runtime)
