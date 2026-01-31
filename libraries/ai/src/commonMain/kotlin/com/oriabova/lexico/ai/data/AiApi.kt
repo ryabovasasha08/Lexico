@@ -1,6 +1,5 @@
 package com.oriabova.lexico.ai.data
 
-import com.oriabova.lexico.ai.data.model.AiConfig
 import com.oriabova.lexico.ai.data.model.GeminiPrompt
 import com.oriabova.lexico.ai.data.model.GenerateContentRequest
 import com.oriabova.lexico.ai.data.model.GenerateContentResponse
@@ -24,13 +23,16 @@ internal interface AiApi {
 internal class GeminiApi(
     private val httpClient: HttpClient,
     private val json: Json,
-    private val config: AiConfig,
+    private val aiKeyProvider: AiKeyProvider,
 ) : AiApi {
     private val systemInstruction: String =
         "You are a language tutor. Return ONLY valid JSON that matches the schema. " +
                 "No extra keys, no markdown, no commentary."
 
     override suspend fun generateWord(request: WordGenerationRequest): GeneratedWord {
+        val apiKey = aiKeyProvider.getGeminiApiKey()
+        require(apiKey.isNotBlank()) { "Gemini API key is missing." }
+
         val payload = GenerateContentRequest(
             contents = listOf(
                 GeneratedContent(
@@ -50,9 +52,9 @@ internal class GeminiApi(
         )
 
         val response: GenerateContentResponse = httpClient.post(
-            "https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent"
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent"
         ) {
-            url { parameters.append("key", config.apiKey) }
+            url { parameters.append("key", apiKey) }
             contentType(ContentType.Application.Json)
             setBody(payload)
         }.body()

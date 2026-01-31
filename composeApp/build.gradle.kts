@@ -25,6 +25,7 @@ kotlin {
             isStatic = true
             linkerOpts("-framework", "AVFoundation")
             binaryOption("bundleId", "com.oriabova.lexico")
+            export(projects.libraries.ai)
         }
     }
     
@@ -71,7 +72,7 @@ kotlin {
 
             implementation(projects.libraries.designsystem)
             implementation(projects.libraries.languageUtils)
-            implementation(projects.libraries.ai)
+            api(projects.libraries.ai)
             implementation(projects.libraries.localstorage)
             implementation(projects.libraries.permissions)
             implementation(projects.libraries.notifications)
@@ -104,9 +105,6 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
-
-        val geminiApiKey = (project.findProperty("GEMINI_API_KEY") as String?) ?: ""
-        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
     }
     packaging {
         resources {

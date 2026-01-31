@@ -13,10 +13,13 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.contentNegotiation)
+            implementation(libs.ktor.client.logging)
             implementation(libs.ktor.serialization.kotlinx.json)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.okhttp)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.firebase.config)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -27,11 +30,6 @@ kotlin {
 android {
     buildFeatures {
         buildConfig = true
-    }
-
-    defaultConfig {
-        val geminiApiKey = (project.findProperty("GEMINI_API_KEY") as String?) ?: ""
-        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
     }
 
     compileOptions {
