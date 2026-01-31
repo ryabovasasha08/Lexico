@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1B2C3D4E5F60718293A4B5C /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D4E5F60718293A4B5D /* FirebaseCore */; };
 		40AB8D262ED268FE0075BF1F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40AB8D252ED268FE0075BF1F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1B2C3D4E5F60718293A4B5C /* FirebaseCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +93,7 @@
 			);
 			name = iosApp;
 			packageProductDependencies = (
+				A1B2C3D4E5F60718293A4B5D /* FirebaseCore */,
 			);
 			productName = iosApp;
 			productReference = FDA36D26CA88F4B58E71BB1B /* Lexico.app */;
@@ -120,6 +123,9 @@
 			);
 			mainGroup = 40328CB997A5CD2BE46273CC;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				407D2E452F2E84FE0080500E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 311D6EABE169F8D3A6802175 /* Products */;
 			projectDirPath = "";
@@ -375,6 +381,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		407D2E452F2E84FE0080500E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A1B2C3D4E5F60718293A4B5D /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 407D2E452F2E84FE0080500E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D8F175BE6EEA373F3925BBD2 /* Project object */;
 }

@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.googleServices)
 }
 
 kotlin {
@@ -23,6 +24,7 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
             linkerOpts("-framework", "AVFoundation")
+            binaryOption("bundleId", "com.oriabova.lexico")
         }
     }
     
@@ -34,6 +36,8 @@ kotlin {
             implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.work.runtime)
             implementation(libs.ktor.client.okhttp)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.firebase.common)
 
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)

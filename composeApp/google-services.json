@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "113430743657",
+    "project_id": "lexico-68f00",
+    "storage_bucket": "lexico-68f00.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:113430743657:android:6ad2d48b78bd827ce430f8",
+        "android_client_info": {
+          "package_name": "com.oriabova.lexico"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvTBaeXYD9iJqVqNexOD0Q9AbFhcKkiGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
