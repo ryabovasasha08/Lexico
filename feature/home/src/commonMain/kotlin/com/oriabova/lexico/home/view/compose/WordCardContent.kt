@@ -239,7 +239,6 @@ private fun NuanceTooltip(
         )
     }
 }
-)
 
 @Composable
 private fun CardDivider() {
