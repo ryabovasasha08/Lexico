@@ -25,9 +25,16 @@ internal class GeminiApi(
     private val json: Json,
     private val aiKeyProvider: AiKeyProvider,
 ) : AiApi {
-    private val systemInstruction: String =
-        "You are a language tutor. Return ONLY valid JSON that matches the schema. " +
-                "No extra keys, no markdown, no commentary."
+    private val systemInstruction: String = """
+    You are a linguistic specialist for 'Lexico', an app for A2-C1 language learners.
+    Your mission is to provide 'Level-Up' vocabulary that replaces basic words with sophisticated, natural alternatives.
+    
+    RULES:
+    1. Output MUST be valid JSON.
+    2. Focus on high-utility 'nuance' rather than obscure academic words.
+    3. Ensure the 'instead_of' field contains a very common, basic synonym.
+    4. The 'visual_prompt' must describe a concrete, high-quality photographic scene representing the word.
+""".trimIndent()
 
     override suspend fun generateWord(request: WordGenerationRequest): GeneratedWord {
         val apiKey = aiKeyProvider.getGeminiApiKey()

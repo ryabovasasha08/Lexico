@@ -14,8 +14,12 @@ internal class WordRepositoryImpl(
             word = result.word,
             translation = result.translation,
             example = result.example,
-            partOfSpeech = result.partOfSpeech,
-            ipa = result.ipa,
+            exampleTranslation = result.exampleTranslation,
+            wordPronunciation = result.wordPronunciation,
+            insteadOfPronunciation = result.insteadOfPronunciation,
+            insteadOf = result.insteadOf,
+            nuance = result.nuance,
+            visualPrompt = result.visualPrompt,
             language = request.language,
         )
     }

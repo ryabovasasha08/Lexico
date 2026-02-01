@@ -43,7 +43,9 @@ internal class HomeViewModel(
                 word = "Serendipity",
                 insteadOf = "Lucky",
                 example = "Finding that tiny cafe was pure serendipity on the trip.",
-                imageUrl = "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                nuance = "Serendipity implies a fortunate discovery by chance, not just general luck.",
+                imageUrl = "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+                visualPrompt = "Warm sunlit alley with a cozy hidden cafe, cinematic, inviting."
             )
         )
     }
@@ -55,9 +57,11 @@ internal class HomeViewModel(
             maxSavedCount = 5,
             currentCard = VocabularyCard(
                 word = this.word,
-                insteadOf = this.translation,
+                insteadOf = this.insteadOf,
                 example = this.example,
-                imageUrl = "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" // TODO: get real image url
+                nuance = this.nuance,
+                imageUrl = "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee", // TODO: get real image url
+                visualPrompt = this.visualPrompt,
             )
         )
     }

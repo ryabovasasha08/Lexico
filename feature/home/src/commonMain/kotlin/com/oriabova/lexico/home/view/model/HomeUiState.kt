@@ -11,5 +11,7 @@ internal data class VocabularyCard(
     val word: String,
     val insteadOf: String,
     val example: String,
+    val nuance: String,
     val imageUrl: String,
+    val visualPrompt: String,
 )

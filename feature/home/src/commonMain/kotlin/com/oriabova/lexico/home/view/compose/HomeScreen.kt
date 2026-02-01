@@ -22,15 +22,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -181,7 +187,7 @@ private fun LexicoCard(
             ) {
                 AsyncImage(
                     model = card.imageUrl,
-                    contentDescription = card.word,
+                    contentDescription = card.visualPrompt,
                     contentScale = ContentScale.Crop,
                     placeholder = ColorPainter(Colors.primary050),
                     error = ColorPainter(Colors.primary050),
@@ -249,7 +255,8 @@ private fun LexicoCard(
 
             NuanceSection(
                 insteadOf = card.insteadOf,
-                targetWord = card.word
+                targetWord = card.word,
+                nuance = card.nuance
             )
         }
     }
@@ -275,14 +282,50 @@ private fun EmptyCardState() {
 private fun NuanceSection(
     insteadOf: String,
     targetWord: String,
+    nuance: String,
 ) {
+    val isTooltipVisible = remember { mutableStateOf(false) }
+
     Column(verticalArrangement = Arrangement.spacedBy(NuanceSpacing)) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "Nuance",
+                style = LexicoFont.f075Highlight(color = Colors.primary500)
+            )
+            if (nuance.isNotBlank()) {
+                Box {
+                    IconButton(
+                        onClick = { isTooltipVisible.value = true },
+                        modifier = Modifier.size(20.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Info,
+                            contentDescription = "Show nuance",
+                            tint = Colors.primary500,
+                            modifier = Modifier.size(14.dp)
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = isTooltipVisible.value,
+                        onDismissRequest = { isTooltipVisible.value = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    text = nuance,
+                                    style = LexicoFont.f100Default(color = Colors.support700)
+                                )
+                            },
+                            onClick = { isTooltipVisible.value = false }
+                        )
+                    }
+                }
+            }
+        }
         Text(
-            text = "Nuance",
-            style = LexicoFont.f075Highlight(color = Colors.primary500)
-        )
-        Text(
-            text = "Instead of $insteadOf -> $targetWord",
+            text = "$insteadOf -> $targetWord",
             style = LexicoFont.f100Default(color = Colors.support900)
         )
     }
@@ -376,7 +419,9 @@ private fun HomeScreenPreview() {
                     word = "Serendipity",
                     insteadOf = "Lucky",
                     example = "Finding that tiny cafe was pure serendipity on the trip.",
-                    imageUrl = "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                    nuance = "Serendipity implies a fortunate discovery by chance.",
+                    imageUrl = "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+                    visualPrompt = "Warm sunlit alley with a cozy hidden cafe, cinematic, inviting."
                 )
             ),
             handleUiEvent = {}
