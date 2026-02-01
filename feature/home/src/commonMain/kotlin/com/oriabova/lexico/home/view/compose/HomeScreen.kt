@@ -1,9 +1,7 @@
 package com.oriabova.lexico.home.view.compose
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -12,6 +10,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,32 +22,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.VolumeUp
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.AsyncImage
 import com.oriabova.lexico.home.view.HomeViewModel
 import com.oriabova.lexico.home.view.model.HomeUiEvent
 import com.oriabova.lexico.home.view.model.HomeUiEvent.OnSaveWord
@@ -58,47 +47,25 @@ import com.oriabova.lexico.home.view.model.VocabularyCard
 import com.oriabova.lexico.theme.Colors
 import com.oriabova.lexico.theme.LexicoFont
 import com.oriabova.lexico.theme.LexicoTheme
+import com.oriabova.lexico.theme.Spacing
 import com.oriabova.lexico.tts.rememberTtsSpeaker
 import com.oriabova.lexico.utils.Language
 import lexico.feature.home.generated.resources.Res
-import lexico.feature.home.generated.resources.home_example
-import lexico.feature.home.generated.resources.home_instead_of_format
 import lexico.feature.home.generated.resources.home_no_word_ready
-import lexico.feature.home.generated.resources.home_nuance
-import lexico.feature.home.generated.resources.home_play_pronunciation
-import lexico.feature.home.generated.resources.home_pronunciation
 import lexico.feature.home.generated.resources.home_save
 import lexico.feature.home.generated.resources.home_saved_for_practice
-import lexico.feature.home.generated.resources.home_show_nuance
 import lexico.feature.home.generated.resources.home_skip
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
-private val CardCornerRadius = 24.dp
 private val ProgressHeight = 8.dp
 private val ActionButtonSize = 64.dp
-private val ActionBarPadding = 24.dp
-private val ActionBarSpacing = 36.dp
-private val NuanceSpacing = 6.dp
-private val WordBadgePaddingHorizontal = 22.dp
-private val WordBadgePaddingVertical = 10.dp
-private val AudioChipPaddingHorizontal = 14.dp
-private val AudioChipPaddingVertical = 6.dp
-private val DividerHeight = 1.dp
-private val DividerAlpha = 0.4f
 private val ActionLabelSpacing = 8.dp
 private val CardBorderWidth = 1.dp
 private val CardElevation = 10.dp
-private val BadgeCornerRadius = 14.dp
-private val ChipCornerRadius = 50.dp
-private val ChipBorderWidth = 1.dp
-private val ChipSpacing = 8.dp
 private val ProgressCornerRadius = 50.dp
 private val ActionButtonBorderWidth = 2.dp
-private val EmptyCardHeight = 250.dp
-private val NuanceInfoButtonSize = 20.dp
-private val NuanceInfoIconSize = 14.dp
 
 @Composable
 internal fun HomeScreen(
@@ -156,7 +123,7 @@ private fun HomeScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = metrics.screenPadding, vertical = metrics.screenPadding),
+                .padding(metrics.screenPadding),
             verticalArrangement = Arrangement.spacedBy(metrics.cardSpacing)
         ) {
             ProgressSection(
@@ -165,11 +132,15 @@ private fun HomeScreenContent(
                 maxSavedCount = uiState.maxSavedCount,
                 spacing = metrics.progressSpacing
             )
-            LexicoCard(
-                card = uiState.currentCard,
-                metrics = metrics,
-                onAudioPlay = onAudioPlay
-            )
+            WordCard {
+                uiState.currentCard?.let {
+                    WordCardContent(
+                        card = it,
+                        metrics = metrics,
+                        onAudioPlay = { onAudioPlay(it) }
+                    )
+                } ?: EmptyWordCard()
+            }
         }
     }
 }
@@ -209,116 +180,23 @@ private fun ProgressSection(
 }
 
 @Composable
-private fun LexicoCard(
-    card: VocabularyCard?,
-    metrics: HomeScreenMetrics,
-    onAudioPlay: (VocabularyCard) -> Unit,
-) {
+private fun WordCard(content: @Composable () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(CardCornerRadius),
         colors = CardDefaults.elevatedCardColors(containerColor = Colors.supportLight),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = CardElevation),
         border = BorderStroke(CardBorderWidth, Colors.primary300)
-    ) {
-        Column(
-            modifier = Modifier.padding(metrics.cardPadding),
-            verticalArrangement = Arrangement.spacedBy(metrics.cardSpacing)
-        ) {
-            if (card == null) {
-                EmptyCardState()
-                return@Column
-            }
+    ) { content() }
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(metrics.imageHeight)
-                    .clip(RoundedCornerShape(CardCornerRadius))
-            ) {
-                AsyncImage(
-                    model = card.imageUrl,
-                    contentDescription = card.visualPrompt,
-                    contentScale = ContentScale.Crop,
-                    placeholder = ColorPainter(Colors.primary050),
-                    error = ColorPainter(Colors.primary050),
-                    modifier = Modifier.matchParentSize()
-                )
-                Text(
-                    text = card.word,
-                    style = LexicoFont.f300Highlight(color = Colors.supportLight),
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = metrics.badgeBottomPadding)
-                        .background(
-                            color = Colors.primary500,
-                            shape = RoundedCornerShape(BadgeCornerRadius)
-                        )
-                        .padding(
-                            horizontal = WordBadgePaddingHorizontal,
-                            vertical = WordBadgePaddingVertical
-                        )
-                )
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Row(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(ChipCornerRadius))
-                        .background(Colors.primary050)
-                        .border(ChipBorderWidth, Colors.primary200, RoundedCornerShape(ChipCornerRadius))
-                        .clickable { onAudioPlay(card) }
-                        .padding(
-                            horizontal = AudioChipPaddingHorizontal,
-                            vertical = AudioChipPaddingVertical
-                        ),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(ChipSpacing)
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.VolumeUp,
-                        contentDescription = stringResource(Res.string.home_play_pronunciation),
-                        tint = Colors.primary500
-                    )
-                    Text(
-                        text = stringResource(Res.string.home_pronunciation),
-                        style = LexicoFont.f075Highlight(color = Colors.primary500)
-                    )
-                }
-            }
-
-            Column(verticalArrangement = Arrangement.spacedBy(metrics.sectionSpacing)) {
-                Text(
-                    text = stringResource(Res.string.home_example),
-                    style = LexicoFont.f075Highlight(color = Colors.primary500)
-                )
-                Text(
-                    text = card.example,
-                    style = LexicoFont.f100Default(color = Colors.support700)
-                )
-            }
-
-            CardDivider()
-
-            NuanceSection(
-                insteadOf = card.insteadOf,
-                targetWord = card.word,
-                nuance = card.nuance
-            )
-        }
-    }
 }
 
 @Composable
-private fun EmptyCardState() {
+private fun EmptyWordCard() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(EmptyCardHeight),
+            .aspectRatio(1f),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -330,69 +208,6 @@ private fun EmptyCardState() {
 }
 
 @Composable
-private fun NuanceSection(
-    insteadOf: String,
-    targetWord: String,
-    nuance: String,
-) {
-    val isTooltipVisible = remember { mutableStateOf(false) }
-
-    Column(verticalArrangement = Arrangement.spacedBy(NuanceSpacing)) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = stringResource(Res.string.home_nuance),
-                style = LexicoFont.f075Highlight(color = Colors.primary500)
-            )
-            if (nuance.isNotBlank()) {
-                Box {
-                    IconButton(
-                        onClick = { isTooltipVisible.value = true },
-                        modifier = Modifier.size(NuanceInfoButtonSize)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Info,
-                            contentDescription = stringResource(Res.string.home_show_nuance),
-                            tint = Colors.primary500,
-                            modifier = Modifier.size(NuanceInfoIconSize)
-                        )
-                    }
-                    DropdownMenu(
-                        expanded = isTooltipVisible.value,
-                        onDismissRequest = { isTooltipVisible.value = false }
-                    ) {
-                        DropdownMenuItem(
-                            text = {
-                                Text(
-                                    text = nuance,
-                                    style = LexicoFont.f100Default(color = Colors.support700)
-                                )
-                            },
-                            onClick = { isTooltipVisible.value = false }
-                        )
-                    }
-                }
-            }
-        }
-        Text(
-            text = stringResource(Res.string.home_instead_of_format, insteadOf, targetWord),
-            style = LexicoFont.f100Default(color = Colors.support900)
-        )
-    }
-}
-
-@Composable
-private fun CardDivider() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(DividerHeight)
-            .background(Colors.primary200.copy(alpha = DividerAlpha))
-    )
-}
-
-@Composable
 private fun ActionBar(
     onSkip: () -> Unit,
     onSave: () -> Unit,
@@ -400,7 +215,7 @@ private fun ActionBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = ActionBarPadding, end = ActionBarPadding, bottom = ActionBarPadding),
+            .padding(start = Spacing.XL, end = Spacing.XL, bottom = Spacing.XL),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -414,7 +229,7 @@ private fun ActionBar(
                 contentDescription = null
             )
         }
-        Spacer(modifier = Modifier.size(ActionBarSpacing))
+        Spacer(modifier = Modifier.size(Spacing.X3L))
         ActionButton(
             label = stringResource(Res.string.home_save),
             background = Colors.success500,
@@ -464,6 +279,8 @@ private fun progressFraction(savedCount: Int, maxSavedCount: Int): Float {
 }
 
 @Composable
+@Preview(name = "Small Phone", widthDp = 320, heightDp = 640)
+@Preview(name = "Foldable", widthDp = 673, heightDp = 841)
 @Preview(showBackground = true)
 private fun HomeScreenPreview() {
     LexicoTheme {
@@ -481,6 +298,23 @@ private fun HomeScreenPreview() {
                     visualPrompt = "Warm sunlit alley with a cozy hidden cafe, cinematic, inviting.",
                     language = Language(code = "en-GB", name = "English")
                 )
+            ),
+            handleUiEvent = {}
+        )
+    }
+}
+
+
+@Composable
+@Preview(showBackground = true)
+private fun HomeScreenEmptyPreview() {
+    LexicoTheme {
+        HomeScreenInternal(
+            uiState = HomeUiState(
+                isLoading = false,
+                savedCount = 1,
+                maxSavedCount = 3,
+                currentCard = null
             ),
             handleUiEvent = {}
         )
