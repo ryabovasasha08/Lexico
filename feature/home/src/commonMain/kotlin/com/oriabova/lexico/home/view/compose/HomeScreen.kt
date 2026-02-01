@@ -1,5 +1,6 @@
 package com.oriabova.lexico.home.view.compose
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -133,13 +134,19 @@ private fun HomeScreenContent(
                 spacing = metrics.progressSpacing
             )
             WordCard {
-                uiState.currentCard?.let {
-                    WordCardContent(
-                        card = it,
-                        metrics = metrics,
-                        onAudioPlay = { onAudioPlay(it) }
-                    )
-                } ?: EmptyWordCard()
+                val cardState = if (uiState.isLoading) null else uiState.currentCard
+                Crossfade(targetState = cardState, label = "word_card_crossfade") { card ->
+                    when {
+                        uiState.isLoading -> LoadingWordCard(metrics = metrics)
+                        card != null -> WordCardContent(
+                            card = card,
+                            metrics = metrics,
+                            onAudioPlay = { onAudioPlay(card) }
+                        )
+
+                        else -> EmptyWordCard()
+                    }
+                }
             }
         }
     }

@@ -25,16 +25,18 @@ internal class HomeViewModel(
     observeSavedWordsUseCase: ObserveSavedWordsUseCase,
 ) : ViewModel() {
 
+    private val isLoading = MutableStateFlow(false)
     private val wordToDisplay = MutableStateFlow<GeneratedWord?>(null)
     private val savedWords =
         observeSavedWordsUseCase().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     val uiState: StateFlow<HomeUiState> = combine(
         wordToDisplay,
-        savedWords
-    ) { generatedWord, savedWords ->
+        savedWords,
+        isLoading
+    ) { generatedWord, savedWords, isLoading ->
         HomeUiState(
-            isLoading = generatedWord == null,
+            isLoading = isLoading,
             savedCount = savedWords.size,
             maxSavedCount = 5,
             currentCard = generatedWord?.toCard()
@@ -74,7 +76,10 @@ internal class HomeViewModel(
     }
 
     private suspend fun loadNextWord() {
-        wordToDisplay.value = generateWordUseCase(savedWords.value.map { it.word })
+        if (isLoading.compareAndSet(expect = false, update = true)) {
+            wordToDisplay.value = generateWordUseCase(savedWords.value.map { it.word })
+            isLoading.value = false
+        }
     }
 
     private fun GeneratedWord.toCard(): VocabularyCard {

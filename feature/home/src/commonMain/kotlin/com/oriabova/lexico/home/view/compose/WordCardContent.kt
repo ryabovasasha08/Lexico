@@ -1,5 +1,10 @@
 package com.oriabova.lexico.home.view.compose
 
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -23,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -56,6 +63,14 @@ private val DividerAlpha = 0.4f
 private val NuanceInfoButtonSize = 20.dp
 private val NuanceInfoIconSize = 14.dp
 private val SectionSpacing = 12.dp
+private val PlaceholderCornerRadius = 12.dp
+private val PlaceholderLineHeight = 12.dp
+private val PlaceholderSmallLineWidth = 120.dp
+private val PlaceholderMediumLineWidth = 180.dp
+private val PlaceholderChipWidth = 150.dp
+private val PlaceholderChipHeight = 36.dp
+private val PlaceholderBadgeWidth = 160.dp
+private val PlaceholderBadgeHeight = 40.dp
 
 @Composable
 internal fun WordCardContent(
@@ -81,6 +96,105 @@ internal fun WordCardContent(
             targetWord = card.word,
             nuance = card.nuance
         )
+    }
+}
+
+@Composable
+internal fun LoadingWordCard(
+    metrics: HomeScreenMetrics,
+) {
+    val transition = rememberInfiniteTransition(label = "word_card_loading")
+    val alpha by transition.animateFloat(
+        initialValue = 0.35f,
+        targetValue = 0.75f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 900),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "word_card_loading_alpha"
+    )
+
+    val placeholderColor = Colors.primary200.copy(alpha = alpha)
+
+    Column(
+        modifier = Modifier.padding(metrics.cardPadding),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(metrics.cardSpacing)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(4f / 5f)
+                .clip(RoundedCornerShape(CardCornerRadius))
+                .background(placeholderColor)
+        ) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = Spacing.L)
+                    .width(PlaceholderBadgeWidth)
+                    .height(PlaceholderBadgeHeight)
+                    .clip(RoundedCornerShape(BadgeCornerRadius))
+                    .background(Colors.primary400.copy(alpha = alpha))
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .width(PlaceholderChipWidth)
+                .height(PlaceholderChipHeight)
+                .clip(RoundedCornerShape(ChipCornerRadius))
+                .background(Colors.primary050.copy(alpha = alpha))
+        )
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(SectionSpacing)
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(PlaceholderSmallLineWidth)
+                    .height(PlaceholderLineHeight)
+                    .clip(RoundedCornerShape(PlaceholderCornerRadius))
+                    .background(placeholderColor)
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(PlaceholderLineHeight)
+                    .clip(RoundedCornerShape(PlaceholderCornerRadius))
+                    .background(placeholderColor)
+            )
+            Box(
+                modifier = Modifier
+                    .width(PlaceholderMediumLineWidth)
+                    .height(PlaceholderLineHeight)
+                    .clip(RoundedCornerShape(PlaceholderCornerRadius))
+                    .background(placeholderColor)
+            )
+        }
+
+        CardDivider()
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(SectionSpacing)
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(PlaceholderSmallLineWidth)
+                    .height(PlaceholderLineHeight)
+                    .clip(RoundedCornerShape(PlaceholderCornerRadius))
+                    .background(placeholderColor)
+            )
+            Box(
+                modifier = Modifier
+                    .width(PlaceholderMediumLineWidth)
+                    .height(PlaceholderLineHeight)
+                    .clip(RoundedCornerShape(PlaceholderCornerRadius))
+                    .background(placeholderColor)
+            )
+        }
     }
 }
 
@@ -286,4 +400,3 @@ private fun WordCardContentTallScreenPreview() {
         onAudioPlay = {}
     )
 }
-
