@@ -2,6 +2,7 @@ plugins {
     id("com.oriabova.lexico.kmpModule")
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -9,6 +10,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.libraries.languageUtils)
             implementation(projects.libraries.ai)
+            implementation(projects.libraries.localstorage)
             implementation(projects.libraries.designsystem)
             implementation(compose.runtime)
             implementation(compose.foundation)
