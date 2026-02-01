@@ -6,7 +6,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -43,6 +45,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
@@ -57,37 +60,45 @@ import com.oriabova.lexico.theme.LexicoFont
 import com.oriabova.lexico.theme.LexicoTheme
 import com.oriabova.lexico.tts.rememberTtsSpeaker
 import com.oriabova.lexico.utils.Language
+import lexico.feature.home.generated.resources.Res
+import lexico.feature.home.generated.resources.home_example
+import lexico.feature.home.generated.resources.home_instead_of_format
+import lexico.feature.home.generated.resources.home_no_word_ready
+import lexico.feature.home.generated.resources.home_nuance
+import lexico.feature.home.generated.resources.home_play_pronunciation
+import lexico.feature.home.generated.resources.home_pronunciation
+import lexico.feature.home.generated.resources.home_save
+import lexico.feature.home.generated.resources.home_saved_for_practice
+import lexico.feature.home.generated.resources.home_show_nuance
+import lexico.feature.home.generated.resources.home_skip
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
-private val ScreenPadding = 20.dp
-private val CardPadding = 28.dp
 private val CardCornerRadius = 24.dp
-private val CardSpacing = 22.dp
 private val ProgressHeight = 8.dp
-private val ImageHeight = 280.dp
 private val ActionButtonSize = 64.dp
 private val ActionBarPadding = 24.dp
 private val ActionBarSpacing = 36.dp
 private val NuanceSpacing = 6.dp
-private val ProgressSpacing = 10.dp
 private val WordBadgePaddingHorizontal = 22.dp
 private val WordBadgePaddingVertical = 10.dp
 private val AudioChipPaddingHorizontal = 14.dp
 private val AudioChipPaddingVertical = 6.dp
-private val SectionSpacing = 14.dp
 private val DividerHeight = 1.dp
 private val DividerAlpha = 0.4f
 private val ActionLabelSpacing = 8.dp
 private val CardBorderWidth = 1.dp
 private val CardElevation = 10.dp
-private val BadgeBottomPadding = 16.dp
 private val BadgeCornerRadius = 14.dp
 private val ChipCornerRadius = 50.dp
 private val ChipBorderWidth = 1.dp
 private val ChipSpacing = 8.dp
 private val ProgressCornerRadius = 50.dp
 private val ActionButtonBorderWidth = 2.dp
+private val EmptyCardHeight = 250.dp
+private val NuanceInfoButtonSize = 20.dp
+private val NuanceInfoIconSize = 14.dp
 
 @Composable
 internal fun HomeScreen(
@@ -119,50 +130,88 @@ private fun HomeScreenInternal(
             )
         }
     ) { padding ->
+        HomeScreenContent(
+            uiState = uiState,
+            progress = progress,
+            padding = padding,
+            onAudioPlay = { card -> ttsSpeaker.speak(card.word, card.language.code) }
+        )
+    }
+}
+
+@Composable
+private fun HomeScreenContent(
+    uiState: HomeUiState,
+    progress: Float,
+    padding: PaddingValues,
+    onAudioPlay: (VocabularyCard) -> Unit,
+) {
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(padding)
+    ) {
+        val metrics = metricsForHeight(maxHeight)
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(horizontal = ScreenPadding, vertical = ScreenPadding),
-            verticalArrangement = Arrangement.spacedBy(CardSpacing)
+                .padding(horizontal = metrics.screenPadding, vertical = metrics.screenPadding),
+            verticalArrangement = Arrangement.spacedBy(metrics.cardSpacing)
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(ProgressSpacing)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Saved for practice",
-                        style = LexicoFont.f100Default(color = Colors.support900)
-                    )
-                    Text(
-                        text = "${uiState.savedCount}/${uiState.maxSavedCount}",
-                        style = LexicoFont.f075Default(color = Colors.support700)
-                    )
-                }
-                LinearProgressIndicator(
-                    progress = { progress },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(ProgressHeight)
-                        .clip(RoundedCornerShape(ProgressCornerRadius)),
-                    color = Colors.primary500,
-                    trackColor = Colors.primary050
-                )
-            }
+            ProgressSection(
+                progress = progress,
+                savedCount = uiState.savedCount,
+                maxSavedCount = uiState.maxSavedCount,
+                spacing = metrics.progressSpacing
+            )
             LexicoCard(
                 card = uiState.currentCard,
-                onAudioPlay = { card -> ttsSpeaker.speak(card.word, card.language.code) }
+                metrics = metrics,
+                onAudioPlay = onAudioPlay
             )
-            Spacer(modifier = Modifier.weight(1f))
         }
+    }
+}
+
+@Composable
+private fun ProgressSection(
+    progress: Float,
+    savedCount: Int,
+    maxSavedCount: Int,
+    spacing: Dp,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(spacing)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(Res.string.home_saved_for_practice),
+                style = LexicoFont.f100Default(color = Colors.support900)
+            )
+            Text(
+                text = "$savedCount/$maxSavedCount",
+                style = LexicoFont.f075Default(color = Colors.support700)
+            )
+        }
+        LinearProgressIndicator(
+            progress = { progress },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(ProgressHeight)
+                .clip(RoundedCornerShape(ProgressCornerRadius)),
+            color = Colors.primary500,
+            trackColor = Colors.primary050
+        )
     }
 }
 
 @Composable
 private fun LexicoCard(
     card: VocabularyCard?,
+    metrics: HomeScreenMetrics,
     onAudioPlay: (VocabularyCard) -> Unit,
 ) {
     Card(
@@ -173,8 +222,8 @@ private fun LexicoCard(
         border = BorderStroke(CardBorderWidth, Colors.primary300)
     ) {
         Column(
-            modifier = Modifier.padding(CardPadding),
-            verticalArrangement = Arrangement.spacedBy(CardSpacing)
+            modifier = Modifier.padding(metrics.cardPadding),
+            verticalArrangement = Arrangement.spacedBy(metrics.cardSpacing)
         ) {
             if (card == null) {
                 EmptyCardState()
@@ -184,7 +233,7 @@ private fun LexicoCard(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(ImageHeight)
+                    .height(metrics.imageHeight)
                     .clip(RoundedCornerShape(CardCornerRadius))
             ) {
                 AsyncImage(
@@ -200,7 +249,7 @@ private fun LexicoCard(
                     style = LexicoFont.f300Highlight(color = Colors.supportLight),
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .padding(bottom = BadgeBottomPadding)
+                        .padding(bottom = metrics.badgeBottomPadding)
                         .background(
                             color = Colors.primary500,
                             shape = RoundedCornerShape(BadgeCornerRadius)
@@ -232,19 +281,19 @@ private fun LexicoCard(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.VolumeUp,
-                        contentDescription = "Play pronunciation",
+                        contentDescription = stringResource(Res.string.home_play_pronunciation),
                         tint = Colors.primary500
                     )
                     Text(
-                        text = "Pronunciation",
+                        text = stringResource(Res.string.home_pronunciation),
                         style = LexicoFont.f075Highlight(color = Colors.primary500)
                     )
                 }
             }
 
-            Column(verticalArrangement = Arrangement.spacedBy(SectionSpacing)) {
+            Column(verticalArrangement = Arrangement.spacedBy(metrics.sectionSpacing)) {
                 Text(
-                    text = "Example",
+                    text = stringResource(Res.string.home_example),
                     style = LexicoFont.f075Highlight(color = Colors.primary500)
                 )
                 Text(
@@ -269,11 +318,11 @@ private fun EmptyCardState() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(ImageHeight),
+            .height(EmptyCardHeight),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "No word ready yet",
+            text = stringResource(Res.string.home_no_word_ready),
             style = LexicoFont.f100Default(color = Colors.support700),
             textAlign = TextAlign.Center
         )
@@ -293,20 +342,20 @@ private fun NuanceSection(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Nuance",
+                text = stringResource(Res.string.home_nuance),
                 style = LexicoFont.f075Highlight(color = Colors.primary500)
             )
             if (nuance.isNotBlank()) {
                 Box {
                     IconButton(
                         onClick = { isTooltipVisible.value = true },
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(NuanceInfoButtonSize)
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Info,
-                            contentDescription = "Show nuance",
+                            contentDescription = stringResource(Res.string.home_show_nuance),
                             tint = Colors.primary500,
-                            modifier = Modifier.size(14.dp)
+                            modifier = Modifier.size(NuanceInfoIconSize)
                         )
                     }
                     DropdownMenu(
@@ -327,7 +376,7 @@ private fun NuanceSection(
             }
         }
         Text(
-            text = "$insteadOf -> $targetWord",
+            text = stringResource(Res.string.home_instead_of_format, insteadOf, targetWord),
             style = LexicoFont.f100Default(color = Colors.support900)
         )
     }
@@ -351,24 +400,30 @@ private fun ActionBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = ActionBarPadding, vertical = ActionBarPadding),
+            .padding(start = ActionBarPadding, end = ActionBarPadding, bottom = ActionBarPadding),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
         ActionButton(
-            label = "Skip",
+            label = stringResource(Res.string.home_skip),
             background = Colors.error500,
             onClick = onSkip
         ) {
-            Icon(imageVector = Icons.Filled.Close, contentDescription = "Skip word")
+            Icon(
+                imageVector = Icons.Filled.Close,
+                contentDescription = null
+            )
         }
         Spacer(modifier = Modifier.size(ActionBarSpacing))
         ActionButton(
-            label = "Save",
+            label = stringResource(Res.string.home_save),
             background = Colors.success500,
             onClick = onSave
         ) {
-            Icon(imageVector = Icons.Filled.Add, contentDescription = "Save word")
+            Icon(
+                imageVector = Icons.Filled.Add,
+                contentDescription = null
+            )
         }
     }
 }

@@ -1,10 +1,12 @@
 <resources>
-    <string name="home_today_drops">Today&#39;s drops</string>
-    <string name="home_new_badge">New</string>
-    <string name="home_use_now">Use it now</string>
-    <string name="home_listen">Listen</string>
-    <string name="home_practice_now">Practice now</string>
-    <string name="home_review_recent">Review recent</string>
-    <string name="home_adjust_drops">Adjust drops</string>
-    <string name="home_streak_badge">%1$d day streak</string>
+    <string name="home_saved_for_practice">Saved for practice</string>
+    <string name="home_play_pronunciation">Play pronunciation</string>
+    <string name="home_pronunciation">Pronunciation</string>
+    <string name="home_example">Example</string>
+    <string name="home_no_word_ready">No word ready yet</string>
+    <string name="home_nuance">Nuance</string>
+    <string name="home_show_nuance">Show nuance</string>
+    <string name="home_instead_of_format">%1$s -&gt; %2$s</string>
+    <string name="home_skip">Skip</string>
+    <string name="home_save">Save</string>
 </resources>
