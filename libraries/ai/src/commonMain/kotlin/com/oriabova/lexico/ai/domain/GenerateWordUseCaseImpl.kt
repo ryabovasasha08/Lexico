@@ -12,12 +12,13 @@ internal class GenerateWordUseCaseImpl(
 ) : GenerateWordUseCase {
     override suspend fun invoke(): GeneratedWord {
         val setup = getSetupDetailsUseCase()
-        val language = setup.languageToLearn ?: Language("en-GB","English")
+        val fallbackLanguage = Language("en-GB","English")
+        val targetLanguage = setup.languageToLearn ?: fallbackLanguage
         val level = mapToCefr(setup.level ?: SetupLevel.BEGINNER)
         val request = WordGenerationRequest(
-            language = language,
+            targetLanguage = targetLanguage,
             level = level,
-            targetLanguage = "English",
+            originalLanguage = fallbackLanguage,
         )
         return wordRepository.generateWord(request)
     }

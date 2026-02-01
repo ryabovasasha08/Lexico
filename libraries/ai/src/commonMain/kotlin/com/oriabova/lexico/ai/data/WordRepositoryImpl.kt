@@ -20,7 +20,7 @@ internal class WordRepositoryImpl(
             insteadOf = result.insteadOf,
             nuance = result.nuance,
             visualPrompt = result.visualPrompt,
-            language = request.language,
+            language = request.targetLanguage,
         )
     }
 }

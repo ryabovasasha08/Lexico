@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class WordGenerationRequest(
-    val language: Language,
+    val targetLanguage: Language,
     val level: String,
-    val targetLanguage: String,
+    val originalLanguage: Language,
     val topic: String? = null,
     val recentWords: List<String> = emptyList(),
 )

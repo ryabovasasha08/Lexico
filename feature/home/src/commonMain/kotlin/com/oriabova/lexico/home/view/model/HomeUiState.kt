@@ -1,5 +1,7 @@
 package com.oriabova.lexico.home.view.model
 
+import com.oriabova.lexico.utils.Language
+
 internal data class HomeUiState(
     val currentCard: VocabularyCard?,
     val savedCount: Int,
@@ -14,4 +16,5 @@ internal data class VocabularyCard(
     val nuance: String,
     val imageUrl: String,
     val visualPrompt: String,
+    val language: Language,
 )

@@ -48,7 +48,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.oriabova.lexico.home.view.HomeViewModel
 import com.oriabova.lexico.home.view.model.HomeUiEvent
-import com.oriabova.lexico.home.view.model.HomeUiEvent.OnAudioPlay
 import com.oriabova.lexico.home.view.model.HomeUiEvent.OnSaveWord
 import com.oriabova.lexico.home.view.model.HomeUiEvent.OnSkipWord
 import com.oriabova.lexico.home.view.model.HomeUiState
@@ -56,6 +55,8 @@ import com.oriabova.lexico.home.view.model.VocabularyCard
 import com.oriabova.lexico.theme.Colors
 import com.oriabova.lexico.theme.LexicoFont
 import com.oriabova.lexico.theme.LexicoTheme
+import com.oriabova.lexico.tts.rememberTtsSpeaker
+import com.oriabova.lexico.utils.Language
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -106,6 +107,7 @@ private fun HomeScreenInternal(
     handleUiEvent: (HomeUiEvent) -> Unit,
 ) {
     val progress = progressFraction(uiState.savedCount, uiState.maxSavedCount)
+    val ttsSpeaker = rememberTtsSpeaker()
 
     Scaffold(
         containerColor = Colors.primary020,
@@ -151,7 +153,7 @@ private fun HomeScreenInternal(
             }
             LexicoCard(
                 card = uiState.currentCard,
-                onAudioPlay = { handleUiEvent(OnAudioPlay) }
+                onAudioPlay = { card -> ttsSpeaker.speak(card.word, card.language.code) }
             )
             Spacer(modifier = Modifier.weight(1f))
         }
@@ -161,7 +163,7 @@ private fun HomeScreenInternal(
 @Composable
 private fun LexicoCard(
     card: VocabularyCard?,
-    onAudioPlay: () -> Unit,
+    onAudioPlay: (VocabularyCard) -> Unit,
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -220,7 +222,7 @@ private fun LexicoCard(
                         .clip(RoundedCornerShape(ChipCornerRadius))
                         .background(Colors.primary050)
                         .border(ChipBorderWidth, Colors.primary200, RoundedCornerShape(ChipCornerRadius))
-                        .clickable { onAudioPlay() }
+                        .clickable { onAudioPlay(card) }
                         .padding(
                             horizontal = AudioChipPaddingHorizontal,
                             vertical = AudioChipPaddingVertical
@@ -421,7 +423,8 @@ private fun HomeScreenPreview() {
                     example = "Finding that tiny cafe was pure serendipity on the trip.",
                     nuance = "Serendipity implies a fortunate discovery by chance.",
                     imageUrl = "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
-                    visualPrompt = "Warm sunlit alley with a cozy hidden cafe, cinematic, inviting."
+                    visualPrompt = "Warm sunlit alley with a cozy hidden cafe, cinematic, inviting.",
+                    language = Language(code = "en-GB", name = "English")
                 )
             ),
             handleUiEvent = {}
