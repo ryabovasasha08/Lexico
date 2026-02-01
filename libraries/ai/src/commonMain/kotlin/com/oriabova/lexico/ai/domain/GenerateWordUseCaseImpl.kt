@@ -10,7 +10,7 @@ internal class GenerateWordUseCaseImpl(
     private val wordRepository: WordRepository,
     private val getSetupDetailsUseCase: GetSetupDetailsUseCase,
 ) : GenerateWordUseCase {
-    override suspend fun invoke(): GeneratedWord {
+    override suspend fun invoke(recentWords: List<String>): GeneratedWord {
         val setup = getSetupDetailsUseCase()
         val fallbackLanguage = Language("en-GB","English")
         val targetLanguage = setup.languageToLearn ?: fallbackLanguage
@@ -19,6 +19,7 @@ internal class GenerateWordUseCaseImpl(
             targetLanguage = targetLanguage,
             level = level,
             originalLanguage = fallbackLanguage,
+            recentWords = recentWords,
         )
         return wordRepository.generateWord(request)
     }

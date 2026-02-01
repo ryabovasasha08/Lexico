@@ -52,7 +52,7 @@ internal class GeminiApi(
             ),
             generationConfig = GenerationConfig(
                 responseMimeType = "application/json",
-                temperature = 0.7,
+                temperature = 1.5,
                 topP = 0.9,
                 maxOutputTokens = 256,
             ),

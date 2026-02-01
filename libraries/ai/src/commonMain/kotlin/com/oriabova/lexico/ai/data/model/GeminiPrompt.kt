@@ -19,12 +19,12 @@ internal object GeminiPrompt {
 
         Return JSON:
         {
-          "word": "Only the advanced word (e.g., 'Exquisite') in ${request.targetLanguage.name}",
+          "word": "Only the advanced word in ${request.targetLanguage.name}",
           "word_pronunciation": "Phonetic spelling in ${request.originalLanguage.name}",
-          "instead_of": "The basic word it replaces (e.g., 'Very good') in ${request.targetLanguage.name}",
+          "instead_of": "The basic word it replaces in ${request.targetLanguage.name}",
           "instead_of_pronunciation": "Phonetic spelling in ${request.originalLanguage.name}",
           "translation": "Word translation in ${request.originalLanguage.name}",
-          "nuance": "Explanation in ${request.originalLanguage.name} of why this word is better than the basic one.",
+          "nuance": "Explanation in ${request.originalLanguage.name} under 10 words of why this word is better than the basic one.",
           "example": "Natural sentence in ${request.targetLanguage.name} under 12 words. No proper nouns.",
           "example_translation": "Example translation in ${request.targetLanguage.name}",
           "visual_prompt": "A descriptive prompt for an image generator (photography style)."
