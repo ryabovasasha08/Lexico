@@ -203,7 +203,7 @@ private fun EmptyWordCard() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(1f),
+            .aspectRatio(4f / 5f),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -298,6 +298,7 @@ private fun HomeScreenPreview() {
                 maxSavedCount = 3,
                 currentCard = VocabularyCard(
                     word = "Serendipity",
+                    translation = "A happy accident",
                     insteadOf = "Lucky",
                     example = "Finding that tiny cafe was pure serendipity on the trip.",
                     nuance = "Serendipity implies a fortunate discovery by chance.",

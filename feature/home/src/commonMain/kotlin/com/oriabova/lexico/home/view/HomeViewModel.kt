@@ -85,6 +85,7 @@ internal class HomeViewModel(
     private fun GeneratedWord.toCard(): VocabularyCard {
         return VocabularyCard(
             word = this.word,
+            translation = this.translation,
             insteadOf = this.insteadOf,
             example = this.example,
             nuance = this.nuance,

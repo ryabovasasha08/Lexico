@@ -11,6 +11,7 @@ internal data class HomeUiState(
 
 internal data class VocabularyCard(
     val word: String,
+    val translation: String,
     val insteadOf: String,
     val example: String,
     val nuance: String,
