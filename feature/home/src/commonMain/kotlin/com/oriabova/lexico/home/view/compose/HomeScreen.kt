@@ -2,7 +2,14 @@ package com.oriabova.lexico.home.view.compose
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.AnchoredDraggableDefaults
+import androidx.compose.foundation.gestures.AnchoredDraggableState
+import androidx.compose.foundation.gestures.DraggableAnchors
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.anchoredDraggable
+import androidx.compose.foundation.gestures.snapTo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -18,6 +25,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -31,10 +39,19 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -51,6 +68,7 @@ import com.oriabova.lexico.theme.LexicoTheme
 import com.oriabova.lexico.theme.Spacing
 import com.oriabova.lexico.tts.rememberTtsSpeaker
 import com.oriabova.lexico.utils.Language
+import kotlinx.coroutines.flow.collectLatest
 import lexico.feature.home.generated.resources.Res
 import lexico.feature.home.generated.resources.home_no_word_ready
 import lexico.feature.home.generated.resources.home_save
@@ -61,12 +79,14 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 private val ProgressHeight = 8.dp
-private val ActionButtonSize = 64.dp
+private val ActionButtonSize = 52.dp
 private val ActionLabelSpacing = 8.dp
 private val CardBorderWidth = 1.dp
 private val CardElevation = 10.dp
 private val ProgressCornerRadius = 50.dp
 private val ActionButtonBorderWidth = 2.dp
+private const val SwipeThresholdFraction = 0.3f
+private const val MaxRotationDegrees = 8f
 
 @Composable
 internal fun HomeScreen(
@@ -102,7 +122,9 @@ private fun HomeScreenInternal(
             uiState = uiState,
             progress = progress,
             padding = padding,
-            onAudioPlay = { card -> ttsSpeaker.speak(card.word, card.language.code) }
+            onAudioPlay = { card -> ttsSpeaker.speak(card.word, card.language.code) },
+            onSave = { handleUiEvent(OnSaveWord) },
+            onSkip = { handleUiEvent(OnSkipWord) }
         )
     }
 }
@@ -113,6 +135,8 @@ private fun HomeScreenContent(
     progress: Float,
     padding: PaddingValues,
     onAudioPlay: (VocabularyCard) -> Unit,
+    onSave: () -> Unit,
+    onSkip: () -> Unit,
 ) {
     BoxWithConstraints(
         modifier = Modifier
@@ -120,6 +144,8 @@ private fun HomeScreenContent(
             .padding(padding)
     ) {
         val metrics = metricsForHeight(maxHeight)
+        val scrollState = rememberScrollState()
+        val maxWidthPx = with(LocalDensity.current) { maxWidth.toPx() }
 
         Column(
             modifier = Modifier
@@ -133,23 +159,109 @@ private fun HomeScreenContent(
                 maxSavedCount = uiState.maxSavedCount,
                 spacing = metrics.progressSpacing
             )
-            WordCard {
-                val cardState = if (uiState.isLoading) null else uiState.currentCard
-                Crossfade(targetState = cardState, label = "word_card_crossfade") { card ->
-                    when {
-                        uiState.isLoading -> LoadingWordCard(metrics = metrics)
-                        card != null -> WordCardContent(
-                            card = card,
-                            metrics = metrics,
-                            onAudioPlay = { onAudioPlay(card) }
-                        )
-
-                        else -> EmptyWordCard()
+            val cardState = if (uiState.isLoading) null else uiState.currentCard
+            Crossfade(
+                targetState = cardState,
+                label = "word_card_crossfade"
+            ) { card ->
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    WordCard(
+                        modifier = Modifier
+                            .cardSwipe(
+                                maxWidthPx = maxWidthPx,
+                                scrollState = scrollState,
+                                enabled = !uiState.isLoading && card != null,
+                                onSave = onSave,
+                                onSkip = onSkip
+                            )
+                    ) {
+                        when {
+                            uiState.isLoading -> LoadingWordCard(metrics = metrics)
+                            card != null -> WordCardContent(
+                                card = card,
+                                metrics = metrics,
+                                scrollState = scrollState,
+                                onAudioPlay = { onAudioPlay(card) }
+                            )
+                            else -> EmptyWordCard()
+                        }
                     }
                 }
             }
         }
     }
+}
+
+private enum class SwipeAnchor {
+    Center,
+    Skip,
+    Save,
+}
+
+@Composable
+private fun Modifier.cardSwipe(
+    maxWidthPx: Float,
+    scrollState: ScrollState,
+    enabled: Boolean,
+    onSave: () -> Unit,
+    onSkip: () -> Unit,
+): Modifier = composed {
+    val haptic = LocalHapticFeedback.current
+    val swipeState = remember<AnchoredDraggableState<SwipeAnchor>> {
+        AnchoredDraggableState(initialValue = SwipeAnchor.Center)
+    }
+
+    LaunchedEffect(maxWidthPx) {
+        swipeState.updateAnchors(
+            DraggableAnchors {
+                SwipeAnchor.Skip at -maxWidthPx
+                SwipeAnchor.Center at 0f
+                SwipeAnchor.Save at maxWidthPx
+            }
+        )
+    }
+
+    val flingBehavior = AnchoredDraggableDefaults.flingBehavior(
+        state = swipeState,
+        positionalThreshold = { distance -> distance * SwipeThresholdFraction }
+    )
+
+    LaunchedEffect(swipeState) {
+        snapshotFlow { swipeState.settledValue }
+            .collectLatest { value ->
+                when (value) {
+                    SwipeAnchor.Save -> {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onSave()
+                        swipeState.snapTo(SwipeAnchor.Center)
+                    }
+                    SwipeAnchor.Skip -> {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onSkip()
+                        swipeState.snapTo(SwipeAnchor.Center)
+                    }
+                    SwipeAnchor.Center -> Unit
+                }
+            }
+    }
+
+    val offset = runCatching { swipeState.requireOffset() }.getOrDefault(0f)
+    val progressOffset = if (maxWidthPx == 0f) 0f else (offset / maxWidthPx).coerceIn(-1f, 1f)
+    val rotation = progressOffset * MaxRotationDegrees
+
+    graphicsLayer {
+        translationX = offset
+        rotationZ = rotation
+        transformOrigin = TransformOrigin(0.5f, 1f)
+    }.anchoredDraggable(
+        state = swipeState,
+        orientation = Orientation.Horizontal,
+        enabled = enabled && !scrollState.isScrollInProgress,
+        flingBehavior = flingBehavior
+    )
 }
 
 @Composable
@@ -187,9 +299,12 @@ private fun ProgressSection(
 }
 
 @Composable
-private fun WordCard(content: @Composable () -> Unit) {
+private fun WordCard(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(CardCornerRadius),
         colors = CardDefaults.elevatedCardColors(containerColor = Colors.supportLight),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = CardElevation),

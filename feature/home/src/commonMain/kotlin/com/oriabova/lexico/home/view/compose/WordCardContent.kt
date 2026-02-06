@@ -10,6 +10,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -94,12 +95,13 @@ private val PlaceholderBadgeHeight = 40.dp
 internal fun WordCardContent(
     card: VocabularyCard,
     metrics: HomeScreenMetrics,
+    scrollState: ScrollState,
     onAudioPlay: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(scrollState)
             .padding(metrics.cardPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(metrics.cardSpacing)
@@ -441,6 +443,7 @@ private fun WordCardContentShortScreenPreview() {
             language = Language(code = "en", name = "English")
         ),
         metrics = metricsForHeight(600.dp),
+        scrollState = rememberScrollState(),
         onAudioPlay = {}
     )
 }
@@ -461,6 +464,7 @@ private fun WordCardContentTallScreenPreview() {
             language = Language(code = "en", name = "English")
         ),
         metrics = metricsForHeight(800.dp),
+        scrollState = rememberScrollState(),
         onAudioPlay = {}
     )
 }
