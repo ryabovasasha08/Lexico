@@ -18,6 +18,8 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
+private const val MAX_SAVED_COUNT = 5
+
 internal class HomeViewModel(
     private val generateWordUseCase: GenerateWordUseCase,
     private val saveWordUseCase: SaveWordUseCase,
@@ -35,30 +37,36 @@ internal class HomeViewModel(
         savedWords,
         isLoading
     ) { generatedWord, savedWords, isLoading ->
-        HomeUiState(
-            isLoading = isLoading,
-            savedCount = savedWords.size,
-            maxSavedCount = 5,
-            currentCard = generatedWord?.toCard()
-        )
+        when {
+            isLoading -> HomeUiState.Loading(
+                savedCount = savedWords.size,
+                maxSavedCount = MAX_SAVED_COUNT
+            )
+
+            generatedWord == null -> HomeUiState.Empty(
+                savedCount = savedWords.size,
+                maxSavedCount = MAX_SAVED_COUNT
+            )
+
+            else -> HomeUiState.Content(
+                savedCount = savedWords.size,
+                maxSavedCount = 5,
+                currentCard = generatedWord.toCard()
+            )
+        }
     }
         .onStart { loadNextWord() }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, createInitialState())
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            HomeUiState.Loading(0, MAX_SAVED_COUNT)
+        )
 
     fun handleUiEvent(event: HomeUiEvent) {
         when (event) {
             HomeUiEvent.OnSaveWord -> saveCurrentWord()
             HomeUiEvent.OnSkipWord -> skipCurrentWord()
         }
-    }
-
-    private fun createInitialState(): HomeUiState {
-        return HomeUiState(
-            isLoading = true,
-            savedCount = 0,
-            maxSavedCount = 5,
-            currentCard = null
-        )
     }
 
     private fun saveCurrentWord() {

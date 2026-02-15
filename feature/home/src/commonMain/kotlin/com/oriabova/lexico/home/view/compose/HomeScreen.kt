@@ -1,6 +1,5 @@
 package com.oriabova.lexico.home.view.compose
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.border
@@ -159,35 +158,30 @@ private fun HomeScreenContent(
                 maxSavedCount = uiState.maxSavedCount,
                 spacing = metrics.progressSpacing
             )
-            val cardState = if (uiState.isLoading) null else uiState.currentCard
-            Crossfade(
-                targetState = cardState,
-                label = "word_card_crossfade"
-            ) { card ->
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                WordCard(
+                    modifier = Modifier
+                        .cardSwipe(
+                            maxWidthPx = maxWidthPx,
+                            scrollState = scrollState,
+                            enabled = uiState is HomeUiState.Content,
+                            onSave = onSave,
+                            onSkip = onSkip
+                        )
                 ) {
-                    WordCard(
-                        modifier = Modifier
-                            .cardSwipe(
-                                maxWidthPx = maxWidthPx,
-                                scrollState = scrollState,
-                                enabled = !uiState.isLoading && card != null,
-                                onSave = onSave,
-                                onSkip = onSkip
-                            )
-                    ) {
-                        when {
-                            uiState.isLoading -> LoadingWordCard(metrics = metrics)
-                            card != null -> WordCardContent(
-                                card = card,
-                                metrics = metrics,
-                                scrollState = scrollState,
-                                onAudioPlay = { onAudioPlay(card) }
-                            )
-                            else -> EmptyWordCard()
-                        }
+                    when (uiState) {
+                        is HomeUiState.Loading -> LoadingWordCard(metrics = metrics)
+                        is HomeUiState.Content -> WordCardContent(
+                            card = uiState.currentCard,
+                            metrics = metrics,
+                            scrollState = scrollState,
+                            onAudioPlay = { onAudioPlay(uiState.currentCard) }
+                        )
+
+                        is HomeUiState.Empty -> EmptyWordCard()
                     }
                 }
             }
@@ -238,11 +232,13 @@ private fun Modifier.cardSwipe(
                         onSave()
                         swipeState.snapTo(SwipeAnchor.Center)
                     }
+
                     SwipeAnchor.Skip -> {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         onSkip()
                         swipeState.snapTo(SwipeAnchor.Center)
                     }
+
                     SwipeAnchor.Center -> Unit
                 }
             }
@@ -407,8 +403,7 @@ private fun progressFraction(savedCount: Int, maxSavedCount: Int): Float {
 private fun HomeScreenPreview() {
     LexicoTheme {
         HomeScreenInternal(
-            uiState = HomeUiState(
-                isLoading = false,
+            uiState = HomeUiState.Content(
                 savedCount = 1,
                 maxSavedCount = 3,
                 currentCard = VocabularyCard(
@@ -427,17 +422,28 @@ private fun HomeScreenPreview() {
     }
 }
 
-
 @Composable
 @Preview(showBackground = true)
 private fun HomeScreenEmptyPreview() {
     LexicoTheme {
         HomeScreenInternal(
-            uiState = HomeUiState(
-                isLoading = false,
+            uiState = HomeUiState.Empty(
                 savedCount = 1,
                 maxSavedCount = 3,
-                currentCard = null
+            ),
+            handleUiEvent = {}
+        )
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun HomeScreenLoadingPreview() {
+    LexicoTheme {
+        HomeScreenInternal(
+            uiState = HomeUiState.Loading(
+                savedCount = 1,
+                maxSavedCount = 3,
             ),
             handleUiEvent = {}
         )

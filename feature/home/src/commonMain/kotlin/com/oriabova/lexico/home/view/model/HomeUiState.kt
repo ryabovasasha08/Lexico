@@ -2,12 +2,26 @@ package com.oriabova.lexico.home.view.model
 
 import com.oriabova.lexico.utils.Language
 
-internal data class HomeUiState(
-    val currentCard: VocabularyCard?,
-    val savedCount: Int,
-    val maxSavedCount: Int,
-    val isLoading: Boolean,
-)
+internal sealed class HomeUiState {
+    abstract val savedCount: Int
+    abstract val maxSavedCount: Int
+
+    data class Content(
+        val currentCard: VocabularyCard,
+        override val savedCount: Int,
+        override val maxSavedCount: Int
+    ) : HomeUiState()
+
+    data class Empty(
+        override val savedCount: Int,
+        override val maxSavedCount: Int
+    ) : HomeUiState()
+
+    data class Loading(
+        override val savedCount: Int,
+        override val maxSavedCount: Int
+    ) : HomeUiState()
+}
 
 internal data class VocabularyCard(
     val word: String,
