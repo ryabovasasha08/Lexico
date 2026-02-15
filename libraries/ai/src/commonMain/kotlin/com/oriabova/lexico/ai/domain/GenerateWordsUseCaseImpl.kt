@@ -6,11 +6,13 @@ import com.oriabova.lexico.setup.domain.GetSetupDetailsUseCase
 import com.oriabova.lexico.setup.domain.model.SetupLevel
 import com.oriabova.lexico.utils.Language
 
-internal class GenerateWordUseCaseImpl(
+internal class GenerateWordsUseCaseImpl(
     private val wordRepository: WordRepository,
     private val getSetupDetailsUseCase: GetSetupDetailsUseCase,
-) : GenerateWordUseCase {
-    override suspend fun invoke(recentWords: List<String>): GeneratedWord {
+) : GenerateWordsUseCase {
+    override suspend fun invoke(recentWords: List<String>, count: Int): List<GeneratedWord> {
+        require(count > 0) { "count must be greater than 0." }
+
         val setup = getSetupDetailsUseCase()
         val fallbackLanguage = Language("en-GB","English")
         val targetLanguage = setup.languageToLearn ?: fallbackLanguage
@@ -18,10 +20,11 @@ internal class GenerateWordUseCaseImpl(
         val request = WordGenerationRequest(
             targetLanguage = targetLanguage,
             level = level,
+            count = count,
             originalLanguage = fallbackLanguage,
             recentWords = recentWords,
         )
-        return wordRepository.generateWord(request)
+        return wordRepository.generateWords(request)
     }
 
     private fun mapToCefr(level: SetupLevel): String {

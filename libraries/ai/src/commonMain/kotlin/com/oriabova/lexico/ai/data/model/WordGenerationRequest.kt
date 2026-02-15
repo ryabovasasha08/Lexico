@@ -8,6 +8,7 @@ internal data class WordGenerationRequest(
     val targetLanguage: Language,
     val level: String,
     val originalLanguage: Language,
+    val count: Int,
     val topic: String? = null,
     val recentWords: List<String> = emptyList(),
 )

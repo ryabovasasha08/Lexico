@@ -2,7 +2,7 @@ package com.oriabova.lexico.home.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oriabova.lexico.ai.domain.GenerateWordUseCase
+import com.oriabova.lexico.ai.domain.GenerateWordsUseCase
 import com.oriabova.lexico.ai.domain.model.GeneratedWord
 import com.oriabova.lexico.home.domain.ObserveSavedWordsUseCase
 import com.oriabova.lexico.home.domain.SaveWordUseCase
@@ -16,46 +16,50 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 private const val MAX_SAVED_COUNT = 5
+private const val BATCH_SIZE = 10
+private const val REFILL_THRESHOLD = 3
 
 internal class HomeViewModel(
-    private val generateWordUseCase: GenerateWordUseCase,
+    private val generateWordsUseCase: GenerateWordsUseCase,
     private val saveWordUseCase: SaveWordUseCase,
     private val skipWordUseCase: SkipWordUseCase,
     observeSavedWordsUseCase: ObserveSavedWordsUseCase,
 ) : ViewModel() {
 
-    private val isLoading = MutableStateFlow(false)
-    private val wordToDisplay = MutableStateFlow<GeneratedWord?>(null)
+    private val isLoadingBatch = MutableStateFlow(false)
+    private val pendingWords = MutableStateFlow<List<GeneratedWord>>(emptyList())
     private val savedWords =
         observeSavedWordsUseCase().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     val uiState: StateFlow<HomeUiState> = combine(
-        wordToDisplay,
+        pendingWords,
         savedWords,
-        isLoading
-    ) { generatedWord, savedWords, isLoading ->
+        isLoadingBatch
+    ) { queuedWords, savedWords, isLoading ->
         when {
+            queuedWords.isNotEmpty() -> HomeUiState.Content(
+                savedCount = savedWords.size,
+                maxSavedCount = MAX_SAVED_COUNT,
+                currentCard = queuedWords.first().toCard(),
+                nextCard = queuedWords.getOrNull(1)?.toCard()
+            )
+
             isLoading -> HomeUiState.Loading(
                 savedCount = savedWords.size,
                 maxSavedCount = MAX_SAVED_COUNT
             )
 
-            generatedWord == null -> HomeUiState.Empty(
+            else -> HomeUiState.Empty(
                 savedCount = savedWords.size,
                 maxSavedCount = MAX_SAVED_COUNT
             )
-
-            else -> HomeUiState.Content(
-                savedCount = savedWords.size,
-                maxSavedCount = 5,
-                currentCard = generatedWord.toCard()
-            )
         }
     }
-        .onStart { loadNextWord() }
+        .onStart { loadBatchIfNeeded(force = true) }
         .stateIn(
             viewModelScope,
             SharingStarted.Eagerly,
@@ -70,24 +74,59 @@ internal class HomeViewModel(
     }
 
     private fun saveCurrentWord() {
-        viewModelScope.launch {
-            saveWordUseCase(wordToDisplay.value!!)
-            loadNextWord()
-        }
+        consumeCurrentWord { generatedWord -> saveWordUseCase(generatedWord) }
     }
 
     private fun skipCurrentWord() {
+        consumeCurrentWord { generatedWord -> skipWordUseCase(generatedWord) }
+    }
+
+    private fun consumeCurrentWord(action: suspend (GeneratedWord) -> Unit) {
         viewModelScope.launch {
-            skipWordUseCase(wordToDisplay.value!!)
-            loadNextWord()
+            val currentWord = pendingWords.value.firstOrNull() ?: return@launch
+            action(currentWord)
+            pendingWords.update { words -> words.drop(1) }
+
+            if (pendingWords.value.size <= REFILL_THRESHOLD) {
+                loadBatchIfNeeded()
+            }
         }
     }
 
-    private suspend fun loadNextWord() {
-        if (isLoading.compareAndSet(expect = false, update = true)) {
-            wordToDisplay.value = generateWordUseCase(savedWords.value.map { it.word })
-            isLoading.value = false
+    private suspend fun loadBatchIfNeeded(force: Boolean = false) {
+        if (!force && isQueueFull()) return
+        if (!isLoadingBatch.compareAndSet(expect = false, update = true)) return
+
+        try {
+            val queue = pendingWords.value.toMutableList()
+            val excludedWordSet = buildExcludedWordSet(queue)
+            val missingCount = BATCH_SIZE - queue.size
+            if (missingCount <= 0) return
+
+            val generatedWords = generateWordsUseCase(
+                recentWords = excludedWordSet.toList(),
+                count = missingCount
+            )
+
+            generatedWords.forEach { generatedWord ->
+                if (excludedWordSet.add(generatedWord.word)) {
+                    queue += generatedWord
+                }
+            }
+
+            pendingWords.value = queue
+        } finally {
+            isLoadingBatch.value = false
         }
+    }
+
+    private fun isQueueFull(): Boolean = pendingWords.value.size >= BATCH_SIZE
+
+    private fun buildExcludedWordSet(currentQueue: List<GeneratedWord>): MutableSet<String> {
+        return buildSet {
+            addAll(savedWords.value.map { it.word })
+            addAll(currentQueue.map { it.word })
+        }.toMutableSet()
     }
 
     private fun GeneratedWord.toCard(): VocabularyCard {

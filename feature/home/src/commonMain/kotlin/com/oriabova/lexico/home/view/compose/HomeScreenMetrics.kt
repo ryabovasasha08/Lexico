@@ -6,12 +6,12 @@ import com.oriabova.lexico.theme.Spacing
 
 private val HeightThreshold = 700.dp
 
-private val ScreenPaddingRegular = Spacing.L
+private val ScreenPaddingRegular = Spacing.M
 private val ScreenPaddingCompact = Spacing.M
 private val CardPaddingRegular = Spacing.XL
 private val CardPaddingCompact = Spacing.L
-private val CardSpacingRegular = 22.dp
-private val CardSpacingCompact = 14.dp
+private val CardSpacingRegular = 16.dp
+private val CardSpacingCompact = 12.dp
 private val ProgressSpacingRegular = 10.dp
 private val ProgressSpacingCompact = 8.dp
 

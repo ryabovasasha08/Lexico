@@ -8,6 +8,7 @@ internal sealed class HomeUiState {
 
     data class Content(
         val currentCard: VocabularyCard,
+        val nextCard: VocabularyCard?,
         override val savedCount: Int,
         override val maxSavedCount: Int
     ) : HomeUiState()

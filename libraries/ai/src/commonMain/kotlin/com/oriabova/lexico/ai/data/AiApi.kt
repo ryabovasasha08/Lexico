@@ -6,6 +6,7 @@ import com.oriabova.lexico.ai.data.model.GenerateContentResponse
 import com.oriabova.lexico.ai.data.model.GeneratedContent
 import com.oriabova.lexico.ai.data.model.GeneratedPart
 import com.oriabova.lexico.ai.data.model.GeneratedWord
+import com.oriabova.lexico.ai.data.model.GeneratedWordsResponse
 import com.oriabova.lexico.ai.data.model.GenerationConfig
 import com.oriabova.lexico.ai.data.model.WordGenerationRequest
 import io.ktor.client.HttpClient
@@ -17,7 +18,7 @@ import io.ktor.http.contentType
 import kotlinx.serialization.json.Json
 
 internal interface AiApi {
-    suspend fun generateWord(request: WordGenerationRequest): GeneratedWord
+    suspend fun generateWords(request: WordGenerationRequest): List<GeneratedWord>
 }
 
 internal class GeminiApi(
@@ -36,7 +37,7 @@ internal class GeminiApi(
     4. The 'visual_prompt' must describe a concrete, high-quality photographic scene representing the word.
 """.trimIndent()
 
-    override suspend fun generateWord(request: WordGenerationRequest): GeneratedWord {
+    override suspend fun generateWords(request: WordGenerationRequest): List<GeneratedWord> {
         val apiKey = aiKeyProvider.getGeminiApiKey()
         require(apiKey.isNotBlank()) { "Gemini API key is missing." }
 
@@ -54,7 +55,7 @@ internal class GeminiApi(
                 responseMimeType = "application/json",
                 temperature = 1.5,
                 topP = 0.9,
-                maxOutputTokens = 256,
+                maxOutputTokens = 2048,
             ),
         )
 
@@ -75,6 +76,6 @@ internal class GeminiApi(
             ?.trim()
 
         require(!text.isNullOrEmpty()) { "Gemini response was empty." }
-        return json.decodeFromString(GeneratedWord.serializer(), text)
+        return json.decodeFromString(GeneratedWordsResponse.serializer(), text).words
     }
 }

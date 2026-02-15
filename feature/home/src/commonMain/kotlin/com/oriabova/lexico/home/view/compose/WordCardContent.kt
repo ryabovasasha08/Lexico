@@ -48,6 +48,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.oriabova.lexico.home.view.model.VocabularyCard
@@ -96,13 +97,19 @@ internal fun WordCardContent(
     card: VocabularyCard,
     metrics: HomeScreenMetrics,
     scrollState: ScrollState,
+    bottomContentInset: Dp = 0.dp,
     onAudioPlay: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .padding(metrics.cardPadding),
+            .padding(
+                start = metrics.cardPadding,
+                top = metrics.cardPadding,
+                end = metrics.cardPadding,
+                bottom = metrics.cardPadding + bottomContentInset
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(metrics.cardSpacing)
     ) {
@@ -130,6 +137,7 @@ internal fun WordCardContent(
 @Composable
 internal fun LoadingWordCard(
     metrics: HomeScreenMetrics,
+    bottomContentInset: Dp = 0.dp,
 ) {
     val transition = rememberInfiniteTransition(label = "word_card_loading")
     val alpha by transition.animateFloat(
@@ -145,7 +153,12 @@ internal fun LoadingWordCard(
     val placeholderColor = Colors.primary200.copy(alpha = alpha)
 
     Column(
-        modifier = Modifier.padding(metrics.cardPadding),
+        modifier = Modifier.padding(
+            start = metrics.cardPadding,
+            top = metrics.cardPadding,
+            end = metrics.cardPadding,
+            bottom = metrics.cardPadding + bottomContentInset
+        ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(metrics.cardSpacing)
     ) {
